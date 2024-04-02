@@ -22,6 +22,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { ProfileAuthWrapper } from "@/layouts/user-profile-layout";
 import { NextPageWithLayout } from "@/lib/types";
 import { UserService } from "@/services/user.service";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 // services
 const userService = new UserService();
@@ -45,10 +46,10 @@ const ProfileOverviewPage: NextPageWithLayout = () => {
   return (
     <>
       <PageHead title="Profile - Summary" />
-      <div className="h-full w-full space-y-7 overflow-y-auto px-5 py-5 md:px-9 vertical-scrollbar scrollbar-md">
+      <div className="w-full h-full px-5 py-5 overflow-y-auto space-y-7 md:px-9 vertical-scrollbar scrollbar-md">
         <ProfileStats userProfile={userProfile} />
         <ProfileWorkload stateDistribution={stateDistribution} />
-        <div className="grid grid-cols-1 items-stretch gap-5 xl:grid-cols-2">
+        <div className="grid items-stretch grid-cols-1 gap-5 xl:grid-cols-2">
           <ProfilePriorityDistribution userProfile={userProfile} />
           <ProfileStateDistribution stateDistribution={stateDistribution} userProfile={userProfile} />
         </div>

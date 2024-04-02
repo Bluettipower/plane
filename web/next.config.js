@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("dotenv").config({ path: ".env" });
 const { withSentryConfig } = require("@sentry/nextjs");
+const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
+  i18n,
   async headers() {
     return [
       {

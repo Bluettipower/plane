@@ -11,6 +11,7 @@ import { WorkspaceSettingLayout } from "@/layouts/settings-layout";
 // components
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 const WorkspaceSettingsPage: NextPageWithLayout = observer(() => {
   // store hooks

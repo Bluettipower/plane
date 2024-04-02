@@ -35,8 +35,11 @@ import { ProfileSettingsLayout } from "@/layouts/settings-layout";
 // lib types
 import type { NextPageWithLayout } from "@/lib/types";
 import { FileService } from "@/services/file.service";
+import { useTranslation } from "next-i18next";
 // services
 // types
+
+export {getStaticProps} from "@/lib/i18next"
 
 const defaultValues: Partial<IUser> = {
   avatar: "",
@@ -70,6 +73,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
   // custom hooks
   const {} = useUserAuth({ user: myProfile, isLoading: currentUserLoader });
   const { theme: themeStore } = useApplication();
+  const {t } = useTranslation()
 
   useEffect(() => {
     reset({ ...defaultValues, ...myProfile });
@@ -140,7 +144,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
   if (!myProfile)
     return (
-      <div className="grid h-full w-full place-items-center px-4 sm:px-0">
+      <div className="grid w-full h-full px-4 place-items-center sm:px-0">
         <Spinner />
       </div>
     );
@@ -148,8 +152,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title="Profile - General Settings" />
-      <div className="flex h-full flex-col">
-        <div className="block flex-shrink-0 border-b border-custom-border-200 p-4 md:hidden">
+      <div className="flex flex-col h-full">
+        <div className="flex-shrink-0 block p-4 border-b border-custom-border-200 md:hidden">
           <SidebarHamburgerToggle onClick={() => themeStore.toggleSidebar()} />
         </div>
         <div className="overflow-hidden">
@@ -172,28 +176,28 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
             )}
           />
           <DeactivateAccountModal isOpen={deactivateAccountModal} onClose={() => setDeactivateAccountModal(false)} />
-          <div className="vertical-scrollbar scrollbar-md mx-auto flex h-full w-full flex-col space-y-10 overflow-y-auto px-8 pb-8 pt-10 md:pt-16 lg:w-3/5">
+          <div className="flex flex-col w-full h-full px-8 pt-10 pb-8 mx-auto space-y-10 overflow-y-auto vertical-scrollbar scrollbar-md md:pt-16 lg:w-3/5">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex w-full flex-col gap-8">
-                <div className="relative h-44 w-full">
+              <div className="flex flex-col w-full gap-8">
+                <div className="relative w-full h-44">
                   <img
                     src={watch("cover_image") ?? "https://images.unsplash.com/photo-1506383796573-caf02b4a79ab"}
-                    className="h-44 w-full rounded-lg object-cover"
+                    className="object-cover w-full rounded-lg h-44"
                     alt={myProfile?.first_name ?? "Cover image"}
                   />
-                  <div className="absolute -bottom-6 left-8 flex items-end justify-between">
+                  <div className="absolute flex items-end justify-between -bottom-6 left-8">
                     <div className="flex gap-3">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-custom-background-90">
+                      <div className="flex items-center justify-center w-16 h-16 rounded-lg bg-custom-background-90">
                         <button type="button" onClick={() => setIsImageUploadModalOpen(true)}>
                           {!watch("avatar") || watch("avatar") === "" ? (
-                            <div className="h-16 w-16 rounded-md bg-custom-background-80 p-2">
-                              <User2 className="h-full w-full text-custom-text-200" />
+                            <div className="w-16 h-16 p-2 rounded-md bg-custom-background-80">
+                              <User2 className="w-full h-full text-custom-text-200" />
                             </div>
                           ) : (
-                            <div className="relative h-16 w-16 overflow-hidden">
+                            <div className="relative w-16 h-16 overflow-hidden">
                               <img
                                 src={watch("avatar")}
-                                className="absolute left-0 top-0 h-full w-full rounded-lg object-cover"
+                                className="absolute top-0 left-0 object-cover w-full h-full rounded-lg"
                                 onClick={() => setIsImageUploadModalOpen(true)}
                                 alt={myProfile?.display_name}
                                 role="button"
@@ -205,7 +209,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                     </div>
                   </div>
 
-                  <div className="absolute bottom-3 right-3 flex">
+                  <div className="absolute flex bottom-3 right-3">
                     <Controller
                       control={control}
                       name="cover_image"
@@ -222,17 +226,17 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                   </div>
                 </div>
 
-                <div className="item-center mt-4 flex justify-between px-8">
+                <div className="flex justify-between px-8 mt-4 item-center">
                   <div className="flex flex-col">
-                    <div className="item-center flex text-lg font-semibold text-custom-text-100">
+                    <div className="flex text-lg font-semibold item-center text-custom-text-100">
                       <span>{`${watch("first_name")} ${watch("last_name")}`}</span>
                     </div>
                     <span className="text-sm tracking-tight">{watch("email")}</span>
                   </div>
 
                   {/* <Link href={`/profile/${myProfile.id}`}>
-              <span className="flex item-center gap-1 text-sm text-custom-primary-100 underline font-medium">
-                <ExternalLink className="h-4 w-4" />
+              <span className="flex gap-1 text-sm font-medium underline item-center text-custom-primary-100">
+                <ExternalLink className="w-4 h-4" />
                 Activity Overview
               </span>
             </Link> */}
@@ -241,7 +245,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                 <div className="grid grid-cols-1 gap-6 px-8 lg:grid-cols-2 2xl:grid-cols-3">
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      First name<span className="text-red-500">*</span>
+                      {t("profile.profile.first_name")}<span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -268,7 +272,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-sm">Last name</h4>
+                    <h4 className="text-sm">{t("profile.profile.last_name")}</h4>
 
                     <Controller
                       control={control}
@@ -292,7 +296,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      Email<span className="text-red-500">*</span>
+                      {t("profile.profile.email")}<span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -320,7 +324,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      Role<span className="text-red-500">*</span>
+                      {t("profile.profile.role")}<span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       name="role"
@@ -349,7 +353,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      Display name<span className="text-red-500">*</span>
+                      {t("profile.profile.display_name")}<span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -390,7 +394,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      Timezone<span className="text-red-500">*</span>
+                      {t("profile.profile.timezone")}<span className="text-red-500">*</span>
                     </h4>
 
                     <Controller
@@ -417,21 +421,21 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex items-center justify-between py-2">
                     <Button variant="primary" type="submit" loading={isLoading}>
-                      {isLoading ? "Saving..." : "Save changes"}
+                      {isLoading ?t("profile.profile.saveing") : t("profile.profile.save_changes")}
                     </Button>
                   </div>
                 </div>
               </div>
             </form>
-            <Disclosure as="div" className="border-t border-custom-border-100 px-8">
+            <Disclosure as="div" className="px-8 border-t border-custom-border-100">
               {({ open }) => (
                 <>
                   <Disclosure.Button
                     as="button"
                     type="button"
-                    className="flex w-full items-center justify-between py-4"
+                    className="flex items-center justify-between w-full py-4"
                   >
-                    <span className="text-lg tracking-tight">Deactivate account</span>
+                    <span className="text-lg tracking-tight">{t("profile.profile.deactivate_account")}</span>
                     <ChevronDown className={`h-5 w-5 transition-all ${open ? "rotate-180" : ""}`} />
                   </Disclosure.Button>
                   <Transition
@@ -446,13 +450,11 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                     <Disclosure.Panel>
                       <div className="flex flex-col gap-8">
                         <span className="text-sm tracking-tight">
-                          The danger zone of the profile page is a critical area that requires careful consideration and
-                          attention. When deactivating an account, all of the data and resources within that account
-                          will be permanently removed and cannot be recovered.
+                          {t("profile.profile.deactivate_account.confirmation")}
                         </span>
                         <div>
                           <Button variant="danger" onClick={() => setDeactivateAccountModal(true)}>
-                            Deactivate account
+                            {t("profile.profile.deactivate_account")}
                           </Button>
                         </div>
                       </div>

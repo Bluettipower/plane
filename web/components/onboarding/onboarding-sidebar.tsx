@@ -22,6 +22,7 @@ import { Avatar, DiceIcon, PhotoFilterIcon } from "@plane/ui";
 import { useUser, useWorkspace } from "@/hooks/store";
 // types
 import projectEmoji from "public/emoji/project-emoji.svg";
+import { useTranslation } from "next-i18next";
 // assets
 
 const workspaceLinks = [
@@ -31,48 +32,48 @@ const workspaceLinks = [
   },
   {
     Icon: BarChart2,
-    name: "Analytics",
+    name: "analytics",
   },
   {
     Icon: Briefcase,
-    name: "Projects",
+    name: "projects",
   },
   {
     Icon: CheckCircle,
-    name: "All Issues",
+    name: "all_issues",
   },
   {
     Icon: Bell,
-    name: "Notifications",
+    name: "notifications",
   },
 ];
 
 const projectLinks = [
   {
-    name: "Issues",
+    name: "issues",
     Icon: LayersIcon,
   },
   {
-    name: "Cycles",
+    name: "cycles",
 
     Icon: ContrastIcon,
   },
   {
-    name: "Modules",
+    name: "modules",
     Icon: DiceIcon,
   },
   {
-    name: "Views",
+    name: "views",
 
     Icon: PhotoFilterIcon,
   },
   {
-    name: "Pages",
+    name: "pages",
 
     Icon: FileText,
   },
   {
-    name: "Settings",
+    name: "settings",
 
     Icon: Settings,
   },
@@ -98,6 +99,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
   const workspaceDetails = Object.values(workspaces ?? {})?.[0];
 
   const { resolvedTheme } = useTheme();
+  const {t} = useTranslation();
 
   const handleZoomWorkspace = (value: string) => {
     if (lastWorkspaceName === value) return;
@@ -143,7 +145,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
                     resolvedTheme == "dark" ? "border-onboarding-background-100" : "border-custom-primary-20"
                   } rounded-xl`}
                 >
-                  <div className="w-full rounded-lg border border-onboarding-background-400 py-6 pl-4">
+                  <div className="w-full py-6 pl-4 border rounded-lg border-onboarding-background-400">
                     <div
                       className={`${
                         resolvedTheme == "light" ? "bg-[#F5F5F5]" : "bg-[#363A40]"
@@ -160,12 +162,12 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
                         />
                       </div>
 
-                      <span className="ml-2 truncate text-xl font-medium text-onboarding-text-100">{value}</span>
+                      <span className="ml-2 text-xl font-medium truncate text-onboarding-text-100">{value}</span>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="flex w-full items-center gap-y-2 truncate border border-transparent px-4 pt-6 transition-all">
+                <div className="flex items-center w-full px-4 pt-6 truncate transition-all border border-transparent gap-y-2">
                   <div className="flex flex-shrink-0">
                     <Avatar
                       name={value.length > 0 ? value : workspaceDetails ? workspaceDetails.name : "New Workspace"}
@@ -176,8 +178,8 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
                       className="!text-base capitalize"
                     />
                   </div>
-                  <div className="mx-2 flex w-full flex-shrink items-center justify-between truncate">
-                    <h4 className="truncate text-base font-medium text-custom-text-100">{workspaceName}</h4>
+                  <div className="flex items-center justify-between flex-shrink w-full mx-2 truncate">
+                    <h4 className="text-base font-medium truncate text-custom-text-100">{workspaceName}</h4>
                     <ChevronDown className={`mx-1 h-4 w-4 flex-shrink-0 text-custom-sidebar-text-400 duration-300`} />
                   </div>
                   <div className="flex flex-shrink-0">
@@ -195,7 +197,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
             }}
           />
         ) : (
-          <div className="flex w-full items-center gap-y-2 truncate px-4 pt-6 transition-all">
+          <div className="flex items-center w-full px-4 pt-6 truncate transition-all gap-y-2">
             <div className="flex flex-shrink-0">
               <Avatar
                 name={workspaceDetails ? workspaceDetails.name : "New Workspace"}
@@ -206,8 +208,8 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
                 className="!text-base capitalize"
               />
             </div>
-            <div className="mx-2 flex w-full flex-shrink items-center justify-between truncate">
-              <h4 className="truncate text-base font-medium text-custom-text-100">{workspaceName}</h4>
+            <div className="flex items-center justify-between flex-shrink w-full mx-2 truncate">
+              <h4 className="text-base font-medium truncate text-custom-text-100">{workspaceName}</h4>
               <ChevronDown className={`mx-1 h-4 w-4 flex-shrink-0 text-custom-sidebar-text-400 duration-300`} />
             </div>
             <div className="flex flex-shrink-0">
@@ -230,7 +232,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
             className={`group relative flex w-full items-center justify-between gap-1 rounded border border-onboarding-border-100 px-3 shadow-custom-shadow-2xs`}
           >
             <div className={`relative flex flex-shrink-0 flex-grow items-center gap-2 rounded py-1.5 outline-none`}>
-              <PenSquare className="h-4 w-4 text-custom-sidebar-text-300" />
+              <PenSquare className="w-4 h-4 text-custom-sidebar-text-300" />
               {<span className="text-sm font-medium">New Issue</span>}
             </div>
           </div>
@@ -240,7 +242,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
             p-2 shadow-custom-shadow-2xs outline-none
             `}
           >
-            <Search className="h-4 w-4 text-onboarding-text-200" />
+            <Search className="w-4 h-4 text-onboarding-text-200" />
           </div>
         </div>
         {workspaceLinks.map((link) => (
@@ -250,8 +252,8 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
                 outline-none  focus:bg-custom-sidebar-background-80
                 `}
             >
-              {<link.Icon className="h-4 w-4" />}
-              {link.name}
+              {<link.Icon className="w-4 h-4" />}
+              {t(link.name)}
             </div>
           </a>
         ))}
@@ -263,23 +265,23 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
 
           <div className="px-3">
             {" "}
-            <div className="mb-3 flex w-4/5 items-center justify-between text-base font-medium text-custom-text-200">
+            <div className="flex items-center justify-between w-4/5 mb-3 text-base font-medium text-custom-text-200">
               <div className="flex items-center gap-x-2">
-                <Image src={projectEmoji} alt="Plane Logo" className="h-4 w-4" />
+                <Image src={projectEmoji} alt="Plane Logo" className="w-4 h-4" />
                 <span> Plane</span>
               </div>
 
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="w-4 h-4" />
             </div>
             {projectLinks.map((link) => (
-              <a className="ml-6 block w-full" key={link.name}>
+              <a className="block w-full ml-6" key={link.name}>
                 <div
                   className={`group flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-base font-medium text-custom-sidebar-text-200 
                     outline-none  focus:bg-custom-sidebar-background-80
                 `}
                 >
-                  {<link.Icon className="h-4 w-4" />}
-                  {link.name}
+                  {<link.Icon className="w-4 h-4" />}
+                  {t(link.name)}
                 </div>
               </a>
             ))}

@@ -12,6 +12,7 @@ import { AppLayout } from "@/layouts/app-layout";
 // helpers
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 const ProjectsPage: NextPageWithLayout = observer(() => {
   // store
@@ -61,10 +62,10 @@ const ProjectsPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="h-full w-full flex flex-col">
+      <div className="flex flex-col w-full h-full">
         {(calculateTotalFilters(currentWorkspaceFilters ?? {}) !== 0 ||
           currentWorkspaceAppliedDisplayFilters?.length !== 0) && (
-          <div className="border-b border-custom-border-200 px-5 py-3">
+          <div className="px-5 py-3 border-b border-custom-border-200">
             <ProjectAppliedFiltersList
               appliedFilters={currentWorkspaceFilters ?? {}}
               appliedDisplayFilters={currentWorkspaceAppliedDisplayFilters ?? []}

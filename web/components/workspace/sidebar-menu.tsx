@@ -16,6 +16,8 @@ import { cn } from "@/helpers/common.helper";
 // hooks
 import { useApplication, useEventTracker, useUser } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useTranslation } from "next-i18next";
+import { GetServerSideProps } from "next";
 
 export const WorkspaceSidebarMenu = observer(() => {
   // store hooks
@@ -39,14 +41,15 @@ export const WorkspaceSidebarMenu = observer(() => {
       destination: itemKey,
     });
   };
+  const {t} = useTranslation();
 
   return (
-    <div className="w-full cursor-pointer space-y-2 p-4">
+    <div className="w-full p-4 space-y-2 cursor-pointer">
       {SIDEBAR_MENU_ITEMS.map(
         (link) =>
           workspaceMemberInfo >= link.access && (
             <Link key={link.key} href={`/${workspaceSlug}${link.href}`} onClick={() => handleLinkClick(link.key)}>
-              <span className="my-1 block w-full">
+              <span className="block w-full my-1">
                 <Tooltip
                   tooltipContent={link.label}
                   position="right"
@@ -68,7 +71,7 @@ export const WorkspaceSidebarMenu = observer(() => {
                         })}
                       />
                     }
-                    {!themeStore?.sidebarCollapsed && <p className="leading-5">{link.label}</p>}
+                    {!themeStore?.sidebarCollapsed && <p className="leading-5">{t(link.label)}</p>}
                     {!themeStore?.sidebarCollapsed && link.key === "active-cycles" && (
                       <Crown className="h-3.5 w-3.5 text-amber-400" />
                     )}
@@ -82,3 +85,20 @@ export const WorkspaceSidebarMenu = observer(() => {
     </div>
   );
 });
+
+type Props = {
+  // Add custom props here
+}
+export const getServerSideProps: GetServerSideProps<Props> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'zh', [
+      'common',
+    ])),
+  },
+})
+function serverSideTranslations(arg0: string, arg1: string[]): Props | PromiseLike<Props> {
+  throw new Error("Function not implemented.");
+}
+

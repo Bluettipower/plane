@@ -13,6 +13,7 @@ import { Tooltip, TOAST_TYPE, setToast } from "@plane/ui";
 // constants
 import { PROFILE_ACTION_LINKS } from "@/constants/profile";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
+import { useTranslation } from "next-i18next";
 
 const WORKSPACE_ACTION_LINKS = [
   {
@@ -36,6 +37,7 @@ export const ProfileLayoutSidebar = observer(() => {
   const router = useRouter();
   // next themes
   const { setTheme } = useTheme();
+  const {t} = useTranslation();
   // store hooks
   const {
     theme: { sidebarCollapsed, toggleSidebar },
@@ -109,24 +111,24 @@ export const ProfileLayoutSidebar = observer(() => {
         lg:ml-0 ${sidebarCollapsed ? "w-[80px]" : "w-[280px]"}
       `}
     >
-      <div ref={ref} className="flex h-full w-full flex-col gap-y-4">
+      <div ref={ref} className="flex flex-col w-full h-full gap-y-4">
         <Link href={`/${redirectWorkspaceSlug}`} onClick={handleItemClick}>
           <div
             className={`flex flex-shrink-0 items-center gap-2 truncate px-4 pt-4 ${
               sidebarCollapsed ? "justify-center" : ""
             }`}
           >
-            <span className="grid h-5 w-5 flex-shrink-0 place-items-center">
-              <ChevronLeft className="h-5 w-5" strokeWidth={1} />
+            <span className="grid flex-shrink-0 w-5 h-5 place-items-center">
+              <ChevronLeft className="w-5 h-5" strokeWidth={1} />
             </span>
             {!sidebarCollapsed && (
-              <h4 className="truncate text-lg font-semibold text-custom-text-200">Profile settings</h4>
+              <h4 className="text-lg font-semibold truncate text-custom-text-200">{t("profile.settings")}</h4>
             )}
           </div>
         </Link>
-        <div className="flex flex-shrink-0 flex-col overflow-x-hidden px-4">
+        <div className="flex flex-col flex-shrink-0 px-4 overflow-x-hidden">
           {!sidebarCollapsed && (
-            <h6 className="rounded px-1.5 text-sm font-semibold text-custom-sidebar-text-400">Your account</h6>
+            <h6 className="rounded px-1.5 text-sm font-semibold text-custom-sidebar-text-400">{t("profile.your_acount")}</h6>
           )}
           <div className="mt-2 h-full space-y-1.5 overflow-y-auto vertical-scrollbar scrollbar-sm">
             {PROFILE_ACTION_LINKS.map((link) => {
@@ -135,7 +137,7 @@ export const ProfileLayoutSidebar = observer(() => {
               return (
                 <Link key={link.key} href={link.href} className="block w-full" onClick={handleItemClick}>
                   <Tooltip
-                    tooltipContent={link.label}
+                    tooltipContent={t(link.label)}
                     position="right"
                     className="ml-2"
                     disabled={!sidebarCollapsed}
@@ -148,8 +150,8 @@ export const ProfileLayoutSidebar = observer(() => {
                           : "text-custom-sidebar-text-200 hover:bg-custom-sidebar-background-80"
                       } ${sidebarCollapsed ? "justify-center" : ""}`}
                     >
-                      {<link.Icon className="h-4 w-4" />}
-                      {!sidebarCollapsed && link.label}
+                      {<link.Icon className="w-4 h-4" />}
+                      {!sidebarCollapsed && t(link.label)}
                     </div>
                   </Tooltip>
                 </Link>
@@ -157,7 +159,7 @@ export const ProfileLayoutSidebar = observer(() => {
             })}
           </div>
         </div>
-        <div className="flex flex-col overflow-x-hidden px-4">
+        <div className="flex flex-col px-4 overflow-x-hidden">
           {!sidebarCollapsed && (
             <h6 className="rounded px-1.5 text-sm font-semibold text-custom-sidebar-text-400">Workspaces</h6>
           )}
@@ -185,7 +187,7 @@ export const ProfileLayoutSidebar = observer(() => {
                       {workspace?.logo && workspace.logo !== "" ? (
                         <img
                           src={workspace.logo}
-                          className="absolute left-0 top-0 h-full w-full rounded object-cover"
+                          className="absolute top-0 left-0 object-cover w-full h-full rounded"
                           alt="Workspace Logo"
                         />
                       ) : (
@@ -193,7 +195,7 @@ export const ProfileLayoutSidebar = observer(() => {
                       )}
                     </span>
                     {!sidebarCollapsed && (
-                      <p className="truncate text-sm text-custom-sidebar-text-200">{workspace.name}</p>
+                      <p className="text-sm truncate text-custom-sidebar-text-200">{workspace.name}</p>
                     )}
                   </span>
                 </Link>
@@ -215,7 +217,7 @@ export const ProfileLayoutSidebar = observer(() => {
                       sidebarCollapsed ? "justify-center" : ""
                     }`}
                   >
-                    {<link.Icon className="h-4 w-4" />}
+                    {<link.Icon className="w-4 h-4" />}
                     {!sidebarCollapsed && link.label}
                   </div>
                 </Tooltip>
@@ -223,7 +225,7 @@ export const ProfileLayoutSidebar = observer(() => {
             ))}
           </div>
         </div>
-        <div className="flex flex-shrink-0 flex-grow items-end px-6 py-2">
+        <div className="flex items-end flex-grow flex-shrink-0 px-6 py-2">
           <div
             className={`flex w-full ${
               sidebarCollapsed ? "flex-col justify-center gap-2" : "items-center justify-between gap-2"

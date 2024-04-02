@@ -18,6 +18,8 @@ import { AppProvider } from "@/lib/app-provider";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 
+import { appWithTranslation } from 'next-i18next'
+
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
@@ -40,4 +42,4 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);
