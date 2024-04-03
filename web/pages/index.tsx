@@ -5,7 +5,7 @@ import DefaultLayout from "@/layouts/default-layout";
 // components
 // type
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps,getStaticPaths} from "@/lib/i18next"
+export {getStaticProps,} from "@/lib/i18next"
 
 const HomePage: NextPageWithLayout = () => <SignInView />;
 
