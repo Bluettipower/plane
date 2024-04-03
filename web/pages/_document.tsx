@@ -17,8 +17,6 @@ class MyDocument extends Document {
     const currentLocale =
       this.props.__NEXT_DATA__.locale ??
       i18nextConfig.i18n.defaultLocale
-    console.log(this.props.__NEXT_DATA__.locale );
-      
 
     return (
       <Html lang={currentLocale}>
