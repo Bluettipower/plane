@@ -3,6 +3,7 @@ import { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import {
   MoreVertical,
   PenSquare,
@@ -37,7 +38,6 @@ import { getNumberCount } from "@/helpers/string.helper";
 import { useApplication, useEventTracker, useInbox, useProject } from "@/hooks/store";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 import { usePlatformOS } from "@/hooks/use-platform-os";
-import { useTranslation } from "next-i18next";
 // helpers
 
 // components

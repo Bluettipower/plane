@@ -1,5 +1,6 @@
 import { useEffect, useState, ReactElement } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 // ui
 import { Spinner, setPromiseToast } from "@plane/ui";
@@ -13,7 +14,6 @@ import { useUser } from "@/hooks/store";
 import { ProfilePreferenceSettingsLayout } from "@/layouts/settings-layout/profile/preferences";
 // type
 import { NextPageWithLayout } from "@/lib/types";
-import { useTranslation } from "next-i18next";
 export {getStaticProps} from "@/lib/i18next";
 
 const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {

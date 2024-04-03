@@ -2,16 +2,16 @@ import { FC } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // constants
 import { ARCHIVES_TAB_LIST } from "@/constants/archives";
 // hooks
 import { useProject } from "@/hooks/store";
-import { useTranslation } from "next-i18next";
 
 export const ArchiveTabsList: FC = observer(() => {
 
   const {t} = useTranslation();
-  
+
   // router
   const router = useRouter();
   const { workspaceSlug, projectId } = router.query;

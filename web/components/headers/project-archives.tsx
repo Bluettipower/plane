@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // ui
 import { ArchiveIcon, Breadcrumbs, Tooltip } from "@plane/ui";
 // components
@@ -12,7 +13,6 @@ import { EIssuesStoreType } from "@/constants/issue";
 // hooks
 import { useIssues, useProject } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
-import { useTranslation } from "next-i18next";
 
 export const ProjectArchivesHeader: FC = observer(() => {
   const { t } = useTranslation();

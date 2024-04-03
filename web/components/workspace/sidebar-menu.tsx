@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Crown } from "lucide-react";
 // ui
 import { Tooltip } from "@plane/ui";
@@ -16,8 +17,6 @@ import { cn } from "@/helpers/common.helper";
 // hooks
 import { useApplication, useEventTracker, useUser } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
-import { useTranslation } from "next-i18next";
-import { GetServerSideProps } from "next";
 
 export const WorkspaceSidebarMenu = observer(() => {
   // store hooks
@@ -85,20 +84,3 @@ export const WorkspaceSidebarMenu = observer(() => {
     </div>
   );
 });
-
-type Props = {
-  // Add custom props here
-}
-export const getServerSideProps: GetServerSideProps<Props> = async ({
-  locale,
-}) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? '', [
-      'common',
-    ])),
-  },
-})
-function serverSideTranslations(arg0: string, arg1: string[]): Props | PromiseLike<Props> {
-  throw new Error("Function not implemented.");
-}
-

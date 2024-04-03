@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { Control, Controller, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import {
@@ -22,7 +23,6 @@ import { Avatar, DiceIcon, PhotoFilterIcon } from "@plane/ui";
 import { useUser, useWorkspace } from "@/hooks/store";
 // types
 import projectEmoji from "public/emoji/project-emoji.svg";
-import { useTranslation } from "next-i18next";
 // assets
 
 const workspaceLinks = [

@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { usePopper } from "react-popper";
 import { mutate } from "swr";
@@ -14,7 +15,6 @@ import { IWorkspace } from "@plane/types";
 import { Avatar, Loader, TOAST_TYPE, setToast } from "@plane/ui";
 // hooks
 import { useApplication, useUser, useWorkspace } from "@/hooks/store";
-import { useTranslation } from "next-i18next";
 // types
 // Static Data
 const userLinks = (workspaceSlug: string, userId: string) => [
@@ -59,8 +59,8 @@ export const WorkspaceSidebarDropdown = observer(() => {
   } = useApplication();
   const { currentUser, updateCurrentUser, isUserInstanceAdmin, signOut } = useUser();
   const { currentWorkspace: activeWorkspace, workspaces } = useWorkspace();
-  const { setTheme } = useTheme();
   const {t} = useTranslation();
+  const { setTheme } = useTheme();
   // popper-js refs
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);

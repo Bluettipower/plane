@@ -1,8 +1,8 @@
 import { FC } from "react";
+import { useTranslation } from "next-i18next";
 // constants
 import { CustomSelect } from "@plane/ui";
 import { THEME_OPTIONS, I_THEME_OPTION } from "@/constants/themes";
-import { useTranslation } from "next-i18next";
 // ui
 
 type Props = {

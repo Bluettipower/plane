@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactElement } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { ChevronDown, User2 } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
@@ -35,7 +36,6 @@ import { ProfileSettingsLayout } from "@/layouts/settings-layout";
 // lib types
 import type { NextPageWithLayout } from "@/lib/types";
 import { FileService } from "@/services/file.service";
-import { useTranslation } from "next-i18next";
 // services
 // types
 export {getStaticProps} from "@/lib/i18next";

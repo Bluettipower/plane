@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // constants
 import { CustomSelect } from "@plane/ui";
-import { useTranslation } from "next-i18next";
 import { LANGUAGE_OPTIONS } from "@/constants/languages";
-import { useRouter } from "next/router";
 // ui
 
 type Props = {
@@ -11,17 +11,15 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export const LanguageSwitch: FC<Props> = (props) => {
+export const LanguageSwitch: FC<Props> = () => {
   const {i18n} = useTranslation();
   const {language} = i18n;
   const router = useRouter();
   const { pathname, asPath, query,  } = router;
-  
+
   const onChange = async (value: string) => {
     router.push({ pathname, query }, asPath, { locale: value });
   };
-
-
 
   return (
     <CustomSelect

@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { Bell } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 // hooks
@@ -17,7 +18,6 @@ import { useApplication } from "@/hooks/store";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 import useUserNotification from "@/hooks/use-user-notifications";
-import { useTranslation } from "next-i18next";
 
 export const NotificationPopover = observer(() => {
   // states

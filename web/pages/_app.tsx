@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { appWithTranslation } from 'next-i18next'
 import { ThemeProvider } from "next-themes";
 // styles
 import "@/styles/globals.css";
@@ -18,7 +19,6 @@ import { AppProvider } from "@/lib/app-provider";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 
-import { appWithTranslation } from 'next-i18next'
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;

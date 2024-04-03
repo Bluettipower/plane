@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { BarChart2, PanelRight } from "lucide-react";
 // ui
 import { Breadcrumbs } from "@plane/ui";
@@ -8,12 +9,11 @@ import { Breadcrumbs } from "@plane/ui";
 import { BreadcrumbLink } from "@/components/common";
 import { cn } from "@/helpers/common.helper";
 import { useApplication } from "@/hooks/store";
-import { useTranslation } from "next-i18next";
 
 export const WorkspaceAnalyticsHeader = observer(() => {
   const router = useRouter();
   const { analytics_tab } = router.query;
-  
+
   const { t } = useTranslation("common");
   const { theme: themeStore } = useApplication();
 

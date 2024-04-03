@@ -2,6 +2,7 @@ import { useState, FC, useRef, useEffect } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { IProject } from "@plane/types";
@@ -13,7 +14,6 @@ import { cn } from "@/helpers/common.helper";
 import { orderJoinedProjects } from "@/helpers/project.helper";
 import { copyUrlToClipboard } from "@/helpers/string.helper";
 import { useApplication, useEventTracker, useProject, useUser } from "@/hooks/store";
-import { useTranslation } from "react-i18next";
 // ui
 // components
 // helpers
