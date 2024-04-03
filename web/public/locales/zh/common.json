@@ -10,7 +10,9 @@
   "modules": "模块",
   "views": "视图",
   "pages": "页面",
+  "inbox": "收件箱",
   "settings": "设置",
+  "email": "邮箱",
   "sidebar.your_projects": "你的项目",
   "profile.settings": "个人设置",
   "profile.your_acount": "你的账户",
@@ -27,5 +29,15 @@
   "profile.profile.deactivate_account.confirmation": "停用帐户后，该帐户内的所有数据和资源将被永久删除且无法恢复。",
   "profile.change_password": "修改密码",
   "profile.activity": "活动",
-  "profile.preferences": "偏好设置"
+  "profile.preferences": "偏好设置",
+  "profile.preferences.theme": "主题",
+  "profile.preferences.theme.description": "选择或自定义你的主题",
+  "profile.preferences.theme.system": "系统",
+  "profile.preferences.theme.light": "浅色",
+  "profile.preferences.theme.dark": "深色",
+  "profile.preferences.theme.light_high_contrast": "浅色高对比度",
+  "profile.preferences.theme.dark_high_contrast": "深色高对比度",
+  "profile.preferences.theme.custom": "自定义",
+  "profile.preferences.language": "语言",
+  "profile.preferences.language.description": "选择你的语言"
 }

@@ -15,6 +15,8 @@ import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 // constants
 
+export {getStaticPaths,getStaticProps} from "@/lib/i18next";
+
 const GlobalViewIssuesPage: NextPageWithLayout = observer(() => {
   // router
   const router = useRouter();
@@ -36,7 +38,7 @@ const GlobalViewIssuesPage: NextPageWithLayout = observer(() => {
     <>
       <PageHead title={pageTitle} />
       <div className="h-full overflow-hidden bg-custom-background-100">
-        <div className="flex h-full w-full flex-col border-b border-custom-border-300">
+        <div className="flex flex-col w-full h-full border-b border-custom-border-300">
           <GlobalViewsHeader />
           <AllIssueLayoutRoot />
         </div>

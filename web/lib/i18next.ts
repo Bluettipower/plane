@@ -1,6 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+// serverSideTranslations see 
+// https://github.com/i18next/next-i18next?tab=readme-ov-file#serversidetranslations
+// https://react.i18next.com/latest/ssr
 
 const getLocaleProps =
   (namespaces: string[]): GetStaticProps =>

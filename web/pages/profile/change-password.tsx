@@ -15,6 +15,7 @@ import { ProfileSettingsLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 import { UserService } from "@/services/user.service";
+export {getStaticProps} from "@/lib/i18next";
 
 interface FormValues {
   old_password: string;
@@ -77,7 +78,7 @@ const ChangePasswordPage: NextPageWithLayout = observer(() => {
 
   if (isPageLoading)
     return (
-      <div className="grid h-screen w-full place-items-center">
+      <div className="grid w-full h-screen place-items-center">
         <Spinner />
       </div>
     );
@@ -85,16 +86,16 @@ const ChangePasswordPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title="Profile - Change Password" />
-      <div className="flex h-full flex-col">
-        <div className="block flex-shrink-0 border-b border-custom-border-200 p-4 md:hidden">
+      <div className="flex flex-col h-full">
+        <div className="flex-shrink-0 block p-4 border-b border-custom-border-200 md:hidden">
           <SidebarHamburgerToggle onClick={() => themeStore.toggleSidebar()} />
         </div>
         <form
           onSubmit={handleSubmit(handleChangePassword)}
-          className="mx-auto mt-16 flex h-full w-full flex-col gap-8 px-8 pb-8 lg:w-3/5"
+          className="flex flex-col w-full h-full gap-8 px-8 pb-8 mx-auto mt-16 lg:w-3/5"
         >
           <h3 className="text-xl font-medium">Change password</h3>
-          <div className="grid-col grid w-full grid-cols-1 items-center justify-between gap-10 xl:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid items-center justify-between w-full grid-cols-1 gap-10 grid-col xl:grid-cols-2 2xl:grid-cols-3">
             <div className="flex flex-col gap-1 ">
               <h4 className="text-sm">Current password</h4>
               <Controller
@@ -110,7 +111,7 @@ const ChangePasswordPage: NextPageWithLayout = observer(() => {
                     value={value}
                     onChange={onChange}
                     placeholder="Old password"
-                    className="w-full rounded-md font-medium"
+                    className="w-full font-medium rounded-md"
                     hasError={Boolean(errors.old_password)}
                   />
                 )}

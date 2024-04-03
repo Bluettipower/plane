@@ -38,8 +38,7 @@ import { FileService } from "@/services/file.service";
 import { useTranslation } from "next-i18next";
 // services
 // types
-
-export {getStaticProps} from "@/lib/i18next"
+export {getStaticProps} from "@/lib/i18next";
 
 const defaultValues: Partial<IUser> = {
   avatar: "",

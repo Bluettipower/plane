@@ -9,13 +9,19 @@ import {
   SITE_KEYWORDS,
   SITE_TITLE,
 } from "@/constants/seo-variables";
+import i18nextConfig from '../next-i18next.config'
 
 class MyDocument extends Document {
   render() {
     const isSessionRecorderEnabled = parseInt(process.env.NEXT_PUBLIC_ENABLE_SESSION_RECORDER || "0");
+    const currentLocale =
+      this.props.__NEXT_DATA__.locale ??
+      i18nextConfig.i18n.defaultLocale
+    console.log(this.props.__NEXT_DATA__.locale );
+      
 
     return (
-      <Html>
+      <Html lang={currentLocale}>
         <Head>
           <meta property="og:site_name" content={SITE_NAME} />
           <meta property="og:title" content={SITE_TITLE} />

@@ -12,6 +12,7 @@ import { AppLayout } from "@/layouts/app-layout";
 // components
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectInboxPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const ProjectInboxPage: NextPageWithLayout = observer(() => {
   );
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex flex-col h-full">
       {currentProjectDetails?.inbox_view ? <InboxLayoutLoader /> : <div>You don{"'"}t have access to inbox</div>}
     </div>
   );

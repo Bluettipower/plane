@@ -21,6 +21,7 @@ import useReloadConfirmations from "@/hooks/use-reload-confirmation";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 import { FileService } from "@/services/file.service";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 // layouts
 // components
 // ui
@@ -97,7 +98,7 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
 
   if (!pageStore) {
     return (
-      <div className="grid h-full w-full place-items-center">
+      <div className="grid w-full h-full place-items-center">
         <Spinner />
       </div>
     );
@@ -253,8 +254,8 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
   return pageIdMobx ? (
     <>
       <PageHead title={pageTitle} />
-      <div className="flex h-full flex-col justify-between">
-        <div className="h-full w-full overflow-hidden">
+      <div className="flex flex-col justify-between h-full">
+        <div className="w-full h-full overflow-hidden">
           {isPageReadOnly ? (
             <DocumentReadOnlyEditorWithRef
               onActionCompleteHandler={actionCompleteAlert}
@@ -283,7 +284,7 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
               }
             />
           ) : (
-            <div className="relative h-full w-full overflow-hidden">
+            <div className="relative w-full h-full overflow-hidden">
               <Controller
                 name="description_html"
                 control={control}
@@ -347,7 +348,7 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
                         className="flex items-center gap-1 rounded px-1.5 py-1 text-xs hover:bg-custom-background-90"
                         onClick={() => setGptModal((prevData) => !prevData)}
                       >
-                        <Sparkle className="h-4 w-4" />
+                        <Sparkle className="w-4 h-4" />
                         AI
                       </button>
                     }
@@ -362,7 +363,7 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
       </div>
     </>
   ) : (
-    <div className="grid h-full w-full place-items-center">
+    <div className="grid w-full h-full place-items-center">
       <Spinner />
     </div>
   );

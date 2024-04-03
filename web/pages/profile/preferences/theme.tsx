@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 // ui
 import { Spinner, setPromiseToast } from "@plane/ui";
 // components
-import { CustomThemeSelector, ThemeSwitch, PageHead } from "@/components/core";
+import { CustomThemeSelector, ThemeSwitch, PageHead,LanguageSwitch} from "@/components/core";
 // constants
 import { I_THEME_OPTION, THEME_OPTIONS } from "@/constants/themes";
 // hooks
@@ -13,6 +13,8 @@ import { useUser } from "@/hooks/store";
 import { ProfilePreferenceSettingsLayout } from "@/layouts/settings-layout/profile/preferences";
 // type
 import { NextPageWithLayout } from "@/lib/types";
+import { useTranslation } from "next-i18next";
+export {getStaticProps} from "@/lib/i18next";
 
 const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
   // states
@@ -23,6 +25,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
   const userTheme = currentUser?.theme;
   // hooks
   const { setTheme } = useTheme();
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (userTheme) {
@@ -54,14 +57,23 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
     <>
       <PageHead title="Profile - Theme Prefrence" />
       {currentUser ? (
-        <div className="mx-auto mt-10 h-full w-full overflow-y-auto px-6 pb-8 md:mt-14 lg:px-20 vertical-scrollbar scrollbar-md">
+        <div className="w-full h-full px-6 pb-8 mx-auto mt-10 overflow-y-auto md:mt-14 lg:px-20 vertical-scrollbar scrollbar-md">
           <div className="flex items-center border-b border-custom-border-100 pb-3.5">
-            <h3 className="text-xl font-medium">Preferences</h3>
+            <h3 className="text-xl font-medium">{t("profile.preferences")}</h3>
           </div>
           <div className="grid grid-cols-12 gap-4 py-6 sm:gap-16">
             <div className="col-span-12 sm:col-span-6">
-              <h4 className="text-lg font-semibold text-custom-text-100">Theme</h4>
-              <p className="text-sm text-custom-text-200">Select or customize your interface color scheme.</p>
+              <h4 className="text-lg font-semibold text-custom-text-100">{t("profile.preferences.language")}</h4>
+              <p className="text-sm text-custom-text-200">{t("profile.preferences.language.description")}</p>
+            </div>
+            <div className="col-span-12 sm:col-span-6">
+              <LanguageSwitch value={""} onChange={()=>{}} />
+            </div>
+          </div>
+          <div className="grid grid-cols-12 gap-4 py-6 sm:gap-16">
+            <div className="col-span-12 sm:col-span-6">
+              <h4 className="text-lg font-semibold text-custom-text-100">{t("profile.preferences.theme")}</h4>
+              <p className="text-sm text-custom-text-200">{t("profile.preferences.theme.description")}</p>
             </div>
             <div className="col-span-12 sm:col-span-6">
               <ThemeSwitch value={currentTheme} onChange={handleThemeChange} />
@@ -70,7 +82,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
           {userTheme?.theme === "custom" && <CustomThemeSelector />}
         </div>
       ) : (
-        <div className="grid h-full w-full place-items-center px-4 sm:px-0">
+        <div className="grid w-full h-full px-4 place-items-center sm:px-0">
           <Spinner />
         </div>
       )}

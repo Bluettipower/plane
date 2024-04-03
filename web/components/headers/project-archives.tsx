@@ -12,8 +12,10 @@ import { EIssuesStoreType } from "@/constants/issue";
 // hooks
 import { useIssues, useProject } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useTranslation } from "next-i18next";
 
 export const ProjectArchivesHeader: FC = observer(() => {
+  const { t } = useTranslation();
   // router
   const router = useRouter();
   const { workspaceSlug, projectId } = router.query;
@@ -36,8 +38,8 @@ export const ProjectArchivesHeader: FC = observer(() => {
     PROJECT_ARCHIVES_BREADCRUMB_LIST[activeTab as keyof typeof PROJECT_ARCHIVES_BREADCRUMB_LIST];
 
   return (
-    <div className="relative z-10 flex h-14 w-full flex-shrink-0 flex-row items-center justify-between gap-x-2 gap-y-4 bg-custom-sidebar-background-100 p-4">
-      <div className="flex w-full flex-grow items-center gap-2 overflow-ellipsis whitespace-nowrap">
+    <div className="relative z-10 flex flex-row items-center justify-between flex-shrink-0 w-full p-4 h-14 gap-x-2 gap-y-4 bg-custom-sidebar-background-100">
+      <div className="flex items-center flex-grow w-full gap-2 overflow-ellipsis whitespace-nowrap">
         <div className="flex items-center gap-2.5">
           <Breadcrumbs onBack={router.back}>
             <Breadcrumbs.BreadcrumbItem
@@ -48,7 +50,7 @@ export const ProjectArchivesHeader: FC = observer(() => {
                   label={currentProjectDetails?.name ?? "Project"}
                   icon={
                     currentProjectDetails && (
-                      <span className="grid place-items-center flex-shrink-0 h-4 w-4">
+                      <span className="grid flex-shrink-0 w-4 h-4 place-items-center">
                         <ProjectLogo logo={currentProjectDetails?.logo_props} className="text-sm" />
                       </span>
                     )
@@ -62,7 +64,7 @@ export const ProjectArchivesHeader: FC = observer(() => {
                 <BreadcrumbLink
                   href={`/${workspaceSlug}/projects/${projectId}/archives/issues`}
                   label="Archives"
-                  icon={<ArchiveIcon className="h-4 w-4 text-custom-text-300" />}
+                  icon={<ArchiveIcon className="w-4 h-4 text-custom-text-300" />}
                 />
               }
             />
@@ -71,8 +73,8 @@ export const ProjectArchivesHeader: FC = observer(() => {
                 type="text"
                 link={
                   <BreadcrumbLink
-                    label={activeTabBreadcrumbDetail.label}
-                    icon={<activeTabBreadcrumbDetail.icon className="h-4 w-4 text-custom-text-300" />}
+                    label={t(activeTabBreadcrumbDetail.label.toLocaleLowerCase())}
+                    icon={<activeTabBreadcrumbDetail.icon className="w-4 h-4 text-custom-text-300" />}
                   />
                 }
               />

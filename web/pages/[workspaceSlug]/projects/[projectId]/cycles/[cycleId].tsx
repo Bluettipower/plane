@@ -19,6 +19,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 import emptyCycle from "public/empty-state/cycle.svg";
 // types
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const CycleDetailPage: NextPageWithLayout = observer(() => {
   // router
@@ -62,8 +63,8 @@ const CycleDetailPage: NextPageWithLayout = observer(() => {
         />
       ) : (
         <>
-          <div className="flex h-full w-full">
-            <div className="h-full w-full overflow-hidden">
+          <div className="flex w-full h-full">
+            <div className="w-full h-full overflow-hidden">
               <CycleLayoutRoot />
             </div>
             {cycleId && !isSidebarCollapsed && (

@@ -14,6 +14,7 @@ import { IssueDetailRoot } from "@/components/issues";
 import { useApplication, useIssueDetail, useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const IssueDetailsPage: NextPageWithLayout = observer(() => {
   // router
@@ -59,13 +60,13 @@ const IssueDetailsPage: NextPageWithLayout = observer(() => {
       <PageHead title={pageTitle} />
       {issueLoader ? (
         <Loader className="flex h-full gap-5 p-5">
-          <div className="basis-2/3 space-y-2">
+          <div className="space-y-2 basis-2/3">
             <Loader.Item height="30px" width="40%" />
             <Loader.Item height="15px" width="60%" />
             <Loader.Item height="15px" width="60%" />
             <Loader.Item height="15px" width="40%" />
           </div>
-          <div className="basis-1/3 space-y-3">
+          <div className="space-y-3 basis-1/3">
             <Loader.Item height="30px" />
             <Loader.Item height="30px" />
             <Loader.Item height="30px" />
