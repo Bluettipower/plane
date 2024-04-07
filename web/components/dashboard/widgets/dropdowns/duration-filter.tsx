@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 // components
 import { CustomMenu } from "@plane/ui";
 import { DateFilterModal } from "@/components/core";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export const DurationFilterDropdown: React.FC<Props> = (props) => {
+  const { t } = useTranslation(undefined,{keyPrefix:"overview.selected"})
   const { customDates, onChange, value } = props;
   // states
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);
@@ -33,7 +35,7 @@ export const DurationFilterDropdown: React.FC<Props> = (props) => {
         customButton={
           <div className="px-3 py-2 border-[0.5px] border-custom-border-300 hover:bg-custom-background-80 focus:bg-custom-background-80 text-xs font-medium whitespace-nowrap rounded-md outline-none flex items-center gap-2">
             {getDurationFilterDropdownLabel(value, customDates ?? [])}
-            <ChevronDown className="h-3 w-3" />
+            <ChevronDown className="w-3 h-3" />
           </div>
         }
         placement="bottom-end"
@@ -47,7 +49,7 @@ export const DurationFilterDropdown: React.FC<Props> = (props) => {
               else onChange(option.key);
             }}
           >
-            {option.label}
+            {t(option.key)}
           </CustomMenu.MenuItem>
         ))}
       </CustomMenu>

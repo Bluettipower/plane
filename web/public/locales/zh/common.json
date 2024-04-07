@@ -182,7 +182,30 @@
   "project.settings.states": "状态",
   "project.settings.labels": "标签",
   "project.settings.estimates": "估计",
-  "project.settings.automations": "自动化"
+  "project.settings.automations": "自动化",
 
-  
+  "overview.issues.assigned":"指派给你",
+  "overview.issues.created":"由你创建",
+  "overview.issues.state.description":"指派状态",
+  "overview.issues.state.backlog":"未完成",
+  "overview.issues.state.unstarted":"未开始",
+  "overview.issues.state.started":"已开始",
+  "overview.issues.state.completed":"已完成",
+  "overview.issues.state.cancelled":"已取消",
+  "overview.issues.priority":"按优先级指派",
+  "overview.selected.none":"没有指定截止日期",
+  "overview.selected.today":"今天到期",
+  "overview.selected.this_week":"本周到期",
+  "overview.selected.this_month":"本月到期",
+  "overview.selected.this_year":"今年到期",
+  "overview.selected.custom":"自定义",
+  "analytics.project-modal.main_content.scope_and_demand":"范围和需求",
+  "analytics.project-modal.main_content.custom":"个性化分析",
+  "analytics.scope_and_demand.demand.description":"总待办任务",
+  "analytics.scope_and_demand.scope.description":"待处理问题",
+  "analytics.scope_and_demand.created":"创建的问题最多",
+  "analytics.scope_and_demand.closed":"关闭的问题最多",
+  "notifications.notification_header.assigned":"我的问题",
+  "notifications.notification_header.created":"由我创建",
+  "notifications.notification_header.watching":"已订阅"
 }

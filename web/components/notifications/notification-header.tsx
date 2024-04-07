@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, CheckCheck, Clock, ListFilter, MoreVertical, RefreshCw, X } from "lucide-react";
 import type { NotificationType, NotificationCount } from "@plane/types";
 // components
@@ -36,6 +37,7 @@ type NotificationHeaderProps = {
 };
 
 export const NotificationHeader: React.FC<NotificationHeaderProps> = (props) => {
+  const { t } = useTranslation();
   const {
     notificationCount,
     notificationMutate,
@@ -83,7 +85,7 @@ export const NotificationHeader: React.FC<NotificationHeaderProps> = (props) => 
       <div className="flex items-center justify-between px-5 pt-5">
         <div className="flex items-center gap-x-2 ">
           <SidebarHamburgerToggle />
-          <h2 className="md:text-xl md:font-semibold">Notifications</h2>
+          <h2 className="md:text-xl md:font-semibold">{t("notifications")}</h2>
         </div>
 
         <div className="flex items-center justify-center gap-x-4 text-custom-text-200">
@@ -165,7 +167,7 @@ export const NotificationHeader: React.FC<NotificationHeaderProps> = (props) => 
           </div>
         </div>
       </div>
-      <div className="mt-5 w-full border-b border-custom-border-300 px-5">
+      <div className="w-full px-5 mt-5 border-b border-custom-border-300">
         {snoozed || archived || readNotification ? (
           <button
             type="button"
@@ -199,7 +201,8 @@ export const NotificationHeader: React.FC<NotificationHeaderProps> = (props) => 
                     : "border-transparent text-custom-text-200"
                 }`}
               >
-                {tab.label}
+                {/* {tab.label} */}
+                {t(`notifications.notification_header.${tab.value}`)}
                 {tab.unreadCount && tab.unreadCount > 0 ? (
                   <span
                     className={`ml-2 rounded-full px-2 py-0.5 text-xs ${

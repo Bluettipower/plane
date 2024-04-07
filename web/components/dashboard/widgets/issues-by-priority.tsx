@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { TIssuesByPriorityWidgetFilters, TIssuesByPriorityWidgetResponse } from "@plane/types";
 // hooks
 // components
@@ -22,6 +23,7 @@ import { useDashboard } from "@/hooks/store";
 const WIDGET_KEY = "issues_by_priority";
 
 export const IssuesByPriorityWidget: React.FC<WidgetProps> = observer((props) => {
+  const { t } = useTranslation();
   const { dashboardId, workspaceSlug } = props;
   // router
   const router = useRouter();
@@ -70,12 +72,12 @@ export const IssuesByPriorityWidget: React.FC<WidgetProps> = observer((props) =>
 
   return (
     <div className="flex min-h-96 w-full flex-col overflow-hidden rounded-xl border-[0.5px] border-custom-border-200 bg-custom-background-100 py-6 duration-300 hover:shadow-custom-shadow-4xl">
-      <div className="flex items-center justify-between gap-2 pl-7 pr-6">
+      <div className="flex items-center justify-between gap-2 pr-6 pl-7">
         <Link
           href={`/${workspaceSlug}/workspace-views/assigned`}
           className="text-lg font-semibold text-custom-text-300 hover:underline"
         >
-          Assigned by priority
+          {t("overview.issues.priority")}
         </Link>
         <DurationFilterDropdown
           customDates={selectedCustomDates}
@@ -89,7 +91,7 @@ export const IssuesByPriorityWidget: React.FC<WidgetProps> = observer((props) =>
         />
       </div>
       {totalCount > 0 ? (
-        <div className="flex h-full items-center">
+        <div className="flex items-center h-full">
           <div className="-mt-[11px] w-full">
             <IssuesByPriorityGraph
               data={chartData}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import { Tab } from "@headlessui/react";
 import { TAssignedIssuesWidgetFilters, TAssignedIssuesWidgetResponse } from "@plane/types";
 // hooks
@@ -20,9 +21,11 @@ import { useDashboard } from "@/hooks/store";
 // types
 // constants
 
+
 const WIDGET_KEY = "assigned_issues";
 
 export const AssignedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
+  const { t } = useTranslation();
   const { dashboardId, workspaceSlug } = props;
   // states
   const [fetching, setFetching] = useState(false);
@@ -58,7 +61,6 @@ export const AssignedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
       expand: "issue_relation",
     }).finally(() => setFetching(false));
   };
-
   useEffect(() => {
     const filterDates = getCustomDates(selectedDurationFilter, selectedCustomDates);
 
@@ -98,7 +100,7 @@ export const AssignedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                 href={`/${workspaceSlug}/workspace-views/assigned/${filterParams}`}
                 className="text-lg font-semibold text-custom-text-300 hover:underline"
               >
-                Assigned to you
+                {t("overview.issues.assigned")}
               </Link>
               <DurationFilterDropdown
                 customDates={selectedCustomDates}
@@ -135,7 +137,7 @@ export const AssignedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                 const newSelectedTab = tabsList[i];
                 handleUpdateFilters({ tab: newSelectedTab?.key ?? "completed" });
               }}
-              className="h-full flex flex-col"
+              className="flex flex-col h-full"
             >
               <div className="px-6">
                 <TabsList durationFilter={selectedDurationFilter} selectedTab={selectedTab} />
@@ -145,7 +147,7 @@ export const AssignedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                   if (tab.key !== selectedTab) return null;
 
                   return (
-                    <Tab.Panel key={tab.key} as="div" className="h-full flex flex-col" static>
+                    <Tab.Panel key={tab.key} as="div" className="flex flex-col h-full" static>
                       <WidgetIssuesList
                         tab={tab.key}
                         type="assigned"
