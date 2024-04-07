@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import { Tab } from "@headlessui/react";
 import { TCreatedIssuesWidgetFilters, TCreatedIssuesWidgetResponse } from "@plane/types";
 // hooks
@@ -23,6 +24,7 @@ import { useDashboard } from "@/hooks/store";
 const WIDGET_KEY = "created_issues";
 
 export const CreatedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
+  const { t } = useTranslation();
   const { dashboardId, workspaceSlug } = props;
   // states
   const [fetching, setFetching] = useState(false);
@@ -95,7 +97,7 @@ export const CreatedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                 href={`/${workspaceSlug}/workspace-views/created/${filterParams}`}
                 className="text-lg font-semibold text-custom-text-300 hover:underline"
               >
-                Created by you
+                {t("overview.issues.created")}
               </Link>
               <DurationFilterDropdown
                 customDates={selectedCustomDates}
@@ -132,7 +134,7 @@ export const CreatedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                 const newSelectedTab = tabsList[i];
                 handleUpdateFilters({ tab: newSelectedTab.key ?? "completed" });
               }}
-              className="h-full flex flex-col"
+              className="flex flex-col h-full"
             >
               <div className="px-6">
                 <TabsList durationFilter={selectedDurationFilter} selectedTab={selectedTab} />
@@ -142,7 +144,7 @@ export const CreatedIssuesWidget: React.FC<WidgetProps> = observer((props) => {
                   if (tab.key !== selectedTab) return null;
 
                   return (
-                    <Tab.Panel key={tab.key} as="div" className="h-full flex flex-col" static>
+                    <Tab.Panel key={tab.key} as="div" className="flex flex-col h-full" static>
                       <WidgetIssuesList
                         tab={tab.key}
                         type="created"

@@ -1,6 +1,7 @@
 import React, { Fragment, ReactElement } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { Tab } from "@headlessui/react";
 // hooks
 // layouts
@@ -19,6 +20,7 @@ import { NextPageWithLayout } from "@/lib/types";
 export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 const AnalyticsPage: NextPageWithLayout = observer(() => {
+  const { t } = useTranslation(undefined,{keyPrefix:"analytics.project-modal.main_content"});
   const router = useRouter();
   const { analytics_tab } = router.query;
   // store hooks
@@ -53,7 +55,7 @@ const AnalyticsPage: NextPageWithLayout = observer(() => {
                     router.push(router);
                   }}
                 >
-                  {tab.title}
+                  {t(tab.key)}
                 </Tab>
               ))}
             </Tab.List>

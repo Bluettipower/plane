@@ -20,6 +20,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { ProjectSettingLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticPaths,getStaticProps} from "@/lib/i18next"
 
 const GeneralSettingsPage: NextPageWithLayout = observer(() => {
   // states

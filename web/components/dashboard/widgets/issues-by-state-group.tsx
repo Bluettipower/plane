@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { TIssuesByStateGroupsWidgetFilters, TIssuesByStateGroupsWidgetResponse, TStateGroups } from "@plane/types";
 // hooks
 import {
@@ -23,6 +24,7 @@ import { useDashboard } from "@/hooks/store";
 const WIDGET_KEY = "issues_by_state_groups";
 
 export const IssuesByStateGroupWidget: React.FC<WidgetProps> = observer((props) => {
+  const { t } = useTranslation(undefined,{keyPrefix:"overview.issues.state"});
   const { dashboardId, workspaceSlug } = props;
   // states
   const [defaultStateGroup, setDefaultStateGroup] = useState<TStateGroups | null>(null);
@@ -125,9 +127,9 @@ export const IssuesByStateGroupWidget: React.FC<WidgetProps> = observer((props) 
           y={centerY + 20}
           textAnchor="middle"
           dominantBaseline="central"
-          className="text-sm font-medium fill-custom-text-300 capitalize"
+          className="text-sm font-medium capitalize fill-custom-text-300"
         >
-          {data?.id}
+          {data.label}
         </text>
       </g>
     );
@@ -135,12 +137,12 @@ export const IssuesByStateGroupWidget: React.FC<WidgetProps> = observer((props) 
 
   return (
     <div className="bg-custom-background-100 rounded-xl border-[0.5px] border-custom-border-200 w-full py-6 hover:shadow-custom-shadow-4xl duration-300 overflow-hidden min-h-96 flex flex-col">
-      <div className="flex items-center justify-between gap-2 pl-7 pr-6">
+      <div className="flex items-center justify-between gap-2 pr-6 pl-7">
         <Link
           href={`/${workspaceSlug}/workspace-views/assigned`}
           className="text-lg font-semibold text-custom-text-300 hover:underline"
         >
-          Assigned by state
+          {t("description")}
         </Link>
         <DurationFilterDropdown
           customDates={selectedCustomDates}
@@ -155,7 +157,7 @@ export const IssuesByStateGroupWidget: React.FC<WidgetProps> = observer((props) 
       </div>
       {totalCount > 0 ? (
         <div className="flex items-center pl-10 md:pl-11 lg:pl-14 pr-11 mt-11">
-          <div className="flex flex-col sm:flex-row md:flex-row lg:flex-row items-center justify-evenly gap-x-10 gap-y-8 w-full">
+          <div className="flex flex-col items-center w-full sm:flex-row md:flex-row lg:flex-row justify-evenly gap-x-10 gap-y-8">
             <div>
               <PieGraph
                 data={chartData}
@@ -197,21 +199,21 @@ export const IssuesByStateGroupWidget: React.FC<WidgetProps> = observer((props) 
                 <div key={item.id} className="flex items-center justify-between gap-6">
                   <div className="flex items-center gap-2.5 w-24">
                     <div
-                      className="h-3 w-3 rounded-full"
+                      className="w-3 h-3 rounded-full"
                       style={{
                         backgroundColor: item.color,
                       }}
                     />
-                    <span className="text-custom-text-300 text-sm font-medium capitalize">{item.label}</span>
+                    <span className="text-sm font-medium capitalize text-custom-text-300"> {item.label}</span>
                   </div>
-                  <span className="text-custom-text-400 text-sm">{item.value.toFixed(0)}%</span>
+                  <span className="text-sm text-custom-text-400">{item.value.toFixed(0)}%</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
       ) : (
-        <div className="h-full grid place-items-center">
+        <div className="grid h-full place-items-center">
           <IssuesByStateGroupEmptyState />
         </div>
       )}

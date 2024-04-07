@@ -1,5 +1,6 @@
-import { useRouter } from "next/router";
 
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import useSWR from "swr";
 
 // services
@@ -19,6 +20,7 @@ type Props = {
 const analyticsService = new AnalyticsService();
 
 export const ScopeAndDemand: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const { fullScreen = true } = props;
 
   const router = useRouter();
@@ -47,7 +49,7 @@ export const ScopeAndDemand: React.FC<Props> = (props) => {
     <>
       {!defaultAnalyticsError ? (
         defaultAnalytics ? (
-          <div className="h-full overflow-y-auto p-5 text-sm vertical-scrollbar scrollbar-lg">
+          <div className="h-full p-5 overflow-y-auto text-sm vertical-scrollbar scrollbar-lg">
             <div className={`grid grid-cols-1 gap-5 ${fullScreen ? "md:grid-cols-2" : ""}`}>
               <AnalyticsDemand defaultAnalytics={defaultAnalytics} />
               <AnalyticsScope defaultAnalytics={defaultAnalytics} />
@@ -60,7 +62,7 @@ export const ScopeAndDemand: React.FC<Props> = (props) => {
                   count: user?.count,
                   id: user?.created_by__id,
                 }))}
-                title="Most issues created"
+                title={t("analytics.scope_and_demand.created")}
                 emptyStateMessage="Co-workers and the number of issues created by them appears here."
                 workspaceSlug={workspaceSlug?.toString() ?? ""}
               />
@@ -73,7 +75,7 @@ export const ScopeAndDemand: React.FC<Props> = (props) => {
                   count: user?.count,
                   id: user?.assignees__id,
                 }))}
-                title="Most issues closed"
+                title={t("analytics.scope_and_demand.closed")}
                 emptyStateMessage="Co-workers and the number of issues closed by them appears here."
                 workspaceSlug={workspaceSlug?.toString() ?? ""}
               />
@@ -91,7 +93,7 @@ export const ScopeAndDemand: React.FC<Props> = (props) => {
           </Loader>
         )
       ) : (
-        <div className="grid h-full place-items-center p-5">
+        <div className="grid h-full p-5 place-items-center">
           <div className="space-y-4 text-custom-text-200">
             <p className="text-sm">There was some error in fetching the data.</p>
             <div className="flex items-center justify-center gap-2">

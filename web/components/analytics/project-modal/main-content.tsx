@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 import { Tab } from "@headlessui/react";
 import { ICycle, IModule, IProject } from "@plane/types";
 // components
@@ -16,11 +17,12 @@ type Props = {
 };
 
 export const ProjectAnalyticsModalMainContent: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation(undefined,{keyPrefix:"analytics.project-modal.main_content"});
   const { fullScreen, cycleDetails, moduleDetails } = props;
 
   return (
     <Tab.Group as={React.Fragment}>
-      <Tab.List as="div" className="flex space-x-2 border-b border-custom-border-200 px-0 md:px-5 py-0 md:py-3">
+      <Tab.List as="div" className="flex px-0 py-0 space-x-2 border-b border-custom-border-200 md:px-5 md:py-3">
         {ANALYTICS_TABS.map((tab) => (
           <Tab
             key={tab.key}
@@ -33,7 +35,7 @@ export const ProjectAnalyticsModalMainContent: React.FC<Props> = observer((props
             }
             onClick={() => {}}
           >
-            {tab.title}
+            {t(tab.key)}
           </Tab>
         ))}
       </Tab.List>
