@@ -6,6 +6,7 @@ import { Tooltip } from "@plane/ui";
 // types
 import { ISSUE_LAYOUTS } from "@/constants/issue";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useTranslation } from "next-i18next";
 // hooks
 
 type Props = {
@@ -15,13 +16,14 @@ type Props = {
 };
 
 export const LayoutSelection: React.FC<Props> = (props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "layouts" });
   const { layouts, onChange, selectedLayout } = props;
   const { isMobile } = usePlatformOS();
 
   return (
-    <div className="flex items-center gap-1 rounded bg-custom-background-80 p-1">
+    <div className="flex items-center gap-1 p-1 rounded bg-custom-background-80">
       {ISSUE_LAYOUTS.filter((l) => layouts.includes(l.key)).map((layout) => (
-        <Tooltip key={layout.key} tooltipContent={layout.title} isMobile={isMobile}>
+        <Tooltip key={layout.key} tooltipContent={t(layout.key)} isMobile={isMobile}>
           <button
             type="button"
             className={`group grid h-[22px] w-7 place-items-center overflow-hidden rounded transition-all hover:bg-custom-background-100 ${

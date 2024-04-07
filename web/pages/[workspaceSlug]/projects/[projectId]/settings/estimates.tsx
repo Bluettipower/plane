@@ -13,6 +13,7 @@ import { ProjectSettingLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // constants
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const EstimatesSettingsPage: NextPageWithLayout = observer(() => {
   const {

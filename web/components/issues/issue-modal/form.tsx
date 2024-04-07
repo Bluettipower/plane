@@ -1,6 +1,7 @@
 import React, { FC, useState, useRef, useEffect, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { LayoutPanelTop, Sparkle, X } from "lucide-react";
 import { RichTextEditorWithRef } from "@plane/rich-text-editor";
@@ -104,6 +105,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
     onCreateMoreToggleChange,
     isDraft,
   } = props;
+  const { t } = useTranslation();
   // states
   const [labelModal, setLabelModal] = useState(false);
   const [parentIssueListModalOpen, setParentIssueListModalOpen] = useState(false);
@@ -323,7 +325,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
               />
             )}
             <h3 className="text-xl font-semibold leading-6 text-custom-text-100">
-              {data?.id ? "Update" : "Create"} issue
+              {data?.id ? t("issue.update") : t("issue.create")}
             </h3>
           </div>
           {watch("parent_id") && selectedParentIssue && (
@@ -331,7 +333,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
               control={control}
               name="parent_id"
               render={({ field: { onChange } }) => (
-                <div className="flex w-min items-center gap-2 whitespace-nowrap rounded bg-custom-background-80 p-2 text-xs">
+                <div className="flex items-center gap-2 p-2 text-xs rounded w-min whitespace-nowrap bg-custom-background-80">
                   <div className="flex items-center gap-2">
                     <span
                       className="block h-1.5 w-1.5 rounded-full"
@@ -342,7 +344,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                     <span className="flex-shrink-0 text-custom-text-200">
                       {selectedParentIssue.project__identifier}-{selectedParentIssue.sequence_id}
                     </span>
-                    <span className="truncate font-medium">{selectedParentIssue.name.substring(0, 50)}</span>
+                    <span className="font-medium truncate">{selectedParentIssue.name.substring(0, 50)}</span>
                     <button
                       type="button"
                       className="grid place-items-center"
@@ -353,7 +355,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                       }}
                       tabIndex={getTabIndex("remove_parent")}
                     >
-                      <X className="h-3 w-3 cursor-pointer" />
+                      <X className="w-3 h-3 cursor-pointer" />
                     </button>
                   </div>
                 </div>
@@ -385,7 +387,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                     ref={issueTitleRef || ref}
                     hasError={Boolean(errors.name)}
                     placeholder="Issue Title"
-                    className="w-full resize-none text-xl"
+                    className="w-full text-xl resize-none"
                     tabIndex={getTabIndex("name")}
                     autoFocus
                   />
@@ -454,7 +456,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                               onClick={() => setGptAssistantModal((prevData) => !prevData)}
                               tabIndex={getTabIndex("ai_assistant")}
                             >
-                              <Sparkle className="h-4 w-4" />
+                              <Sparkle className="w-4 h-4" />
                               AI
                             </button>
                           }
@@ -672,7 +674,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                         type="button"
                         className="flex cursor-pointer items-center justify-between gap-1 rounded border-[0.5px] border-custom-border-300 px-2 py-1.5 text-xs hover:bg-custom-background-80"
                       >
-                        <LayoutPanelTop className="h-3 w-3 flex-shrink-0" />
+                        <LayoutPanelTop className="flex-shrink-0 w-3 h-3" />
                         <span className="whitespace-nowrap">
                           {selectedParentIssue &&
                             `${selectedParentIssue.project__identifier}-${selectedParentIssue.sequence_id}`}
@@ -709,7 +711,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                     className="flex cursor-pointer items-center justify-between gap-1 rounded border-[0.5px] border-custom-border-300 px-2 py-1.5 text-xs hover:bg-custom-background-80"
                     onClick={() => setParentIssueListModalOpen(true)}
                   >
-                    <LayoutPanelTop className="h-3 w-3 flex-shrink-0" />
+                    <LayoutPanelTop className="flex-shrink-0 w-3 h-3" />
                     <span className="whitespace-nowrap">Add parent</span>
                   </button>
                 )}
@@ -734,7 +736,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
             </div>
           </div>
         </div>
-        <div className="-mx-5 mt-5 flex items-center justify-between gap-2 border-t border-custom-border-100 px-5 pt-5">
+        <div className="flex items-center justify-between gap-2 px-5 pt-5 mt-5 -mx-5 border-t border-custom-border-100">
           <div>
             {!data?.id && (
               <div
@@ -745,7 +747,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                 }}
                 tabIndex={getTabIndex("create_more")}
               >
-                <div className="flex cursor-pointer items-center justify-center">
+                <div className="flex items-center justify-center cursor-pointer">
                   <ToggleSwitch value={isCreateMoreToggleEnabled} onChange={() => {}} size="sm" />
                 </div>
                 <span className="text-xs">Create more</span>
@@ -791,7 +793,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
               loading={isSubmitting}
               tabIndex={isDraft ? getTabIndex("submit_button") : getTabIndex("draft_button")}
             >
-              {data?.id ? (isSubmitting ? "Updating" : "Update issue") : isSubmitting ? "Creating" : "Create issue"}
+              {data?.id ? (isSubmitting ? "Updating" : "Update issue") : isSubmitting ? "Creating" : t("issue.create")}
             </Button>
           </div>
         </div>

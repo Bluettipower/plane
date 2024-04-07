@@ -9,6 +9,8 @@ import { generateFileName } from "@/helpers/attachment.helper";
 import { useApplication } from "@/hooks/store";
 // types
 import { TAttachmentOperations } from "./root";
+import { t } from "i18next";
+import { useTranslation } from "next-i18next";
 
 type TAttachmentOperationsModal = Exclude<TAttachmentOperations, "remove">;
 
@@ -19,6 +21,7 @@ type Props = {
 };
 
 export const IssueAttachmentUpload: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "attachments" });
   const { workspaceSlug, disabled = false, handleAttachmentOperations } = props;
   // store hooks
   const {
@@ -74,7 +77,7 @@ export const IssueAttachmentUpload: React.FC<Props> = observer((props) => {
         ) : isLoading ? (
           <p className="text-center">Uploading...</p>
         ) : (
-          <p className="text-center">Click or drag a file here</p>
+          <p className="text-center">{t("drop")}</p>
         )}
       </span>
     </div>

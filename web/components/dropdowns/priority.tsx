@@ -1,4 +1,5 @@
 import { Fragment, ReactNode, useEffect, useRef, useState } from "react";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { usePopper } from "react-popper";
 import { Check, ChevronDown, Search } from "lucide-react";
@@ -51,7 +52,7 @@ const BorderButton = (props: ButtonProps) => {
     priority,
     showTooltip,
   } = props;
-
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
   const priorityDetails = ISSUE_PRIORITIES.find((p) => p.key === priority);
 
   const priorityClasses = {
@@ -67,7 +68,7 @@ const BorderButton = (props: ButtonProps) => {
   return (
     <Tooltip
       tooltipHeading="Priority"
-      tooltipContent={priorityDetails?.title ?? "None"}
+      tooltipContent={t(priorityDetails?.key as string) ?? "None"}
       disabled={!showTooltip}
       isMobile={isMobile}
     >
@@ -107,7 +108,7 @@ const BorderButton = (props: ButtonProps) => {
             />
           </div>
         )}
-        {!hideText && <span className="flex-grow truncate">{priorityDetails?.title}</span>}
+        {!hideText && <span className="flex-grow truncate">{t(priorityDetails?.key as string)}</span>}
         {dropdownArrow && (
           <ChevronDown className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
         )}
@@ -127,7 +128,7 @@ const BackgroundButton = (props: ButtonProps) => {
     priority,
     showTooltip,
   } = props;
-
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
   const priorityDetails = ISSUE_PRIORITIES.find((p) => p.key === priority);
 
   const priorityClasses = {
@@ -143,7 +144,7 @@ const BackgroundButton = (props: ButtonProps) => {
   return (
     <Tooltip
       tooltipHeading="Priority"
-      tooltipContent={priorityDetails?.title ?? "None"}
+      tooltipContent={t(priorityDetails?.key as string) ?? "None"}
       disabled={!showTooltip}
       isMobile={isMobile}
     >
@@ -183,7 +184,7 @@ const BackgroundButton = (props: ButtonProps) => {
             />
           </div>
         )}
-        {!hideText && <span className="flex-grow truncate">{priorityDetails?.title}</span>}
+        {!hideText && <span className="flex-grow truncate">{t(priorityDetails?.key as string)}</span>}
         {dropdownArrow && (
           <ChevronDown className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
         )}
@@ -204,7 +205,7 @@ const TransparentButton = (props: ButtonProps) => {
     priority,
     showTooltip,
   } = props;
-
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
   const priorityDetails = ISSUE_PRIORITIES.find((p) => p.key === priority);
 
   const priorityClasses = {
@@ -220,7 +221,7 @@ const TransparentButton = (props: ButtonProps) => {
   return (
     <Tooltip
       tooltipHeading="Priority"
-      tooltipContent={priorityDetails?.title ?? "None"}
+      tooltipContent={t(priorityDetails?.key as string) ?? "None"}
       disabled={!showTooltip}
       isMobile={isMobile}
     >
@@ -261,7 +262,7 @@ const TransparentButton = (props: ButtonProps) => {
             />
           </div>
         )}
-        {!hideText && <span className="flex-grow truncate">{priorityDetails?.title}</span>}
+        {!hideText && <span className="flex-grow truncate">{t(priorityDetails?.key as string)}</span>}
         {dropdownArrow && (
           <ChevronDown className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />
         )}
@@ -289,6 +290,8 @@ export const PriorityDropdown: React.FC<Props> = (props) => {
     tabIndex,
     value,
   } = props;
+  // const { t } = useTranslation();
+  const { t: tp } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
   // states
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -320,7 +323,7 @@ export const PriorityDropdown: React.FC<Props> = (props) => {
     content: (
       <div className="flex items-center gap-2">
         <PriorityIcon priority={priority.key} size={14} withContainer />
-        <span className="flex-grow truncate">{priority.title}</span>
+        <span className="flex-grow truncate">{tp(priority.key)}</span>
       </div>
     ),
   }));
@@ -364,8 +367,8 @@ export const PriorityDropdown: React.FC<Props> = (props) => {
   const ButtonToRender = BORDER_BUTTON_VARIANTS.includes(buttonVariant)
     ? BorderButton
     : BACKGROUND_BUTTON_VARIANTS.includes(buttonVariant)
-      ? BackgroundButton
-      : TransparentButton;
+    ? BackgroundButton
+    : TransparentButton;
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -442,7 +445,7 @@ export const PriorityDropdown: React.FC<Props> = (props) => {
               <Combobox.Input
                 as="input"
                 ref={inputRef}
-                className="w-full bg-transparent py-1 text-xs text-custom-text-200 placeholder:text-custom-text-400 focus:outline-none"
+                className="w-full py-1 text-xs bg-transparent text-custom-text-200 placeholder:text-custom-text-400 focus:outline-none"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search"
@@ -450,7 +453,7 @@ export const PriorityDropdown: React.FC<Props> = (props) => {
                 onKeyDown={searchInputKeyDown}
               />
             </div>
-            <div className="mt-2 max-h-48 space-y-1 overflow-y-scroll">
+            <div className="mt-2 space-y-1 overflow-y-scroll max-h-48">
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((option) => (
                   <Combobox.Option

@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 //ui
 import {
   ArrowDownWideNarrow,
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export const HeaderColumn = (props: Props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
   const { displayFilters, handleDisplayFilterUpdate, property, onClose } = props;
 
   const { storedValue: selectedMenuItem, setValue: setSelectedMenuItem } = useLocalStorage(
@@ -51,16 +53,16 @@ export const HeaderColumn = (props: Props) => {
       customButton={
         <div className="flex w-full cursor-pointer items-center justify-between gap-1.5 py-2 text-sm text-custom-text-200 hover:text-custom-text-100">
           <div className="flex items-center gap-1.5">
-            {<propertyDetails.icon className="h-4 w-4 text-custom-text-400" />}
-            {propertyDetails.title}
+            {<propertyDetails.icon className="w-4 h-4 text-custom-text-400" />}
+            {t(property)}
           </div>
-          <div className="ml-3 flex">
+          <div className="flex ml-3">
             {activeSortingProperty === property && (
               <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full">
-                <ListFilter className="h-3 w-3" />
+                <ListFilter className="w-3 h-3" />
               </div>
             )}
-            <ChevronDownIcon className="h-3 w-3" aria-hidden="true" />
+            <ChevronDownIcon className="w-3 h-3" aria-hidden="true" />
           </div>
         </div>
       }
@@ -79,11 +81,11 @@ export const HeaderColumn = (props: Props) => {
           <div className="flex items-center gap-2">
             <ArrowDownWideNarrow className="h-3 w-3 stroke-[1.5]" />
             <span>{propertyDetails.ascendingOrderTitle}</span>
-            <MoveRight className="h-3 w-3" />
+            <MoveRight className="w-3 h-3" />
             <span>{propertyDetails.descendingOrderTitle}</span>
           </div>
 
-          {selectedMenuItem === `${propertyDetails.ascendingOrderKey}_${property}` && <CheckIcon className="h-3 w-3" />}
+          {selectedMenuItem === `${propertyDetails.ascendingOrderKey}_${property}` && <CheckIcon className="w-3 h-3" />}
         </div>
       </CustomMenu.MenuItem>
       <CustomMenu.MenuItem onClick={() => handleOrderBy(propertyDetails.descendingOrderKey, property)}>
@@ -97,12 +99,12 @@ export const HeaderColumn = (props: Props) => {
           <div className="flex items-center gap-2">
             <ArrowUpNarrowWide className="h-3 w-3 stroke-[1.5]" />
             <span>{propertyDetails.descendingOrderTitle}</span>
-            <MoveRight className="h-3 w-3" />
+            <MoveRight className="w-3 h-3" />
             <span>{propertyDetails.ascendingOrderTitle}</span>
           </div>
 
           {selectedMenuItem === `${propertyDetails.descendingOrderKey}_${property}` && (
-            <CheckIcon className="h-3 w-3" />
+            <CheckIcon className="w-3 h-3" />
           )}
         </div>
       </CustomMenu.MenuItem>
@@ -116,7 +118,7 @@ export const HeaderColumn = (props: Props) => {
             onClick={() => handleOrderBy("-created_at", property)}
           >
             <div className="flex items-center gap-2 px-1">
-              <Eraser className="h-3 w-3" />
+              <Eraser className="w-3 h-3" />
               <span>Clear sorting</span>
             </div>
           </CustomMenu.MenuItem>

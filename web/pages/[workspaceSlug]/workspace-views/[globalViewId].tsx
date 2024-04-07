@@ -15,7 +15,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 // constants
 
-export {getStaticPaths,getStaticProps} from "@/lib/i18next";
+export { getStaticPaths, getStaticProps } from "@/lib/i18next";
 
 const GlobalViewIssuesPage: NextPageWithLayout = observer(() => {
   // router

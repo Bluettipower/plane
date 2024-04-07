@@ -1,6 +1,7 @@
 import { Command } from "cmdk";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Check } from "lucide-react";
 import { TIssue, TIssuePriorities } from "@plane/types";
 // mobx store
@@ -18,6 +19,7 @@ type Props = {
 
 export const ChangeIssuePriority: React.FC<Props> = observer((props) => {
   const { closePalette, issue } = props;
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
 
   const router = useRouter();
   const { workspaceSlug, projectId } = router.query;
@@ -46,9 +48,9 @@ export const ChangeIssuePriority: React.FC<Props> = observer((props) => {
         <Command.Item key={priority.key} onSelect={() => handleIssueState(priority.key)} className="focus:outline-none">
           <div className="flex items-center space-x-3">
             <PriorityIcon priority={priority.key} />
-            <span className="capitalize">{priority.title ?? "None"}</span>
+            <span className="capitalize">{t(priority.key) ?? "None"}</span>
           </div>
-          <div>{priority.key === issue.priority && <Check className="h-3 w-3" />}</div>
+          <div>{priority.key === issue.priority && <Check className="w-3 h-3" />}</div>
         </Command.Item>
       ))}
     </>

@@ -4,6 +4,7 @@ import { IIssueDisplayProperties } from "@plane/types";
 // components
 import { ISSUE_DISPLAY_PROPERTIES } from "@/constants/issue";
 import { FilterHeader } from "../helpers/filter-header";
+import { useTranslation } from "next-i18next";
 // types
 // constants
 
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
   const { displayProperties, handleUpdate, cycleViewDisabled = false, moduleViewDisabled = false } = props;
 
   const [previewEnabled, setPreviewEnabled] = React.useState(true);
@@ -34,7 +36,7 @@ export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
       {previewEnabled && (
-        <div className="mt-1 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 mt-1">
           {filteredDisplayProperties.map((displayProperty) => (
             <>
               <button
@@ -51,7 +53,7 @@ export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
                   })
                 }
               >
-                {displayProperty.title}
+                {t(displayProperty.key)}
               </button>
             </>
           ))}

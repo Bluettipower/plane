@@ -11,6 +11,7 @@ import { useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { ProjectSettingLayout } from "@/layouts/settings-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const MembersSettingsPage: NextPageWithLayout = observer(() => {
   // store
