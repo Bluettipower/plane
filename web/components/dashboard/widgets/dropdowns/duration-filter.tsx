@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { ChevronDown } from "lucide-react";
 // components
 import { CustomMenu } from "@plane/ui";
 import { DateFilterModal } from "@/components/core";
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const DurationFilterDropdown: React.FC<Props> = (props) => {
-  const { t } = useTranslation(undefined,{keyPrefix:"overview.selected"})
+  const { t } = useTranslation(undefined, { keyPrefix: "overview.selected" });
   const { customDates, onChange, value } = props;
   // states
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);

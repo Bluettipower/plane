@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { useDropzone } from "react-dropzone";
 // hooks
 // constants
@@ -9,8 +10,6 @@ import { generateFileName } from "@/helpers/attachment.helper";
 import { useApplication } from "@/hooks/store";
 // types
 import { TAttachmentOperations } from "./root";
-import { t } from "i18next";
-import { useTranslation } from "next-i18next";
 
 type TAttachmentOperationsModal = Exclude<TAttachmentOperations, "remove">;
 

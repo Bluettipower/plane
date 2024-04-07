@@ -14,13 +14,15 @@ export const AnalyticsDemand: React.FC<Props> = ({ defaultAnalytics }) => {
     <div className="space-y-3 rounded-[10px] border border-custom-border-200 p-3">
       <h5 className="text-xs text-red-500">DEMAND</h5>
       <div>
-        <h4 className="text-base font-medium text-custom-text-100">{t("analytics.scope_and_demand.demand.description")}</h4>
+        <h4 className="text-base font-medium text-custom-text-100">
+          {t("analytics.scope_and_demand.demand.description")}
+        </h4>
         <h3 className="mt-1 text-xl font-semibold">{defaultAnalytics.open_issues}</h3>
       </div>
       <div className="pb-2 space-y-6">
         {defaultAnalytics?.open_issues_classified.map((group) => {
           const percentage = ((group.state_count / defaultAnalytics.total_issues) * 100).toFixed(0);
-  
+
           return (
             <div key={group.state_group} className="space-y-2">
               <div className="flex items-center justify-between gap-2 text-xs">
@@ -53,4 +55,4 @@ export const AnalyticsDemand: React.FC<Props> = ({ defaultAnalytics }) => {
       </div>
     </div>
   );
-}
+};

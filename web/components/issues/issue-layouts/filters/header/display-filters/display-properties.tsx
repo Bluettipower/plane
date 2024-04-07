@@ -1,10 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { IIssueDisplayProperties } from "@plane/types";
 // components
 import { ISSUE_DISPLAY_PROPERTIES } from "@/constants/issue";
 import { FilterHeader } from "../helpers/filter-header";
-import { useTranslation } from "next-i18next";
 // types
 // constants
 

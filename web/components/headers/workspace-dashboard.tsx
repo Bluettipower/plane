@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { Home, Zap } from "lucide-react";
 // images

@@ -30,7 +30,7 @@ export const AnalyticsScope: React.FC<Props> = ({ defaultAnalytics }) => {
                 const assignee = defaultAnalytics.pending_issue_user.find(
                   (a) => a.assignees__id === `${datum.indexValue}`
                 );
-  
+
                 return (
                   <div className="p-2 text-xs border rounded-md border-custom-border-200 bg-custom-background-80">
                     <span className="font-medium text-custom-text-200">
@@ -43,7 +43,7 @@ export const AnalyticsScope: React.FC<Props> = ({ defaultAnalytics }) => {
               axisBottom={{
                 renderTick: (datum) => {
                   const assignee = defaultAnalytics.pending_issue_user[datum.tickIndex] ?? "";
-  
+
                   if (assignee && assignee?.assignees__avatar && assignee?.assignees__avatar !== "")
                     return (
                       <g transform={`translate(${datum.x},${datum.y})`}>
@@ -86,4 +86,4 @@ export const AnalyticsScope: React.FC<Props> = ({ defaultAnalytics }) => {
       </div>
     </div>
   );
-}
+};

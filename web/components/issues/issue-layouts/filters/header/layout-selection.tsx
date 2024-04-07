@@ -1,12 +1,11 @@
 import React from "react";
-
+import { useTranslation } from "next-i18next";
 // ui
 import { TIssueLayouts } from "@plane/types";
 import { Tooltip } from "@plane/ui";
 // types
 import { ISSUE_LAYOUTS } from "@/constants/issue";
 import { usePlatformOS } from "@/hooks/use-platform-os";
-import { useTranslation } from "next-i18next";
 // hooks
 
 type Props = {

@@ -1,9 +1,9 @@
 import { useMemo } from "react";
+import { useTranslation } from "next-i18next";
 // hooks
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/ui";
 import { IssueAttachmentUpload, IssueAttachmentsList, TAttachmentOperations } from "@/components/issues";
 import { useEventTracker, useIssueDetail } from "@/hooks/store";
-import { useTranslation } from "next-i18next";
 // components
 // ui
 
