@@ -44,7 +44,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "light-contrast",
-    label: "profile.preferences.theme.light_high_contrast",
+    label: "profile.preferences.theme.light-high-contrast",
     type: "light",
     icon: {
       border: "#000000",

@@ -17,3 +17,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   paths: [],
   fallback: 'blocking'
 });
+
+export const LableToKey = (label: string): string => {
+  return label.toLowerCase().replace(/ /g, "_");
+}

@@ -258,7 +258,7 @@ export const SIDEBAR_MENU_ITEMS: {
 }[] = [
     {
       key: "home",
-      label: "Home",
+      label: "home",
       href: ``,
       access: EUserWorkspaceRoles.GUEST,
       highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}`,
@@ -282,7 +282,7 @@ export const SIDEBAR_MENU_ITEMS: {
     },
     {
       key: "all-issues",
-      label: "all_issues",
+      label: "all-issues",
       href: `/workspace-views/all-issues`,
       access: EUserWorkspaceRoles.GUEST,
       highlight: (pathname: string, baseUrl: string) => pathname.includes(`${baseUrl}/workspace-views`),
@@ -290,7 +290,7 @@ export const SIDEBAR_MENU_ITEMS: {
     },
     {
       key: "active-cycles",
-      label: "active_cycles",
+      label: "active-cycles",
       href: `/active-cycles`,
       access: EUserWorkspaceRoles.GUEST,
       highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}/active-cycles`,

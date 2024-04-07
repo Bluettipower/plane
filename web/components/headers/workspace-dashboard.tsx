@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Home, Zap } from "lucide-react";
@@ -13,6 +14,7 @@ import { CHANGELOG_REDIRECTED, GITHUB_REDIRECTED } from "@/constants/event-track
 import { useEventTracker } from "@/hooks/store";
 
 export const WorkspaceDashboardHeader = () => {
+  const { t } = useTranslation();
   // hooks
   const { captureEvent } = useEventTracker();
   const { resolvedTheme } = useTheme();
@@ -25,7 +27,7 @@ export const WorkspaceDashboardHeader = () => {
             <Breadcrumbs>
               <Breadcrumbs.BreadcrumbItem
                 type="text"
-                link={<BreadcrumbLink label="Home" icon={<Home className="h-4 w-4 text-custom-text-300" />} />}
+                link={<BreadcrumbLink label={t("home")} icon={<Home className="w-4 h-4 text-custom-text-300" />} />}
               />
             </Breadcrumbs>
           </div>

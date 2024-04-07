@@ -26,25 +26,25 @@ const userLinks = (workspaceSlug: string, userId: string) => [
   },
   {
     key: "my_activity",
-    name: "My activity",
+    name: "profile.activity.my_activity",
     href: `/${workspaceSlug}/profile/${userId}`,
     icon: CircleUserRound,
   },
   {
     key: "settings",
-    name: "Settings",
+    name: "settings",
     href: `/${workspaceSlug}/settings`,
     icon: Settings,
   },
 ];
 const profileLinks = (workspaceSlug: string, userId: string) => [
   {
-    name: "My activity",
+    name: "profile.activity.my_activity",
     icon: UserCircle2,
     link: `/${workspaceSlug}/profile/${userId}`,
   },
   {
-    name: "Settings",
+    name: "settings",
     icon: Settings,
     link: "/profile",
   },
@@ -59,7 +59,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
   } = useApplication();
   const { currentUser, updateCurrentUser, isUserInstanceAdmin, signOut } = useUser();
   const { currentWorkspace: activeWorkspace, workspaces } = useWorkspace();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { setTheme } = useTheme();
   // popper-js refs
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -303,7 +303,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
                     <Menu.Item key={index} as="div">
                       <span className="flex items-center w-full gap-2 px-2 py-1 rounded hover:bg-custom-sidebar-background-80">
                         <link.icon className="h-4 w-4 stroke-[1.5]" />
-                        {link.name}
+                        {t(link.name)}
                       </span>
                     </Menu.Item>
                   </Link>
@@ -317,7 +317,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 stroke-[1.5]" />
-                  Sign out
+                  {t("sign_out")}
                 </Menu.Item>
               </div>
               {isUserInstanceAdmin && (
@@ -325,7 +325,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
                   <Link href="/god-mode">
                     <Menu.Item as="button" type="button" className="w-full">
                       <span className="flex items-center justify-center w-full px-2 py-1 text-sm font-medium rounded bg-custom-primary-100/20 text-custom-primary-100 hover:bg-custom-primary-100/30 hover:text-custom-primary-200">
-                        Enter God Mode
+                        {t("god_mode")}
                       </span>
                     </Menu.Item>
                   </Link>

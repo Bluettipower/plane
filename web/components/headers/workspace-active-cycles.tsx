@@ -7,8 +7,7 @@ import { BreadcrumbLink } from "@/components/common";
 // icons
 
 export const WorkspaceActiveCycleHeader = observer(() => {
-
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="relative z-10 flex h-[3.75rem] w-full flex-shrink-0 flex-row items-center justify-between gap-x-2 gap-y-4 bg-custom-sidebar-background-100 p-4">
@@ -19,7 +18,7 @@ export const WorkspaceActiveCycleHeader = observer(() => {
               type="text"
               link={
                 <BreadcrumbLink
-                  label={t("active_cycles")}
+                  label={t("active-cycles")}
                   icon={<ContrastIcon className="w-4 h-4 rotate-180 text-custom-text-300" />}
                 />
               }
@@ -29,5 +28,5 @@ export const WorkspaceActiveCycleHeader = observer(() => {
         </div>
       </div>
     </div>
-  )
+  );
 });

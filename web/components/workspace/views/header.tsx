@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // icons
 import { Plus } from "lucide-react";
 // components
@@ -11,6 +12,7 @@ import { GLOBAL_VIEW_OPENED } from "@/constants/event-tracker";
 import { DEFAULT_GLOBAL_VIEWS_LIST, EUserWorkspaceRoles } from "@/constants/workspace";
 // store hooks
 import { useEventTracker, useGlobalView, useUser } from "@/hooks/store";
+import { LableToKey } from "@/lib/i18next";
 
 const ViewTab = observer((props: { viewId: string }) => {
   const { viewId } = props;
@@ -40,6 +42,7 @@ const ViewTab = observer((props: { viewId: string }) => {
 });
 
 export const GlobalViewsHeader: React.FC = observer(() => {
+  const { t } = useTranslation();
   // states
   const [createViewModal, setCreateViewModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -77,10 +80,10 @@ export const GlobalViewsHeader: React.FC = observer(() => {
   return (
     <>
       <CreateUpdateWorkspaceViewModal isOpen={createViewModal} onClose={() => setCreateViewModal(false)} />
-      <div className="group relative flex border-b border-custom-border-200">
+      <div className="relative flex border-b group border-custom-border-200">
         <div
           ref={containerRef}
-          className="flex w-full items-center overflow-x-auto px-4 horizontal-scrollbar scrollbar-sm"
+          className="flex items-center w-full px-4 overflow-x-auto horizontal-scrollbar scrollbar-sm"
         >
           {DEFAULT_GLOBAL_VIEWS_LIST.map((tab) => (
             <Link key={tab.key} id={`global-view-${tab.key}`} href={`/${workspaceSlug}/workspace-views/${tab.key}`}>
@@ -91,7 +94,7 @@ export const GlobalViewsHeader: React.FC = observer(() => {
                     : "border-transparent hover:border-custom-border-200 hover:text-custom-text-400"
                 }`}
               >
-                {tab.label}
+                {t(tab.key)}
               </span>
             </Link>
           ))}
@@ -104,10 +107,10 @@ export const GlobalViewsHeader: React.FC = observer(() => {
         {isAuthorizedUser && (
           <button
             type="button"
-            className="sticky -right-4 flex w-12 flex-shrink-0 items-center justify-center border-transparent bg-custom-background-100 py-3 hover:border-custom-border-200 hover:text-custom-text-400"
+            className="sticky flex items-center justify-center flex-shrink-0 w-12 py-3 border-transparent -right-4 bg-custom-background-100 hover:border-custom-border-200 hover:text-custom-text-400"
             onClick={() => setCreateViewModal(true)}
           >
-            <Plus className="h-4 w-4 text-custom-primary-200" />
+            <Plus className="w-4 h-4 text-custom-primary-200" />
           </button>
         )}
       </div>

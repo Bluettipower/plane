@@ -28,7 +28,7 @@ import projectEmoji from "public/emoji/project-emoji.svg";
 const workspaceLinks = [
   {
     Icon: Home,
-    name: "Home",
+    name: "home",
   },
   {
     Icon: BarChart2,
@@ -40,7 +40,7 @@ const workspaceLinks = [
   },
   {
     Icon: CheckCircle,
-    name: "all_issues",
+    name: "all-issues",
   },
   {
     Icon: Bell,
@@ -99,7 +99,7 @@ export const OnboardingSidebar: React.FC<Props> = (props) => {
   const workspaceDetails = Object.values(workspaces ?? {})?.[0];
 
   const { resolvedTheme } = useTheme();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleZoomWorkspace = (value: string) => {
     if (lastWorkspaceName === value) return;

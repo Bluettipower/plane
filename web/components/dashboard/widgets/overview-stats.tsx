@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import { TOverviewStatsWidgetResponse } from "@plane/types";
 // hooks
 import { WidgetLoader } from "@/components/dashboard/widgets";
@@ -19,6 +20,7 @@ export type WidgetProps = {
 const WIDGET_KEY = "overview_stats";
 
 export const OverviewStatsWidget: React.FC<WidgetProps> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "overview" });
   const { dashboardId, workspaceSlug } = props;
   // store hooks
   const { fetchWidgetStats, getWidgetStats } = useDashboard();
@@ -86,8 +88,8 @@ export const OverviewStatsWidget: React.FC<WidgetProps> = observer((props) => {
           <Link href={stat.link} className="py-4 duration-300 rounded-[10px] w-full ">
             <div className={`relative flex pl-10 sm:pl-20 md:pl-20 lg:pl-20 items-center`}>
               <div>
-                <h5 className="font-semibold text-xl">{stat.count}</h5>
-                <p className="text-custom-text-300 text-sm xl:text-base">{stat.title}</p>
+                <h5 className="text-xl font-semibold">{stat.count}</h5>
+                <p className="text-sm text-custom-text-300 xl:text-base">{t(stat.key)}</p>
               </div>
             </div>
           </Link>

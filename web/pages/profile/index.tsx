@@ -38,7 +38,7 @@ import type { NextPageWithLayout } from "@/lib/types";
 import { FileService } from "@/services/file.service";
 // services
 // types
-export {getStaticProps} from "@/lib/i18next";
+export { getStaticProps } from "@/lib/i18next";
 
 const defaultValues: Partial<IUser> = {
   avatar: "",
@@ -72,7 +72,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
   // custom hooks
   const {} = useUserAuth({ user: myProfile, isLoading: currentUserLoader });
   const { theme: themeStore } = useApplication();
-  const {t } = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     reset({ ...defaultValues, ...myProfile });
@@ -244,7 +244,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                 <div className="grid grid-cols-1 gap-6 px-8 lg:grid-cols-2 2xl:grid-cols-3">
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      {t("profile.profile.first_name")}<span className="text-red-500">*</span>
+                      {t("profile.profile.first-name")}
+                      <span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -271,7 +272,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-sm">{t("profile.profile.last_name")}</h4>
+                    <h4 className="text-sm">{t("profile.profile.last-name")}</h4>
 
                     <Controller
                       control={control}
@@ -295,7 +296,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      {t("profile.profile.email")}<span className="text-red-500">*</span>
+                      {t("profile.profile.email")}
+                      <span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -323,7 +325,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      {t("profile.profile.role")}<span className="text-red-500">*</span>
+                      {t("profile.profile.role")}
+                      <span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       name="role"
@@ -352,7 +355,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      {t("profile.profile.display_name")}<span className="text-red-500">*</span>
+                      {t("profile.profile.display-name")}
+                      <span className="text-red-500">*</span>
                     </h4>
                     <Controller
                       control={control}
@@ -393,7 +397,8 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
-                      {t("profile.profile.timezone")}<span className="text-red-500">*</span>
+                      {t("profile.profile.timezone")}
+                      <span className="text-red-500">*</span>
                     </h4>
 
                     <Controller
@@ -420,7 +425,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
 
                   <div className="flex items-center justify-between py-2">
                     <Button variant="primary" type="submit" loading={isLoading}>
-                      {isLoading ?t("profile.profile.saveing") : t("profile.profile.save_changes")}
+                      {isLoading ? t("profile.profile.saveing") : t("profile.profile.save-changes")}
                     </Button>
                   </div>
                 </div>
@@ -434,7 +439,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                     type="button"
                     className="flex items-center justify-between w-full py-4"
                   >
-                    <span className="text-lg tracking-tight">{t("profile.profile.deactivate_account")}</span>
+                    <span className="text-lg tracking-tight">{t("profile.profile.deactivate-account")}</span>
                     <ChevronDown className={`h-5 w-5 transition-all ${open ? "rotate-180" : ""}`} />
                   </Disclosure.Button>
                   <Transition
@@ -449,11 +454,11 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                     <Disclosure.Panel>
                       <div className="flex flex-col gap-8">
                         <span className="text-sm tracking-tight">
-                          {t("profile.profile.deactivate_account.confirmation")}
+                          {t("profile.profile.deactivate-account.confirmation")}
                         </span>
                         <div>
                           <Button variant="danger" onClick={() => setDeactivateAccountModal(true)}>
-                            {t("profile.profile.deactivate_account")}
+                            {t("profile.profile.deactivate-account")}
                           </Button>
                         </div>
                       </div>

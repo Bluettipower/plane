@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { Search, Plus, Briefcase, X, ListFilter } from "lucide-react";
 import { TProjectFilters } from "@plane/types";
 // hooks
@@ -17,6 +18,7 @@ import { useApplication, useEventTracker, useMember, useProject, useProjectFilte
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 
 export const ProjectsHeader = observer(() => {
+  const { t } = useTranslation();
   // states
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   // refs
@@ -78,23 +80,25 @@ export const ProjectsHeader = observer(() => {
 
   return (
     <div className="relative z-10 flex h-[3.75rem] w-full flex-shrink-0 flex-row items-center justify-between gap-x-2 gap-y-4 bg-custom-sidebar-background-100 p-4">
-      <div className="flex flex-grow items-center gap-2 overflow-ellipsis whitespace-nowrap">
+      <div className="flex items-center flex-grow gap-2 overflow-ellipsis whitespace-nowrap">
         <div>
           <Breadcrumbs>
             <Breadcrumbs.BreadcrumbItem
               type="text"
-              link={<BreadcrumbLink label="Projects" icon={<Briefcase className="h-4 w-4 text-custom-text-300" />} />}
+              link={
+                <BreadcrumbLink label={t("projects")} icon={<Briefcase className="w-4 h-4 text-custom-text-300" />} />
+              }
             />
           </Breadcrumbs>
         </div>
       </div>
-      <div className="w-full flex items-center justify-end gap-3">
+      <div className="flex items-center justify-end w-full gap-3">
         {workspaceProjectIds && workspaceProjectIds?.length > 0 && (
           <div className="flex items-center">
             {!isSearchOpen && (
               <button
                 type="button"
-                className="-mr-1 p-2 hover:bg-custom-background-80 rounded text-custom-text-400 grid place-items-center"
+                className="grid p-2 -mr-1 rounded hover:bg-custom-background-80 text-custom-text-400 place-items-center"
                 onClick={() => {
                   setIsSearchOpen(true);
                   inputRef.current?.focus();
@@ -129,7 +133,7 @@ export const ProjectsHeader = observer(() => {
                     setIsSearchOpen(false);
                   }}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="w-3 h-3" />
                 </button>
               )}
             </div>
@@ -144,7 +148,7 @@ export const ProjectsHeader = observer(() => {
             });
           }}
         />
-        <FiltersDropdown icon={<ListFilter className="h-3 w-3" />} title="Filters" placement="bottom-end">
+        <FiltersDropdown icon={<ListFilter className="w-3 h-3" />} title="Filters" placement="bottom-end">
           <ProjectFiltersSelection
             displayFilters={displayFilters ?? {}}
             filters={filters ?? {}}

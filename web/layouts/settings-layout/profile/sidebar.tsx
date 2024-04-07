@@ -37,7 +37,7 @@ export const ProfileLayoutSidebar = observer(() => {
   const router = useRouter();
   // next themes
   const { setTheme } = useTheme();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   // store hooks
   const {
     theme: { sidebarCollapsed, toggleSidebar },
@@ -128,7 +128,9 @@ export const ProfileLayoutSidebar = observer(() => {
         </Link>
         <div className="flex flex-col flex-shrink-0 px-4 overflow-x-hidden">
           {!sidebarCollapsed && (
-            <h6 className="rounded px-1.5 text-sm font-semibold text-custom-sidebar-text-400">{t("profile.your_acount")}</h6>
+            <h6 className="rounded px-1.5 text-sm font-semibold text-custom-sidebar-text-400">
+              {t("profile.your-acount")}
+            </h6>
           )}
           <div className="mt-2 h-full space-y-1.5 overflow-y-auto vertical-scrollbar scrollbar-sm">
             {PROFILE_ACTION_LINKS.map((link) => {
