@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { TInboxIssueFilterOptions } from "@plane/types";
 // mobx store
 // ui
@@ -16,6 +17,7 @@ import { useInboxIssues } from "@/hooks/store";
 type TInboxIssueFilterSelection = { workspaceSlug: string; projectId: string; inboxId: string };
 
 export const InboxIssueFilterSelection: FC<TInboxIssueFilterSelection> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
   const { workspaceSlug, projectId, inboxId } = props;
   // router
   const router = useRouter();
@@ -72,7 +74,7 @@ export const InboxIssueFilterSelection: FC<TInboxIssueFilterSelection> = observe
               id: priority.key,
               label: (
                 <div className="flex items-center gap-2 capitalize">
-                  <PriorityIcon priority={priority.key} /> {priority.title ?? "None"}
+                  <PriorityIcon priority={priority.key} /> {t(priority.key) ?? "None"}
                 </div>
               ),
               value: {
@@ -90,7 +92,7 @@ export const InboxIssueFilterSelection: FC<TInboxIssueFilterSelection> = observe
             children: INBOX_STATUS.map((status) => ({
               id: status.status.toString(),
               label: (
-                <div className="relative inline-flex gap-2 items-center">
+                <div className="relative inline-flex items-center gap-2">
                   <div className={status.textColor(false)}>
                     <status.icon size={12} />
                   </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import {
   LinkIcon,
   Signal,
@@ -73,6 +74,7 @@ type Props = {
 };
 
 export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation();
   const { workspaceSlug, projectId, issueId, issueOperations, is_archived, is_editable } = props;
   // states
   const [deleteIssueModal, setDeleteIssueModal] = useState(false);
@@ -140,7 +142,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
         data={issue}
         onSubmit={handleArchiveIssue}
       />
-      <div className="flex h-full w-full flex-col divide-y-2 divide-custom-border-200 overflow-hidden">
+      <div className="flex flex-col w-full h-full overflow-hidden divide-y-2 divide-custom-border-200">
         <div className="flex items-center justify-end px-5 pb-3">
           <div className="flex flex-wrap items-center gap-4">
             {currentUser && !is_archived && (
@@ -150,10 +152,10 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               <Tooltip tooltipContent="Copy link" isMobile={isMobile}>
                 <button
                   type="button"
-                  className="grid h-5 w-5 place-items-center rounded hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"
+                  className="grid w-5 h-5 rounded place-items-center hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"
                   onClick={handleCopyText}
                 >
-                  <LinkIcon className="h-4 w-4" />
+                  <LinkIcon className="w-4 h-4" />
                 </button>
               </Tooltip>
               {isArchivingAllowed && (
@@ -175,7 +177,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                       setArchiveIssueModal(true);
                     }}
                   >
-                    <ArchiveIcon className="h-4 w-4" />
+                    <ArchiveIcon className="w-4 h-4" />
                   </button>
                 </Tooltip>
               )}
@@ -183,10 +185,10 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 <Tooltip tooltipContent="Delete" isMobile={isMobile}>
                   <button
                     type="button"
-                    className="grid h-5 w-5 place-items-center rounded hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"
+                    className="grid w-5 h-5 rounded place-items-center hover:text-custom-text-200 focus:outline-none focus:ring-2 focus:ring-custom-primary"
                     onClick={() => setDeleteIssueModal(true)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 </Tooltip>
               )}
@@ -194,13 +196,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
           </div>
         </div>
 
-        <div className="h-full w-full overflow-y-auto px-6">
-          <h5 className="mt-6 text-sm font-medium">Properties</h5>
+        <div className="w-full h-full px-6 overflow-y-auto">
+          <h5 className="mt-6 text-sm font-medium">{t("properties")}</h5>
           {/* TODO: render properties using a common component */}
           <div className={`mb-2 mt-3 space-y-2.5 ${!is_editable ? "opacity-60" : ""}`}>
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <DoubleCircleIcon className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <DoubleCircleIcon className="flex-shrink-0 w-4 h-4" />
                 <span>State</span>
               </div>
               <StateDropdown
@@ -209,7 +211,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 projectId={projectId?.toString() ?? ""}
                 disabled={!is_editable}
                 buttonVariant="transparent-with-text"
-                className="group w-3/5 flex-grow"
+                className="flex-grow w-3/5 group"
                 buttonContainerClassName="w-full text-left"
                 buttonClassName="text-sm"
                 dropdownArrow
@@ -217,9 +219,9 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <UserGroupIcon className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <UserGroupIcon className="flex-shrink-0 w-4 h-4" />
                 <span>Assignees</span>
               </div>
               <MemberDropdown
@@ -230,7 +232,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 placeholder="Add assignees"
                 multiple
                 buttonVariant={issue?.assignee_ids?.length > 1 ? "transparent-without-text" : "transparent-with-text"}
-                className="group w-3/5 flex-grow"
+                className="flex-grow w-3/5 group"
                 buttonContainerClassName="w-full text-left"
                 buttonClassName={`text-sm justify-between ${
                   issue?.assignee_ids.length > 0 ? "" : "text-custom-text-400"
@@ -241,9 +243,9 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <Signal className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <Signal className="flex-shrink-0 w-4 h-4" />
                 <span>Priority</span>
               </div>
               <PriorityDropdown
@@ -251,15 +253,15 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })}
                 disabled={!is_editable}
                 buttonVariant="border-with-text"
-                className="w-3/5 flex-grow rounded px-2 hover:bg-custom-background-80"
+                className="flex-grow w-3/5 px-2 rounded hover:bg-custom-background-80"
                 buttonContainerClassName="w-full text-left"
                 buttonClassName="w-min h-auto whitespace-nowrap"
               />
             </div>
 
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <CalendarClock className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <CalendarClock className="flex-shrink-0 w-4 h-4" />
                 <span>Start date</span>
               </div>
               <DateDropdown
@@ -273,7 +275,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 maxDate={maxDate ?? undefined}
                 disabled={!is_editable}
                 buttonVariant="transparent-with-text"
-                className="group w-3/5 flex-grow"
+                className="flex-grow w-3/5 group"
                 buttonContainerClassName="w-full text-left"
                 buttonClassName={`text-sm ${issue?.start_date ? "" : "text-custom-text-400"}`}
                 hideIcon
@@ -283,9 +285,9 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <CalendarCheck2 className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <CalendarCheck2 className="flex-shrink-0 w-4 h-4" />
                 <span>Due date</span>
               </div>
               <DateDropdown
@@ -299,7 +301,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 minDate={minDate ?? undefined}
                 disabled={!is_editable}
                 buttonVariant="transparent-with-text"
-                className="group w-3/5 flex-grow"
+                className="flex-grow w-3/5 group"
                 buttonContainerClassName="w-full text-left"
                 buttonClassName={cn("text-sm", {
                   "text-custom-text-400": !issue.target_date,
@@ -313,9 +315,9 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
             </div>
 
             {areEstimatesEnabledForCurrentProject && (
-              <div className="flex h-8 items-center gap-2">
-                <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                  <Triangle className="h-4 w-4 flex-shrink-0" />
+              <div className="flex items-center h-8 gap-2">
+                <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                  <Triangle className="flex-shrink-0 w-4 h-4" />
                   <span>Estimate</span>
                 </div>
                 <EstimateDropdown
@@ -324,7 +326,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                   projectId={projectId}
                   disabled={!is_editable}
                   buttonVariant="transparent-with-text"
-                  className="group w-3/5 flex-grow"
+                  className="flex-grow w-3/5 group"
                   buttonContainerClassName="w-full text-left"
                   buttonClassName={`text-sm ${issue?.estimate_point !== null ? "" : "text-custom-text-400"}`}
                   placeholder="None"
@@ -336,13 +338,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
             )}
 
             {projectDetails?.module_view && (
-              <div className="flex min-h-8 gap-2">
-                <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                  <DiceIcon className="h-4 w-4 flex-shrink-0" />
+              <div className="flex gap-2 min-h-8">
+                <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                  <DiceIcon className="flex-shrink-0 w-4 h-4" />
                   <span>Module</span>
                 </div>
                 <IssueModuleSelect
-                  className="w-3/5 flex-grow"
+                  className="flex-grow w-3/5"
                   workspaceSlug={workspaceSlug}
                   projectId={projectId}
                   issueId={issueId}
@@ -353,13 +355,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
             )}
 
             {projectDetails?.cycle_view && (
-              <div className="flex h-8 items-center gap-2">
-                <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                  <ContrastIcon className="h-4 w-4 flex-shrink-0" />
+              <div className="flex items-center h-8 gap-2">
+                <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                  <ContrastIcon className="flex-shrink-0 w-4 h-4" />
                   <span>Cycle</span>
                 </div>
                 <IssueCycleSelect
-                  className="w-3/5 flex-grow"
+                  className="flex-grow w-3/5"
                   workspaceSlug={workspaceSlug}
                   projectId={projectId}
                   issueId={issueId}
@@ -369,13 +371,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               </div>
             )}
 
-            <div className="flex h-8 items-center gap-2">
-              <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-sm text-custom-text-300">
-                <LayoutPanelTop className="h-4 w-4 flex-shrink-0" />
+            <div className="flex items-center h-8 gap-2">
+              <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
+                <LayoutPanelTop className="flex-shrink-0 w-4 h-4" />
                 <span>Parent</span>
               </div>
               <IssueParentSelect
-                className="h-full w-3/5 flex-grow"
+                className="flex-grow w-3/5 h-full"
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
                 issueId={issueId}
@@ -384,13 +386,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex min-h-8 gap-2">
-              <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                <RelatedIcon className="h-4 w-4 flex-shrink-0" />
+            <div className="flex gap-2 min-h-8">
+              <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                <RelatedIcon className="flex-shrink-0 w-4 h-4" />
                 <span>Relates to</span>
               </div>
               <IssueRelationSelect
-                className="h-full min-h-8 w-3/5 flex-grow"
+                className="flex-grow w-3/5 h-full min-h-8"
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
                 issueId={issueId}
@@ -399,13 +401,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex min-h-8 gap-2">
-              <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                <XCircle className="h-4 w-4 flex-shrink-0" />
+            <div className="flex gap-2 min-h-8">
+              <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                <XCircle className="flex-shrink-0 w-4 h-4" />
                 <span>Blocking</span>
               </div>
               <IssueRelationSelect
-                className="h-full min-h-8 w-3/5 flex-grow"
+                className="flex-grow w-3/5 h-full min-h-8"
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
                 issueId={issueId}
@@ -414,13 +416,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex min-h-8 gap-2">
-              <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                <CircleDot className="h-4 w-4 flex-shrink-0" />
+            <div className="flex gap-2 min-h-8">
+              <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                <CircleDot className="flex-shrink-0 w-4 h-4" />
                 <span>Blocked by</span>
               </div>
               <IssueRelationSelect
-                className="h-full min-h-8 w-3/5 flex-grow"
+                className="flex-grow w-3/5 h-full min-h-8"
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
                 issueId={issueId}
@@ -429,13 +431,13 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex min-h-8 gap-2">
-              <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                <CopyPlus className="h-4 w-4 flex-shrink-0" />
+            <div className="flex gap-2 min-h-8">
+              <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                <CopyPlus className="flex-shrink-0 w-4 h-4" />
                 <span>Duplicate of</span>
               </div>
               <IssueRelationSelect
-                className="h-full min-h-8 w-3/5 flex-grow"
+                className="flex-grow w-3/5 h-full min-h-8"
                 workspaceSlug={workspaceSlug}
                 projectId={projectId}
                 issueId={issueId}
@@ -444,12 +446,12 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
               />
             </div>
 
-            <div className="flex min-h-8 gap-2">
-              <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-sm text-custom-text-300">
-                <Tag className="h-4 w-4 flex-shrink-0" />
+            <div className="flex gap-2 min-h-8">
+              <div className="flex flex-shrink-0 w-2/5 gap-1 pt-2 text-sm text-custom-text-300">
+                <Tag className="flex-shrink-0 w-4 h-4" />
                 <span>Labels</span>
               </div>
-              <div className="h-full min-h-8 w-3/5 flex-grow">
+              <div className="flex-grow w-3/5 h-full min-h-8">
                 <IssueLabel
                   workspaceSlug={workspaceSlug}
                   projectId={projectId}

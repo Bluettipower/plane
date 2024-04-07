@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import {
   Signal,
   Tag,
@@ -46,6 +47,7 @@ interface IPeekOverviewProperties {
 }
 
 export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
   const { workspaceSlug, projectId, issueId, issueOperations, disabled } = props;
   // store hooks
   const { getProjectById } = useProject();
@@ -68,14 +70,14 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
   return (
     <div>
-      <h6 className="text-sm font-medium">Properties</h6>
+      <h6 className="text-sm font-medium">{t("properties")}</h6>
       {/* TODO: render properties using a common component */}
       <div className={`w-full space-y-2 mt-3 ${disabled ? "opacity-60" : ""}`}>
         {/* state */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <DoubleCircleIcon className="h-4 w-4 flex-shrink-0" />
-            <span>State</span>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <DoubleCircleIcon className="flex-shrink-0 w-4 h-4" />
+            <span>{t("state")}</span>
           </div>
           <StateDropdown
             value={issue?.state_id ?? undefined}
@@ -83,7 +85,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
             projectId={projectId}
             disabled={disabled}
             buttonVariant="transparent-with-text"
-            className="w-3/4 flex-grow group"
+            className="flex-grow w-3/4 group"
             buttonContainerClassName="w-full text-left"
             buttonClassName="text-sm"
             dropdownArrow
@@ -92,10 +94,10 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         </div>
 
         {/* assignee */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <UserGroupIcon className="h-4 w-4 flex-shrink-0" />
-            <span>Assignees</span>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <UserGroupIcon className="flex-shrink-0 w-4 h-4" />
+            <span>{t("assignees")}</span>
           </div>
           <MemberDropdown
             value={issue?.assignee_ids ?? undefined}
@@ -105,7 +107,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
             placeholder="Add assignees"
             multiple
             buttonVariant={issue?.assignee_ids?.length > 1 ? "transparent-without-text" : "transparent-with-text"}
-            className="w-3/4 flex-grow group"
+            className="flex-grow w-3/4 group"
             buttonContainerClassName="w-full text-left"
             buttonClassName={`text-sm justify-between ${issue?.assignee_ids?.length > 0 ? "" : "text-custom-text-400"}`}
             hideIcon={issue.assignee_ids?.length === 0}
@@ -115,27 +117,27 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         </div>
 
         {/* priority */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <Signal className="h-4 w-4 flex-shrink-0" />
-            <span>Priority</span>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <Signal className="flex-shrink-0 w-4 h-4" />
+            <span>{t("priority")}</span>
           </div>
           <PriorityDropdown
             value={issue?.priority}
             onChange={(val) => issueOperations.update(workspaceSlug, projectId, issueId, { priority: val })}
             disabled={disabled}
             buttonVariant="border-with-text"
-            className="w-3/4 flex-grow rounded px-2 hover:bg-custom-background-80 group"
+            className="flex-grow w-3/4 px-2 rounded hover:bg-custom-background-80 group"
             buttonContainerClassName="w-full text-left"
             buttonClassName="w-min h-auto whitespace-nowrap"
           />
         </div>
 
         {/* start date */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <CalendarClock className="h-4 w-4 flex-shrink-0" />
-            <span>Start date</span>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <CalendarClock className="flex-shrink-0 w-4 h-4" />
+            <span>{t("start_date")}</span>
           </div>
           <DateDropdown
             value={issue.start_date}
@@ -148,7 +150,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
             buttonVariant="transparent-with-text"
             maxDate={maxDate ?? undefined}
             disabled={disabled}
-            className="w-3/4 flex-grow group"
+            className="flex-grow w-3/4 group"
             buttonContainerClassName="w-full text-left"
             buttonClassName={`text-sm ${issue?.start_date ? "" : "text-custom-text-400"}`}
             hideIcon
@@ -159,10 +161,10 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         </div>
 
         {/* due date */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <CalendarCheck2 className="h-4 w-4 flex-shrink-0" />
-            <span>Due date</span>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <CalendarCheck2 className="flex-shrink-0 w-4 h-4" />
+            <span>{t("due_date")}</span>
           </div>
           <DateDropdown
             value={issue.target_date}
@@ -175,7 +177,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
             buttonVariant="transparent-with-text"
             minDate={minDate ?? undefined}
             disabled={disabled}
-            className="w-3/4 flex-grow group"
+            className="flex-grow w-3/4 group"
             buttonContainerClassName="w-full text-left"
             buttonClassName={cn("text-sm", {
               "text-custom-text-400": !issue.target_date,
@@ -190,10 +192,10 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
         {/* estimate */}
         {isEstimateEnabled && (
-          <div className="flex w-full items-center gap-3 h-8">
-            <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-              <Triangle className="h-4 w-4 flex-shrink-0" />
-              <span>Estimate</span>
+          <div className="flex items-center w-full h-8 gap-3">
+            <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+              <Triangle className="flex-shrink-0 w-4 h-4" />
+              <span>{t("estimate")}</span>
             </div>
             <EstimateDropdown
               value={issue?.estimate_point !== null ? issue.estimate_point : null}
@@ -201,7 +203,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
               projectId={projectId}
               disabled={disabled}
               buttonVariant="transparent-with-text"
-              className="w-3/4 flex-grow group"
+              className="flex-grow w-3/4 group"
               buttonContainerClassName="w-full text-left"
               buttonClassName={`text-sm ${issue?.estimate_point !== null ? "" : "text-custom-text-400"}`}
               placeholder="None"
@@ -213,13 +215,13 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         )}
 
         {projectDetails?.module_view && (
-          <div className="flex w-full items-center gap-3 min-h-8 h-full">
-            <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-              <DiceIcon className="h-4 w-4 flex-shrink-0" />
-              <span>Module</span>
+          <div className="flex items-center w-full h-full gap-3 min-h-8">
+            <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+              <DiceIcon className="flex-shrink-0 w-4 h-4" />
+              <span>{t("module")}</span>
             </div>
             <IssueModuleSelect
-              className="w-3/4 flex-grow"
+              className="flex-grow w-3/4"
               workspaceSlug={workspaceSlug}
               projectId={projectId}
               issueId={issueId}
@@ -230,13 +232,13 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         )}
 
         {projectDetails?.cycle_view && (
-          <div className="flex w-full items-center gap-3 h-8">
-            <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-              <ContrastIcon className="h-4 w-4 flex-shrink-0" />
-              <span>Cycle</span>
+          <div className="flex items-center w-full h-8 gap-3">
+            <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+              <ContrastIcon className="flex-shrink-0 w-4 h-4" />
+              <span>{t("cycle")}</span>
             </div>
             <IssueCycleSelect
-              className="w-3/4 flex-grow"
+              className="flex-grow w-3/4"
               workspaceSlug={workspaceSlug}
               projectId={projectId}
               issueId={issueId}
@@ -247,13 +249,13 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         )}
 
         {/* parent */}
-        <div className="flex w-full items-center gap-3 h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <LayoutPanelTop className="h-4 w-4 flex-shrink-0" />
-            <p>Parent</p>
+        <div className="flex items-center w-full h-8 gap-3">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <LayoutPanelTop className="flex-shrink-0 w-4 h-4" />
+            <p>{t("parent")}</p>
           </div>
           <IssueParentSelect
-            className="w-3/4 flex-grow h-full"
+            className="flex-grow w-3/4 h-full"
             disabled={disabled}
             issueId={issueId}
             issueOperations={issueOperations}
@@ -264,12 +266,12 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
         {/* relates to */}
         <div className="flex gap-3 min-h-8">
-          <div className="flex pt-2 gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <RelatedIcon className="h-4 w-4 flex-shrink-0" />
-            <span>Relates to</span>
+          <div className="flex flex-shrink-0 w-1/4 gap-1 pt-2 text-sm text-custom-text-300">
+            <RelatedIcon className="flex-shrink-0 w-4 h-4" />
+            <span>{t("relates_to")}</span>
           </div>
           <IssueRelationSelect
-            className="w-3/4 flex-grow min-h-8 h-full"
+            className="flex-grow w-3/4 h-full min-h-8"
             workspaceSlug={workspaceSlug}
             projectId={projectId}
             issueId={issueId}
@@ -280,12 +282,12 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
         {/* blocking */}
         <div className="flex gap-3 min-h-8">
-          <div className="flex pt-2 gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <XCircle className="h-4 w-4 flex-shrink-0" />
-            <span>Blocking</span>
+          <div className="flex flex-shrink-0 w-1/4 gap-1 pt-2 text-sm text-custom-text-300">
+            <XCircle className="flex-shrink-0 w-4 h-4" />
+            <span>{t("blocking")}</span>
           </div>
           <IssueRelationSelect
-            className="w-3/4 flex-grow min-h-8 h-full"
+            className="flex-grow w-3/4 h-full min-h-8"
             workspaceSlug={workspaceSlug}
             projectId={projectId}
             issueId={issueId}
@@ -296,12 +298,12 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
         {/* blocked by */}
         <div className="flex gap-3 min-h-8">
-          <div className="flex pt-2 gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <CircleDot className="h-4 w-4 flex-shrink-0" />
-            <span>Blocked by</span>
+          <div className="flex flex-shrink-0 w-1/4 gap-1 pt-2 text-sm text-custom-text-300">
+            <CircleDot className="flex-shrink-0 w-4 h-4" />
+            <span>{t("blocked_by")}</span>
           </div>
           <IssueRelationSelect
-            className="w-3/4 flex-grow min-h-8 h-full"
+            className="flex-grow w-3/4 h-full min-h-8"
             workspaceSlug={workspaceSlug}
             projectId={projectId}
             issueId={issueId}
@@ -312,12 +314,12 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
 
         {/* duplicate of */}
         <div className="flex gap-3 min-h-8">
-          <div className="flex pt-2 gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <CopyPlus className="h-4 w-4 flex-shrink-0" />
-            <span>Duplicate of</span>
+          <div className="flex flex-shrink-0 w-1/4 gap-1 pt-2 text-sm text-custom-text-300">
+            <CopyPlus className="flex-shrink-0 w-4 h-4" />
+            <span>{t("duplicate_of")}</span>
           </div>
           <IssueRelationSelect
-            className="w-3/4 flex-grow min-h-8 h-full"
+            className="flex-grow w-3/4 h-full min-h-8"
             workspaceSlug={workspaceSlug}
             projectId={projectId}
             issueId={issueId}
@@ -327,12 +329,12 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         </div>
 
         {/* label */}
-        <div className="flex w-full items-center gap-3 min-h-8">
-          <div className="flex items-center gap-1 w-1/4 flex-shrink-0 text-sm text-custom-text-300">
-            <Tag className="h-4 w-4 flex-shrink-0" />
-            <span>Labels</span>
+        <div className="flex items-center w-full gap-3 min-h-8">
+          <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
+            <Tag className="flex-shrink-0 w-4 h-4" />
+            <span>{t("labels")}</span>
           </div>
-          <div className="flex w-full flex-col gap-3">
+          <div className="flex flex-col w-full gap-3">
             <IssueLabel workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} disabled={disabled} />
           </div>
         </div>

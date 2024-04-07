@@ -11,6 +11,7 @@ import { ProjectSettingLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // hooks
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const LabelsSettingsPage: NextPageWithLayout = observer(() => {
   const { currentProjectDetails } = useProject();
@@ -19,7 +20,7 @@ const LabelsSettingsPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="h-full w-full gap-10 overflow-y-auto py-8 pr-9">
+      <div className="w-full h-full gap-10 py-8 overflow-y-auto pr-9">
         <ProjectSettingsLabelList />
       </div>
     </>

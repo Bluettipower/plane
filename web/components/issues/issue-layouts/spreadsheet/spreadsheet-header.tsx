@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 // ui
 import { IIssueDisplayFilterOptions, IIssueDisplayProperties } from "@plane/types";
 import { LayersIcon } from "@plane/ui";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const SpreadsheetHeader = (props: Props) => {
+  const { t } = useTranslation();
   const { displayProperties, displayFilters, handleDisplayFilterUpdate, isEstimateEnabled, spreadsheetColumnsList } =
     props;
 
@@ -32,7 +34,7 @@ export const SpreadsheetHeader = (props: Props) => {
           </WithDisplayPropertiesHOC>
           <span className="flex h-full w-full flex-grow items-center justify-center px-4 py-2.5">
             <LayersIcon className="mr-1.5 h-4 w-4 text-custom-text-400" />
-            Issue
+            {t("issue")}
           </span>
         </th>
 

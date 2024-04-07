@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 
 // ui
 import { PriorityIcon } from "@plane/ui";
@@ -18,6 +19,7 @@ type Props = {
 
 export const FilterPriority: React.FC<Props> = observer((props) => {
   const { appliedFilters, handleUpdate, searchQuery } = props;
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
 
@@ -41,7 +43,7 @@ export const FilterPriority: React.FC<Props> = observer((props) => {
                 isChecked={appliedFilters?.includes(priority.key) ? true : false}
                 onClick={() => handleUpdate(priority.key)}
                 icon={<PriorityIcon priority={priority.key} className="h-3.5 w-3.5" />}
-                title={priority.title}
+                title={t(priority.key)}
               />
             ))
           ) : (

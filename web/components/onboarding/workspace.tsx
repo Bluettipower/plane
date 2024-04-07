@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 import { Control, Controller, FieldErrors, UseFormHandleSubmit, UseFormSetValue } from "react-hook-form";
 import { IUser, IWorkspace, TOnboardingSteps } from "@plane/types";
 // ui
@@ -33,6 +34,7 @@ export const Workspace: React.FC<Props> = (props) => {
   const { updateCurrentUser } = useUser();
   const { createWorkspace, fetchWorkspaces, workspaces } = useWorkspace();
   const { captureWorkspaceEvent } = useEventTracker();
+  const { t } = useTranslation(undefined, { keyPrefix: "event.tracker" });
 
   const handleCreateWorkspace = async (formData: IWorkspace) => {
     if (isSubmitting) return;
@@ -51,7 +53,7 @@ export const Workspace: React.FC<Props> = (props) => {
                 message: "Workspace created successfully.",
               });
               captureWorkspaceEvent({
-                eventName: WORKSPACE_CREATED,
+                eventName: t("workspace.created"),
                 payload: {
                   ...res,
                   state: "SUCCESS",
@@ -64,7 +66,7 @@ export const Workspace: React.FC<Props> = (props) => {
             })
             .catch(() => {
               captureWorkspaceEvent({
-                eventName: WORKSPACE_CREATED,
+                eventName: t("workspace.created"),
                 payload: {
                   state: "FAILED",
                   first_time: true,
@@ -141,7 +143,7 @@ export const Workspace: React.FC<Props> = (props) => {
           )}
         />
         {errors.name && <span className="text-sm text-red-500">{errors.name.message}</span>}
-        <p className="mb-1 mt-4 text-base text-custom-text-400">You can edit the slug.</p>
+        <p className="mt-4 mb-1 text-base text-custom-text-400">You can edit the slug.</p>
         <Controller
           control={control}
           name="slug"
@@ -151,7 +153,7 @@ export const Workspace: React.FC<Props> = (props) => {
                 invalidSlug ? "border-red-500" : "border-onboarding-border-100"
               } `}
             >
-              <span className="whitespace-nowrap text-sm">{window && window.location.host}/</span>
+              <span className="text-sm whitespace-nowrap">{window && window.location.host}/</span>
               <Input
                 id="slug"
                 name="slug"

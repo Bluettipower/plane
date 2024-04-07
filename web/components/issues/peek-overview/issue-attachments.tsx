@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/ui";
 import { IssueAttachmentUpload, IssueAttachmentsList, TAttachmentOperations } from "@/components/issues";
 import { useEventTracker, useIssueDetail } from "@/hooks/store";
+import { useTranslation } from "next-i18next";
 // components
 // ui
 
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const PeekOverviewIssueAttachments: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const { disabled, issueId, projectId, workspaceSlug } = props;
   // store hooks
   const { captureIssueEvent } = useEventTracker();
@@ -93,8 +95,8 @@ export const PeekOverviewIssueAttachments: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <h6 className="text-sm font-medium">Attachments</h6>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 mt-3">
+      <h6 className="text-sm font-medium">{t("attachments")}</h6>
+      <div className="grid grid-cols-1 gap-2 mt-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <IssueAttachmentUpload
           workspaceSlug={workspaceSlug}
           disabled={disabled}

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // ui
 import { Loader } from "@plane/ui";
 // hooks
@@ -9,6 +10,7 @@ import { useUser } from "@/hooks/store";
 // constants
 
 export const ProjectSettingsSidebar = () => {
+  const { t } = useTranslation(undefined, { keyPrefix: "project.settings" });
   const router = useRouter();
   const { workspaceSlug, projectId } = router.query;
   // mobx store
@@ -20,10 +22,10 @@ export const ProjectSettingsSidebar = () => {
 
   if (!currentProjectRole) {
     return (
-      <div className="flex w-80 flex-col gap-6 px-5">
+      <div className="flex flex-col gap-6 px-5 w-80">
         <div className="flex flex-col gap-2">
           <span className="text-xs font-semibold text-custom-sidebar-text-400">SETTINGS</span>
-          <Loader className="flex w-full flex-col gap-2">
+          <Loader className="flex flex-col w-full gap-2">
             {[...Array(8)].map((index) => (
               <Loader.Item key={index} height="34px" />
             ))}
@@ -34,10 +36,10 @@ export const ProjectSettingsSidebar = () => {
   }
 
   return (
-    <div className="flex w-80 flex-col gap-6 px-5">
+    <div className="flex flex-col gap-6 px-5 w-80">
       <div className="flex flex-col gap-2">
         <span className="text-xs font-semibold text-custom-sidebar-text-400">SETTINGS</span>
-        <div className="flex w-full flex-col gap-1">
+        <div className="flex flex-col w-full gap-1">
           {PROJECT_SETTINGS_LINKS.map(
             (link) =>
               projectMemberInfo >= link.access && (
@@ -49,7 +51,7 @@ export const ProjectSettingsSidebar = () => {
                         : "text-custom-sidebar-text-200 hover:bg-custom-sidebar-background-80 focus:bg-custom-sidebar-background-80"
                     }`}
                   >
-                    {link.label}
+                    {t(link.key)}
                   </div>
                 </Link>
               )

@@ -11,6 +11,7 @@ import { ProjectSettingLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // hook
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const StatesSettingsPage: NextPageWithLayout = observer(() => {
   // store
@@ -20,7 +21,7 @@ const StatesSettingsPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="w-full gap-10 overflow-y-auto py-8 pr-9">
+      <div className="w-full gap-10 py-8 overflow-y-auto pr-9">
         <div className="flex items-center border-b border-custom-border-100 py-3.5">
           <h3 className="text-xl font-medium">States</h3>
         </div>
