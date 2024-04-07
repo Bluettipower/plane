@@ -4,7 +4,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next-i18next.config.js"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
@@ -17,6 +17,12 @@
       "@/*": [
         "*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   }
 }

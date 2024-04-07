@@ -37,7 +37,7 @@ export const CycleQuickActions: React.FC<Props> = observer((props) => {
   const { getCycleById, restoreCycle } = useCycle();
   // derived values
   const cycleDetails = getCycleById(cycleId);
-  const isCompleted = cycleDetails?.status.toLowerCase() === "completed";
+  const isCompleted = cycleDetails?.status?.toLowerCase() === "completed";
   // auth
   const isEditingAllowed =
     !!currentWorkspaceAllProjectsRole && currentWorkspaceAllProjectsRole[projectId] >= EUserProjectRoles.MEMBER;
@@ -78,7 +78,7 @@ export const CycleQuickActions: React.FC<Props> = observer((props) => {
           title: "Restore success",
           message: "Your cycle can be found in project cycles.",
         });
-        router.push(`/${workspaceSlug}/projects/${projectId}/cycles/${cycleId}`);
+        router.push(`/${workspaceSlug}/projects/${projectId}/archives/cycles`);
       })
       .catch(() =>
         setToast({

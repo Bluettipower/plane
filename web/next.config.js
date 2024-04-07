@@ -5,6 +5,9 @@ const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
   i18n,
+  reactStrictMode: false,
+  swcMinify: true,
+  output: "standalone",
   async headers() {
     return [
       {
@@ -13,8 +16,6 @@ const nextConfig = {
       },
     ];
   },
-  reactStrictMode: false,
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
@@ -24,7 +25,18 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
-  output: "standalone",
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ]
+  }
 };
 
 if (parseInt(process.env.NEXT_PUBLIC_ENABLE_SENTRY || "0", 10)) {

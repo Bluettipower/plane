@@ -67,13 +67,8 @@ const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success",
-          message:
-            issue &&
-            `${getProjectById(issue.project_id)
-              ?.identifier}-${issue?.sequence_id} is restored successfully under the project ${getProjectById(
-              issue.project_id
-            )?.name}`,
+          title: "Restore success",
+          message: "Your issue can be found in project issues.",
         });
         router.push(`/${workspaceSlug}/projects/${projectId}/issues/${archivedIssueId}`);
       })
@@ -81,7 +76,7 @@ const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
-          message: "Something went wrong. Please try again.",
+          message: "Issue could not be restored. Please try again.",
         });
       })
       .finally(() => setIsRestoring(false));
