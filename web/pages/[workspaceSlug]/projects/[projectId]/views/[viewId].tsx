@@ -16,6 +16,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 import emptyView from "public/empty-state/view.svg";
 // types
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectViewIssuesPage: NextPageWithLayout = observer(() => {
   // router

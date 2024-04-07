@@ -13,6 +13,7 @@ import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
 // layouts
 // hooks
+export {getStaticPaths,getStaticProps} from "@/lib/i18next";
 
 const ProjectIssuesPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const ProjectIssuesPage: NextPageWithLayout = observer(() => {
       <Head>
         <title>{project?.name} - Issues</title>
       </Head>
-      <div className="h-full w-full">
+      <div className="w-full h-full">
         <ProjectLayoutRoot />
       </div>
     </>

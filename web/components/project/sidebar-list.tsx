@@ -2,6 +2,7 @@ import { useState, FC, useRef, useEffect } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { IProject } from "@plane/types";
@@ -25,6 +26,8 @@ export const ProjectSidebarList: FC = observer(() => {
   const [isScrolled, setIsScrolled] = useState(false); // scroll animation state
   // refs
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const { t } = useTranslation();
 
   const {
     theme: { sidebarCollapsed },
@@ -156,7 +159,7 @@ export const ProjectSidebarList: FC = observer(() => {
                                   setIsProjectModalOpen(true);
                                 }}
                               >
-                                <Plus className="h-3 w-3" />
+                                <Plus className="w-3 h-3" />
                               </button>
                             )}
                           </div>
@@ -219,7 +222,7 @@ export const ProjectSidebarList: FC = observer(() => {
                               type="button"
                               className="group flex w-full items-center gap-1 whitespace-nowrap rounded px-1.5 text-left text-sm font-semibold text-custom-sidebar-text-400 hover:bg-custom-sidebar-background-80"
                             >
-                              Your projects
+                              {t("sidebar.your-projects")}
                               {open ? (
                                 <ChevronDown className="h-3.5 w-3.5" />
                               ) : (
@@ -235,7 +238,7 @@ export const ProjectSidebarList: FC = observer(() => {
                                   setIsProjectModalOpen(true);
                                 }}
                               >
-                                <Plus className="h-3 w-3" />
+                                <Plus className="w-3 h-3" />
                               </button>
                             )}
                           </div>
@@ -279,13 +282,13 @@ export const ProjectSidebarList: FC = observer(() => {
         {isAuthorizedUser && joinedProjects && joinedProjects.length === 0 && (
           <button
             type="button"
-            className="flex w-full items-center gap-2 px-3 text-sm text-custom-sidebar-text-200"
+            className="flex items-center w-full gap-2 px-3 text-sm text-custom-sidebar-text-200"
             onClick={() => {
               setTrackElement("Sidebar");
               toggleCreateProjectModal(true);
             }}
           >
-            <Plus className="h-5 w-5" />
+            <Plus className="w-5 h-5" />
             {!isCollapsed && "Add Project"}
           </button>
         )}

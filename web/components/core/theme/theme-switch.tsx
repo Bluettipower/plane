@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "next-i18next";
 // constants
 import { CustomSelect } from "@plane/ui";
 import { THEME_OPTIONS, I_THEME_OPTION } from "@/constants/themes";
@@ -12,6 +13,8 @@ type Props = {
 export const ThemeSwitch: FC<Props> = (props) => {
   const { value, onChange } = props;
 
+  const {t} = useTranslation();
+
   return (
     <CustomSelect
       value={value}
@@ -19,26 +22,26 @@ export const ThemeSwitch: FC<Props> = (props) => {
         value ? (
           <div className="flex items-center gap-2">
             <div
-              className="border-1 relative flex h-4 w-4 rotate-45 transform items-center justify-center rounded-full border"
+              className="relative flex items-center justify-center w-4 h-4 transform rotate-45 border rounded-full border-1"
               style={{
                 borderColor: value.icon.border,
               }}
             >
               <div
-                className="h-full w-1/2 rounded-l-full"
+                className="w-1/2 h-full rounded-l-full"
                 style={{
                   background: value.icon.color1,
                 }}
               />
               <div
-                className="h-full w-1/2 rounded-r-full border-l"
+                className="w-1/2 h-full border-l rounded-r-full"
                 style={{
                   borderLeftColor: value.icon.border,
                   background: value.icon.color2,
                 }}
               />
             </div>
-            {value.label}
+            {t(value.label)}
           </div>
         ) : (
           "Select your theme"
@@ -51,26 +54,26 @@ export const ThemeSwitch: FC<Props> = (props) => {
         <CustomSelect.Option key={themeOption.value} value={themeOption}>
           <div className="flex items-center gap-2">
             <div
-              className="border-1 relative flex h-4 w-4 rotate-45 transform items-center justify-center rounded-full border"
+              className="relative flex items-center justify-center w-4 h-4 transform rotate-45 border rounded-full border-1"
               style={{
                 borderColor: themeOption.icon.border,
               }}
             >
               <div
-                className="h-full w-1/2 rounded-l-full"
+                className="w-1/2 h-full rounded-l-full"
                 style={{
                   background: themeOption.icon.color1,
                 }}
               />
               <div
-                className="h-full w-1/2 rounded-r-full border-l"
+                className="w-1/2 h-full border-l rounded-r-full"
                 style={{
                   borderLeftColor: themeOption.icon.border,
                   background: themeOption.icon.color2,
                 }}
               />
             </div>
-            {themeOption.label}
+            {t(themeOption.label)}
           </div>
         </CustomSelect.Option>
       ))}

@@ -12,6 +12,7 @@ import { DraftIssueLayoutRoot } from "@/components/issues/issue-layouts/roots/dr
 import { useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectDraftIssuesPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -25,16 +26,16 @@ const ProjectDraftIssuesPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="flex h-full w-full flex-col">
+      <div className="flex flex-col w-full h-full">
         <div className="gap-1 flex items-center border-b border-custom-border-200 px-4 py-2.5 shadow-sm">
           <button
             type="button"
             onClick={() => router.push(`/${workspaceSlug}/projects/${projectId}/issues/`)}
             className="flex items-center gap-1.5 rounded-full border border-custom-border-200 px-3 py-1.5 text-xs"
           >
-            <PenSquare className="h-4 w-4" />
+            <PenSquare className="w-4 h-4" />
             <span>Draft Issues</span>
-            <X className="h-3 w-3" />
+            <X className="w-3 h-3" />
           </button>
         </div>
         <DraftIssueLayoutRoot />

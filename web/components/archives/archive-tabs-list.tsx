@@ -2,12 +2,16 @@ import { FC } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // constants
 import { ARCHIVES_TAB_LIST } from "@/constants/archives";
 // hooks
 import { useProject } from "@/hooks/store";
 
 export const ArchiveTabsList: FC = observer(() => {
+
+  const {t} = useTranslation();
+
   // router
   const router = useRouter();
   const { workspaceSlug, projectId } = router.query;
@@ -33,7 +37,7 @@ export const ArchiveTabsList: FC = observer(() => {
                     : "border-transparent hover:border-custom-border-200 text-custom-text-300 hover:text-custom-text-400"
                 }`}
               >
-                {tab.label}
+                {t(tab.label.toLocaleLowerCase())}
               </span>
             </Link>
           )

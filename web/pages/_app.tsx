@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { appWithTranslation } from 'next-i18next'
 import { ThemeProvider } from "next-themes";
 // styles
 import "@/styles/globals.css";
@@ -17,6 +18,7 @@ import { StoreProvider } from "@/contexts/store-context";
 import { AppProvider } from "@/lib/app-provider";
 // types
 import { NextPageWithLayout } from "@/lib/types";
+
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -40,4 +42,4 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

@@ -14,6 +14,7 @@ import { calculateTotalFilters } from "@/helpers/filter.helper";
 import { useModuleFilter, useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectModulesPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -41,9 +42,9 @@ const ProjectModulesPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="h-full w-full flex flex-col">
+      <div className="flex flex-col w-full h-full">
         {calculateTotalFilters(currentProjectFilters ?? {}) !== 0 && (
-          <div className="border-b border-custom-border-200 px-5 py-3">
+          <div className="px-5 py-3 border-b border-custom-border-200">
             <ModuleAppliedFiltersList
               appliedFilters={currentProjectFilters ?? {}}
               handleClearAllFilters={() => clearAllFilters(`${projectId}`)}

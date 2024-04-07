@@ -16,6 +16,7 @@ import { DEFAULT_GLOBAL_VIEWS_LIST } from "@/constants/workspace";
 import { useWorkspace } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticPaths,getStaticProps} from "@/lib/i18next";
 
 const WorkspaceViewsPage: NextPageWithLayout = observer(() => {
   const [query, setQuery] = useState("");
@@ -27,7 +28,7 @@ const WorkspaceViewsPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="flex flex-col h-full w-full overflow-hidden">
+      <div className="flex flex-col w-full h-full overflow-hidden">
         <div className="flex h-11 w-full items-center gap-2.5  px-5 py-3 overflow-hidden border-b border-custom-border-200">
           <Search className="text-custom-text-200" size={14} strokeWidth={2} />
           <Input
@@ -38,7 +39,7 @@ const WorkspaceViewsPage: NextPageWithLayout = observer(() => {
             mode="true-transparent"
           />
         </div>
-        <div className="flex flex-col h-full w-full vertical-scrollbar scrollbar-lg">
+        <div className="flex flex-col w-full h-full vertical-scrollbar scrollbar-lg">
           {DEFAULT_GLOBAL_VIEWS_LIST.filter((v) => v.label.toLowerCase().includes(query.toLowerCase())).map(
             (option) => (
               <GlobalDefaultViewListItem key={option.key} view={option} />

@@ -10,6 +10,7 @@ import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // hooks
+export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 const WorkspaceActiveCyclesPage: NextPageWithLayout = observer(() => {
   const { currentWorkspace } = useWorkspace();

@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { Bell } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 // hooks
@@ -27,6 +28,8 @@ export const NotificationPopover = observer(() => {
   const notificationPopoverRef = React.useRef<HTMLDivElement | null>(null);
   // hooks
   const { isMobile } = usePlatformOS();
+
+  const {t} = useTranslation()
 
   const {
     notifications,
@@ -79,10 +82,10 @@ export const NotificationPopover = observer(() => {
         notification={notifications?.find((notification) => notification.id === selectedNotificationForSnooze) || null}
         onSuccess={() => setSelectedNotificationForSnooze(null)}
       />
-      <Popover ref={notificationPopoverRef} className="md:relative w-full">
+      <Popover ref={notificationPopoverRef} className="w-full md:relative">
         <>
           <Tooltip
-            tooltipContent="Notifications"
+            tooltipContent={t("notifications")}
             position="right"
             className="ml-2"
             disabled={!isSidebarCollapsed}
@@ -100,8 +103,8 @@ export const NotificationPopover = observer(() => {
                 setIsActive(!isActive);
               }}
             >
-              <Bell className="h-4 w-4" />
-              {isSidebarCollapsed ? null : <span>Notifications</span>}
+              <Bell className="w-4 h-4" />
+              {isSidebarCollapsed ? null : <span>{t("notifications")}</span>}
               {totalNotificationCount && totalNotificationCount > 0 ? (
                 isSidebarCollapsed ? (
                   <span className="absolute right-3.5 top-2 h-2 w-2 rounded-full bg-custom-primary-300" />
@@ -163,11 +166,11 @@ export const NotificationPopover = observer(() => {
                       ))}
                     </div>
                     {isLoadingMore && (
-                      <div className="my-6 flex items-center justify-center text-sm">
+                      <div className="flex items-center justify-center my-6 text-sm">
                         <div role="status">
                           <svg
                             aria-hidden="true"
-                            className="mr-2 h-6 w-6 animate-spin fill-blue-600 text-custom-text-200"
+                            className="w-6 h-6 mr-2 animate-spin fill-blue-600 text-custom-text-200"
                             viewBox="0 0 100 101"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +192,7 @@ export const NotificationPopover = observer(() => {
                     {hasMore && !isLoadingMore && (
                       <button
                         type="button"
-                        className="my-6 flex w-full items-center justify-center text-sm font-medium text-custom-primary-100"
+                        className="flex items-center justify-center w-full my-6 text-sm font-medium text-custom-primary-100"
                         disabled={isLoadingMore}
                         onClick={() => {
                           setSize((prev) => prev + 1);
@@ -200,7 +203,7 @@ export const NotificationPopover = observer(() => {
                     )}
                   </div>
                 ) : (
-                  <div className="grid h-full w-full scale-75 place-items-center overflow-hidden">
+                  <div className="grid w-full h-full overflow-hidden scale-75 place-items-center">
                     <EmptyState type={currentTabEmptyState} layout="screen-simple" />
                   </div>
                 )

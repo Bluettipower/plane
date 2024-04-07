@@ -28,6 +28,7 @@ import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // constants
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectCyclesPage: NextPageWithLayout = observer(() => {
   // states
@@ -94,7 +95,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
         ) : (
           <Tab.Group
             as="div"
-            className="flex h-full flex-col overflow-hidden"
+            className="flex flex-col h-full overflow-hidden"
             defaultIndex={CYCLE_TABS_LIST.findIndex((i) => i.key == cycleTab)}
             selectedIndex={CYCLE_TABS_LIST.findIndex((i) => i.key == cycleTab)}
             onChange={(i) => {
@@ -108,7 +109,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
           >
             <CyclesViewHeader projectId={projectId.toString()} />
             {calculateTotalFilters(currentProjectFilters ?? {}) !== 0 && (
-              <div className="border-b border-custom-border-200 px-5 py-3">
+              <div className="px-5 py-3 border-b border-custom-border-200">
                 <CycleAppliedFiltersList
                   appliedFilters={currentProjectFilters ?? {}}
                   handleClearAllFilters={() => clearAllFilters(projectId.toString())}
@@ -117,7 +118,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
               </div>
             )}
             <Tab.Panels as={Fragment}>
-              <Tab.Panel as="div" className="h-full space-y-5 overflow-y-auto p-4 sm:p-5">
+              <Tab.Panel as="div" className="h-full p-4 space-y-5 overflow-y-auto sm:p-5">
                 <ActiveCycleRoot workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
               </Tab.Panel>
               <Tab.Panel as="div" className="h-full overflow-y-auto">

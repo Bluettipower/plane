@@ -16,6 +16,7 @@ import { EmptyStateType } from "@/constants/empty-state";
 import { useApplication, useEventTracker, useProject, useWorkspace } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next"
 
 const AnalyticsPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -34,9 +35,9 @@ const AnalyticsPage: NextPageWithLayout = observer(() => {
     <>
       <PageHead title={pageTitle} />
       {workspaceProjectIds && workspaceProjectIds.length > 0 ? (
-        <div className="flex h-full flex-col overflow-hidden bg-custom-background-100">
+        <div className="flex flex-col h-full overflow-hidden bg-custom-background-100">
           <Tab.Group as={Fragment} defaultIndex={analytics_tab === "custom" ? 1 : 0}>
-            <Tab.List as="div" className="flex space-x-2 border-b border-custom-border-200 px-0 md:px-5 py-0 md:py-3">
+            <Tab.List as="div" className="flex px-0 py-0 space-x-2 border-b border-custom-border-200 md:px-5 md:py-3">
               {ANALYTICS_TABS.map((tab) => (
                 <Tab
                   key={tab.key}

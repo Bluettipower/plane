@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { BarChart2, PanelRight } from "lucide-react";
 // ui
 import { Breadcrumbs } from "@plane/ui";
@@ -13,6 +14,7 @@ export const WorkspaceAnalyticsHeader = observer(() => {
   const router = useRouter();
   const { analytics_tab } = router.query;
 
+  const { t } = useTranslation("common");
   const { theme: themeStore } = useApplication();
 
   useEffect(() => {
@@ -35,13 +37,13 @@ export const WorkspaceAnalyticsHeader = observer(() => {
       <div
         className={`relative z-10 flex h-[3.75rem] w-full flex-shrink-0 flex-row items-center justify-between gap-x-2 gap-y-4 bg-custom-sidebar-background-100 p-4`}
       >
-        <div className="flex w-full flex-grow items-center gap-2 overflow-ellipsis whitespace-nowrap">
+        <div className="flex items-center flex-grow w-full gap-2 overflow-ellipsis whitespace-nowrap">
           <div className="flex items-center justify-between w-full">
             <Breadcrumbs>
               <Breadcrumbs.BreadcrumbItem
                 type="text"
                 link={
-                  <BreadcrumbLink label="Analytics" icon={<BarChart2 className="h-4 w-4 text-custom-text-300" />} />
+                  <BreadcrumbLink label={t("analytics")} icon={<BarChart2 className="w-4 h-4 text-custom-text-300" />} />
                 }
               />
             </Breadcrumbs>

@@ -19,6 +19,7 @@ import { useIssueDetail, useIssues, useProject, useUser } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
   // router
@@ -88,13 +89,13 @@ const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
       <PageHead title={pageTitle} />
       {issueLoader ? (
         <Loader className="flex h-full gap-5 p-5">
-          <div className="basis-2/3 space-y-2">
+          <div className="space-y-2 basis-2/3">
             <Loader.Item height="30px" width="40%" />
             <Loader.Item height="15px" width="60%" />
             <Loader.Item height="15px" width="60%" />
             <Loader.Item height="15px" width="40%" />
           </div>
-          <div className="basis-1/3 space-y-3">
+          <div className="space-y-3 basis-1/3">
             <Loader.Item height="30px" />
             <Loader.Item height="30px" />
             <Loader.Item height="30px" />
@@ -103,11 +104,11 @@ const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
         </Loader>
       ) : (
         <div className="flex h-full overflow-hidden">
-          <div className="h-full w-full space-y-3 divide-y-2 divide-custom-border-200 overflow-y-auto p-5">
+          <div className="w-full h-full p-5 space-y-3 overflow-y-auto divide-y-2 divide-custom-border-200">
             {issue?.archived_at && canRestoreIssue && (
               <div className="flex items-center justify-between gap-2 rounded-md border border-custom-border-200 bg-custom-background-90 px-2.5 py-2 text-sm text-custom-text-200">
                 <div className="flex items-center gap-2">
-                  <ArchiveIcon className="h-4 w-4" />
+                  <ArchiveIcon className="w-4 h-4" />
                   <p>This issue has been archived.</p>
                 </div>
                 <Button

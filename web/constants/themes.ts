@@ -14,7 +14,7 @@ export interface I_THEME_OPTION {
 export const THEME_OPTIONS: I_THEME_OPTION[] = [
   {
     value: "system",
-    label: "System Preference",
+    label: "profile.preferences.theme.system",
     type: "light",
     icon: {
       border: "#DEE2E6",
@@ -24,7 +24,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "light",
-    label: "Light",
+    label: "profile.preferences.theme.light",
     type: "light",
     icon: {
       border: "#DEE2E6",
@@ -34,7 +34,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "dark",
-    label: "Dark",
+    label: "profile.preferences.theme.dark",
     type: "dark",
     icon: {
       border: "#2E3234",
@@ -44,7 +44,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "light-contrast",
-    label: "Light High Contrast",
+    label: "profile.preferences.theme.light-high-contrast",
     type: "light",
     icon: {
       border: "#000000",
@@ -54,7 +54,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "dark-contrast",
-    label: "Dark High Contrast",
+    label: "profile.preferences.theme.dark_high_contrast",
     type: "dark",
     icon: {
       border: "#FFFFFF",
@@ -64,7 +64,7 @@ export const THEME_OPTIONS: I_THEME_OPTION[] = [
   },
   {
     value: "custom",
-    label: "Custom Theming",
+    label: "profile.preferences.theme.custom",
     type: "light",
     icon: {
       border: "#FFC9C9",

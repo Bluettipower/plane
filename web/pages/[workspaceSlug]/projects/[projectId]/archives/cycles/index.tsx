@@ -11,6 +11,7 @@ import { useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectArchivedCyclesPage: NextPageWithLayout = observer(() => {
   // router
@@ -25,7 +26,7 @@ const ProjectArchivedCyclesPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title={pageTitle} />
-      <div className="relative flex h-full w-full flex-col overflow-hidden">
+      <div className="relative flex flex-col w-full h-full overflow-hidden">
         <ArchivedCyclesHeader />
         <ArchivedCycleLayoutRoot />
       </div>

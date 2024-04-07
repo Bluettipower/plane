@@ -23,6 +23,7 @@ import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // constants
+export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const AllPagesList = dynamic<any>(() => import("@/components/pages").then((a) => a.AllPagesList), {
   ssr: false,
@@ -99,7 +100,7 @@ const ProjectPagesPage: NextPageWithLayout = observer(() => {
   const pageTitle = project?.name ? `${project?.name} - Pages` : undefined;
 
   const MobileTabList = () => (
-    <Tab.List as="div" className="flex items-center justify-between border-b border-custom-border-200 px-3 pt-3 mb-4">
+    <Tab.List as="div" className="flex items-center justify-between px-3 pt-3 mb-4 border-b border-custom-border-200">
       <div className="flex flex-wrap items-center gap-4">
         {PAGE_TABS_LIST.map((tab) => (
           <Tab
@@ -131,8 +132,8 @@ const ProjectPagesPage: NextPageWithLayout = observer(() => {
               projectId={projectId.toString()}
             />
           )}
-          <div className="flex h-full flex-col md:space-y-5 overflow-hidden md:py-6">
-            <div className="justify-between gap-4 hidden md:flex px-6">
+          <div className="flex flex-col h-full overflow-hidden md:space-y-5 md:py-6">
+            <div className="justify-between hidden gap-4 px-6 md:flex">
               <h3 className="text-2xl font-semibold text-custom-text-100">Pages</h3>
             </div>
             <Tab.Group
@@ -160,7 +161,7 @@ const ProjectPagesPage: NextPageWithLayout = observer(() => {
               {windowWidth < 768 ? (
                 <MobileTabList />
               ) : (
-                <Tab.List as="div" className="mb-6 items-center justify-between hidden md:flex px-6">
+                <Tab.List as="div" className="items-center justify-between hidden px-6 mb-6 md:flex">
                   <div className="flex flex-wrap items-center gap-4">
                     {PAGE_TABS_LIST.map((tab) => (
                       <Tab
@@ -181,22 +182,22 @@ const ProjectPagesPage: NextPageWithLayout = observer(() => {
               )}
 
               <Tab.Panels as={Fragment}>
-                <Tab.Panel as="div" className="h-full space-y-5 overflow-y-auto vertical-scrollbar scrollbar-lg pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 space-y-5 overflow-y-auto vertical-scrollbar scrollbar-lg">
                   <RecentPagesList />
                 </Tab.Panel>
-                <Tab.Panel as="div" className="h-full overflow-hidden pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 overflow-hidden">
                   <AllPagesList />
                 </Tab.Panel>
-                <Tab.Panel as="div" className="h-full overflow-hidden pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 overflow-hidden">
                   <FavoritePagesList />
                 </Tab.Panel>
-                <Tab.Panel as="div" className="h-full overflow-hidden pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 overflow-hidden">
                   <PrivatePagesList />
                 </Tab.Panel>
-                <Tab.Panel as="div" className="h-full overflow-hidden pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 overflow-hidden">
                   <SharedPagesList />
                 </Tab.Panel>
-                <Tab.Panel as="div" className="h-full overflow-hidden pl-6">
+                <Tab.Panel as="div" className="h-full pl-6 overflow-hidden">
                   <ArchivedPagesList />
                 </Tab.Panel>
               </Tab.Panels>

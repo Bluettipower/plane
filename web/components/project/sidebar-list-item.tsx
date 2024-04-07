@@ -3,6 +3,7 @@ import { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import {
   MoreVertical,
   PenSquare,
@@ -93,6 +94,7 @@ export const ProjectSidebarListItem: React.FC<Props> = observer((props) => {
   const { projectId, provided, snapshot, handleCopyText, shortContextMenu = false, disableDrag } = props;
   // store hooks
   const { theme: themeStore } = useApplication();
+  const {t} = useTranslation();
   const { setTrackElement } = useEventTracker();
   const { addProjectToFavorites, removeProjectFromFavorites, getProjectById } = useProject();
   const { getInboxesByProjectId, getInboxById } = useInbox();
@@ -229,7 +231,7 @@ export const ProjectSidebarListItem: React.FC<Props> = observer((props) => {
                       "justify-center": isCollapsed,
                     })}
                   >
-                    <div className="h-7 w-7 grid place-items-center">
+                    <div className="grid h-7 w-7 place-items-center">
                       <ProjectLogo logo={project.logo_props} />
                     </div>
                     {!isCollapsed && <p className="truncate text-custom-sidebar-text-200">{project.name}</p>}
@@ -285,8 +287,8 @@ export const ProjectSidebarListItem: React.FC<Props> = observer((props) => {
                   {/* publish project settings */}
                   {isAdmin && (
                     <CustomMenu.MenuItem onClick={() => setPublishModal(true)}>
-                      <div className="relative flex flex-shrink-0 items-center justify-start gap-2">
-                        <div className="flex h-4 w-4 cursor-pointer items-center justify-center rounded text-custom-sidebar-text-200 transition-all duration-300 hover:bg-custom-sidebar-background-80">
+                      <div className="relative flex items-center justify-start flex-shrink-0 gap-2">
+                        <div className="flex items-center justify-center w-4 h-4 transition-all duration-300 rounded cursor-pointer text-custom-sidebar-text-200 hover:bg-custom-sidebar-background-80">
                           <Share2 className="h-3.5 w-3.5 stroke-[1.5]" />
                         </div>
                         <div>{project.is_deployed ? "Publish settings" : "Publish"}</div>
@@ -377,7 +379,7 @@ export const ProjectSidebarListItem: React.FC<Props> = observer((props) => {
                           >
                             {item.name === "Inbox" && inboxDetails ? (
                               <>
-                                <div className="flex items-center justify-center relative">
+                                <div className="relative flex items-center justify-center">
                                   {inboxDetails?.pending_issue_count > 0 && (
                                     <span
                                       className={cn(
@@ -397,12 +399,12 @@ export const ProjectSidebarListItem: React.FC<Props> = observer((props) => {
                                   )}
                                   <item.Icon className="h-4 w-4 stroke-[1.5]" />
                                 </div>
-                                {!isCollapsed && item.name}
+                                {!isCollapsed && t(item.name.toLocaleLowerCase())}
                               </>
                             ) : (
                               <>
                                 <item.Icon className="h-4 w-4 stroke-[1.5]" />
-                                {!isCollapsed && item.name}
+                                {!isCollapsed && t(item.name.toLocaleLowerCase())}
                               </>
                             )}
                           </div>
