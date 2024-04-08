@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { add } from "date-fns";
 import { Controller, useForm } from "react-hook-form";
@@ -61,6 +62,7 @@ const getExpiryDate = (val: string): string | null => {
 };
 
 export const CreateApiTokenForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "button" });
   const { handleClose, neverExpires, toggleNeverExpires, onSubmit } = props;
   // states
   const [customDate, setCustomDate] = useState<Date | null>(null);
@@ -146,7 +148,7 @@ export const CreateApiTokenForm: React.FC<Props> = (props) => {
                 onChange={onChange}
                 hasError={Boolean(errors.description)}
                 placeholder="Token description"
-                className="h-24 w-full text-sm"
+                className="w-full h-24 text-sm"
               />
             )}
           />
@@ -166,12 +168,12 @@ export const CreateApiTokenForm: React.FC<Props> = (props) => {
                             neverExpires ? "text-custom-text-400" : ""
                           }`}
                         >
-                          <Calendar className="h-3 w-3" />
+                          <Calendar className="w-3 h-3" />
                           {value === "custom"
                             ? "Custom date"
                             : selectedOption
-                              ? selectedOption.label
-                              : "Set expiration date"}
+                            ? selectedOption.label
+                            : "Set expiration date"}
                         </div>
                       }
                       value={value}
@@ -193,7 +195,7 @@ export const CreateApiTokenForm: React.FC<Props> = (props) => {
                   value={customDate}
                   onChange={(date) => setCustomDate(date)}
                   minDate={tomorrow}
-                  icon={<Calendar className="h-3 w-3" />}
+                  icon={<Calendar className="w-3 h-3" />}
                   buttonVariant="border-with-text"
                   placeholder="Set date"
                   disabled={neverExpires}
@@ -207,23 +209,23 @@ export const CreateApiTokenForm: React.FC<Props> = (props) => {
                     ? `Expires ${renderFormattedDate(customDate)}`
                     : null
                   : watch("expired_at")
-                    ? `Expires ${getExpiryDate(watch("expired_at") ?? "")}`
-                    : null}
+                  ? `Expires ${getExpiryDate(watch("expired_at") ?? "")}`
+                  : null}
               </span>
             )}
           </div>
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 mt-5">
         <div className="flex cursor-pointer items-center gap-1.5" onClick={toggleNeverExpires}>
-          <div className="flex cursor-pointer items-center justify-center">
+          <div className="flex items-center justify-center cursor-pointer">
             <ToggleSwitch value={neverExpires} onChange={() => {}} size="sm" />
           </div>
           <span className="text-xs">Never expires</span>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="neutral-primary" size="sm" onClick={handleClose}>
-            Discard
+            {t("discard")}
           </Button>
           <Button variant="primary" size="sm" type="submit" loading={isSubmitting}>
             {isSubmitting ? "Generating..." : "Generate token"}

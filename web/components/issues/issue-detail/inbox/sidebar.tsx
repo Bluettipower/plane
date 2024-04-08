@@ -57,7 +57,7 @@ export const InboxIssueDetailsSidebar: React.FC<Props> = observer((props) => {
       </div>
 
       <div className="w-full h-full px-5 overflow-y-auto">
-        <h5 className="my-4 text-sm font-medium">{t("properties")}</h5>
+        <h5 className="my-4 text-sm font-medium">{t("issue.properties")}</h5>
         <div className={`divide-y-2 divide-custom-border-200 ${!is_editable ? "opacity-60" : ""}`}>
           <div className="flex flex-col gap-3">
             {/* State */}

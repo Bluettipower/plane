@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "next-i18next";
 // hooks
 import { DoubleCircleIcon } from "@plane/ui";
 import { useIssueDetail } from "@/hooks/store";
@@ -10,6 +11,7 @@ import { IssueActivityBlockComponent, IssueLink } from "./";
 type TIssueStateActivity = { activityId: string; showIssue?: boolean; ends: "top" | "bottom" | undefined };
 
 export const IssueStateActivity: FC<TIssueStateActivity> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.activity" });
   const { activityId, showIssue = true, ends } = props;
   // hooks
   const {
@@ -21,12 +23,12 @@ export const IssueStateActivity: FC<TIssueStateActivity> = observer((props) => {
   if (!activity) return <></>;
   return (
     <IssueActivityBlockComponent
-      icon={<DoubleCircleIcon className="h-4 w-4 flex-shrink-0" />}
+      icon={<DoubleCircleIcon className="flex-shrink-0 w-4 h-4" />}
       activityId={activityId}
       ends={ends}
     >
       <>
-        set the state to <span className="font-medium text-custom-text-100">{activity.new_value}</span>
+        {t("set_state_to")} <span className="font-medium text-custom-text-100">{activity.new_value}</span>
         {showIssue ? ` for ` : ``}
         {showIssue && <IssueLink activityId={activityId} />}.
       </>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import sortBy from "lodash/sortBy";
 import { observer } from "mobx-react";
+import { useTranslation } from "next-i18next";
 import { IState } from "@plane/types";
 // components
 import { Loader, StateGroupIcon } from "@plane/ui";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export const FilterState: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "issue" });
   const { appliedFilters, handleUpdate, searchQuery, states } = props;
 
   const [itemsToRender, setItemsToRender] = useState(5);
@@ -40,7 +42,7 @@ export const FilterState: React.FC<Props> = observer((props) => {
   return (
     <>
       <FilterHeader
-        title={`State${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("state")} ${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />

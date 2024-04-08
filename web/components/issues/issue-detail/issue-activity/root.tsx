@@ -1,5 +1,6 @@
 import { FC, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { History, LucideIcon, MessageCircle, ListRestart } from "lucide-react";
 import { TIssueComment } from "@plane/types";
 // hooks
@@ -44,6 +45,7 @@ export type TActivityOperations = {
 };
 
 export const IssueActivity: FC<TIssueActivity> = observer((props) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.properties" });
   const { workspaceSlug, projectId, issueId, disabled = false } = props;
   // hooks
   const { createComment, updateComment, removeComment } = useIssueDetail();
@@ -58,15 +60,15 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing fields");
           await createComment(workspaceSlug, projectId, issueId, data);
           setToast({
-            title: "Comment created successfully.",
+            title: t("comment.created"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Comment created successfully.",
+            message: t("comment.created"),
           });
         } catch (error) {
           setToast({
-            title: "Comment creation failed.",
+            title: t("comment.failed"),
             type: TOAST_TYPE.ERROR,
-            message: "Comment creation failed. Please try again later.",
+            message: t("comment.failed.description"),
           });
         }
       },
@@ -75,15 +77,15 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing fields");
           await updateComment(workspaceSlug, projectId, issueId, commentId, data);
           setToast({
-            title: "Comment updated successfully.",
+            title: t("comment.updated"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Comment updated successfully.",
+            message: t("comment.updated"),
           });
         } catch (error) {
           setToast({
-            title: "Comment update failed.",
+            title: t("comment.failed"),
             type: TOAST_TYPE.ERROR,
-            message: "Comment update failed. Please try again later.",
+            message: t("comment.failed.description"),
           });
         }
       },
@@ -92,15 +94,15 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing fields");
           await removeComment(workspaceSlug, projectId, issueId, commentId);
           setToast({
-            title: "Comment removed successfully.",
+            title: t("comment.removed"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Comment removed successfully.",
+            message: t("comment.removed"),
           });
         } catch (error) {
           setToast({
-            title: "Comment remove failed.",
+            title: t("comment.failed"),
             type: TOAST_TYPE.ERROR,
-            message: "Comment remove failed. Please try again later.",
+            message: t("comment.failed.description"),
           });
         }
       },
@@ -112,9 +114,9 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
   if (!project) return <></>;
 
   return (
-    <div className="space-y-3 pt-3">
+    <div className="pt-3 space-y-3">
       {/* header */}
-      <div className="text-lg text-custom-text-100">Activity</div>
+      <div className="text-lg text-custom-text-100">{t("activity")}</div>
 
       {/* rendering activity */}
       <div className="space-y-3">
@@ -130,7 +132,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
             }`}
               onClick={() => setActivityTab(tab.key)}
             >
-              <div className="flex-shrink-0 w-4 h-4 flex justify-center items-center">
+              <div className="flex items-center justify-center flex-shrink-0 w-4 h-4">
                 <tab.icon className="w-3 h-3" />
               </div>
               <div className="text-sm">{tab.title}</div>

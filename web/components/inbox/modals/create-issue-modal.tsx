@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { Sparkle } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -38,6 +39,7 @@ const aiService = new AIService();
 const fileService = new FileService();
 
 export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation();
   const { isOpen, onClose } = props;
   // states
   const [createMore, setCreateMore] = useState(false);
@@ -172,11 +174,11 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-custom-backdrop transition-opacity" />
+          <div className="fixed inset-0 transition-opacity bg-custom-backdrop" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="my-10 flex items-center justify-center p-4 text-center sm:p-0 md:my-20">
+          <div className="flex items-center justify-center p-4 my-10 text-center sm:p-0 md:my-20">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -186,7 +188,7 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform rounded-lg bg-custom-background-100 p-5 text-left shadow-custom-shadow-md transition-all sm:w-full sm:max-w-2xl">
+              <Dialog.Panel className="relative p-5 text-left transition-all transform rounded-lg bg-custom-background-100 shadow-custom-shadow-md sm:w-full sm:max-w-2xl">
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                   <div className="space-y-5">
                     <h3 className="text-xl font-semibold leading-6 text-custom-text-100">Create Inbox Issue</h3>
@@ -213,7 +215,7 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
                                 ref={ref}
                                 hasError={Boolean(errors.name)}
                                 placeholder="Title"
-                                className="w-full resize-none text-xl"
+                                className="w-full text-xl resize-none"
                               />
                             )}
                           />
@@ -233,7 +235,7 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
                                   "Generating response..."
                                 ) : (
                                   <>
-                                    <Sparkle className="h-4 w-4" />I{"'"}m feeling lucky
+                                    <Sparkle className="w-4 h-4" />I{"'"}m feeling lucky
                                   </>
                                 )}
                               </button>
@@ -257,7 +259,7 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
                                     className="flex items-center gap-1 rounded px-1.5 py-1 text-xs hover:bg-custom-background-90"
                                     onClick={() => setGptAssistantModal((prevData) => !prevData)}
                                   >
-                                    <Sparkle className="h-4 w-4" />
+                                    <Sparkle className="w-4 h-4" />
                                     AI
                                   </button>
                                 }
@@ -307,9 +309,9 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="-mx-5 mt-5 flex items-center justify-between gap-2 border-t border-custom-border-200 px-5 pt-5">
+                  <div className="flex items-center justify-between gap-2 px-5 pt-5 mt-5 -mx-5 border-t border-custom-border-200">
                     <div
-                      className="flex cursor-pointer items-center gap-1"
+                      className="flex items-center gap-1 cursor-pointer"
                       onClick={() => setCreateMore((prevData) => !prevData)}
                     >
                       <span className="text-xs">Create more</span>
@@ -317,7 +319,7 @@ export const CreateInboxIssueModal: React.FC<Props> = observer((props) => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Button variant="neutral-primary" size="sm" onClick={() => handleClose()}>
-                        Discard
+                        {t("button.discard")}
                       </Button>
                       <Button variant="primary" size="sm" type="submit" loading={isSubmitting}>
                         {isSubmitting ? "Adding Issue..." : "Add Issue"}

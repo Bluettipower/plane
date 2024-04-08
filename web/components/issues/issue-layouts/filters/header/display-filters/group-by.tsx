@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { IIssueDisplayFilterOptions, TIssueGroupByOptions } from "@plane/types";
 // components
 import { FilterHeader, FilterOption } from "@/components/issues";
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const FilterGroupBy: React.FC<Props> = observer((props) => {
+  const { t } = useTranslation("common", { keyPrefix: "issue" });
   const { displayFilters, groupByOptions, handleUpdate, ignoreGroupedFilters } = props;
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
@@ -25,7 +27,7 @@ export const FilterGroupBy: React.FC<Props> = observer((props) => {
   return (
     <>
       <FilterHeader
-        title="Group by"
+        title={t("display.group_by")}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -41,7 +43,7 @@ export const FilterGroupBy: React.FC<Props> = observer((props) => {
                 key={groupBy?.key}
                 isChecked={selectedGroupBy === groupBy?.key ? true : false}
                 onClick={() => handleUpdate(groupBy.key)}
-                title={groupBy.title}
+                title={t(`properties.${groupBy?.key}`)}
                 multiple={false}
               />
             );

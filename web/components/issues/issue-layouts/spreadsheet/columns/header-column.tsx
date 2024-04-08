@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const HeaderColumn = (props: Props) => {
-  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.properties" });
   const { displayFilters, handleDisplayFilterUpdate, property, onClose } = props;
 
   const { storedValue: selectedMenuItem, setValue: setSelectedMenuItem } = useLocalStorage(

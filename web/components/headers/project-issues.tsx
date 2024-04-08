@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Briefcase, Circle, ExternalLink, Plus } from "lucide-react";
 import { IIssueDisplayFilterOptions, IIssueDisplayProperties, IIssueFilterOptions, TIssueLayouts } from "@plane/types";
 // hooks
@@ -29,6 +30,7 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 // helper
 
 export const ProjectIssuesHeader: React.FC = observer(() => {
+  const { t } = useTranslation();
   // states
   const [analyticsModal, setAnalyticsModal] = useState(false);
   // router
@@ -118,7 +120,7 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
       />
       <div className="relative z-[15] items-center gap-x-2 gap-y-4">
         <div className="flex items-center gap-2 p-4 bg-custom-sidebar-background-100">
-          <div className="flex w-full flex-grow items-center gap-2 overflow-ellipsis whitespace-nowrap">
+          <div className="flex items-center flex-grow w-full gap-2 overflow-ellipsis whitespace-nowrap">
             <div className="flex items-center gap-2.5">
               <Breadcrumbs onBack={() => router.back()}>
                 <Breadcrumbs.BreadcrumbItem
@@ -130,13 +132,13 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
                       icon={
                         currentProjectDetails ? (
                           currentProjectDetails && (
-                            <span className="grid place-items-center flex-shrink-0 h-4 w-4">
+                            <span className="grid flex-shrink-0 w-4 h-4 place-items-center">
                               <ProjectLogo logo={currentProjectDetails?.logo_props} className="text-sm" />
                             </span>
                           )
                         ) : (
-                          <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded uppercase">
-                            <Briefcase className="h-4 w-4" />
+                          <span className="grid flex-shrink-0 uppercase rounded h-7 w-7 place-items-center">
+                            <Briefcase className="w-4 h-4" />
                           </span>
                         )
                       }
@@ -147,7 +149,7 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
                 <Breadcrumbs.BreadcrumbItem
                   type="text"
                   link={
-                    <BreadcrumbLink label="Issues" icon={<LayersIcon className="h-4 w-4 text-custom-text-300" />} />
+                    <BreadcrumbLink label="Issues" icon={<LayersIcon className="w-4 h-4 text-custom-text-300" />} />
                   }
                 />
               </Breadcrumbs>
@@ -172,17 +174,17 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
               >
                 <Circle className="h-1.5 w-1.5 fill-custom-primary-100" strokeWidth={2} />
                 Public
-                <ExternalLink className="hidden h-3 w-3 group-hover:block" strokeWidth={2} />
+                <ExternalLink className="hidden w-3 h-3 group-hover:block" strokeWidth={2} />
               </a>
             )}
           </div>
-          <div className="items-center gap-2 hidden md:flex">
+          <div className="items-center hidden gap-2 md:flex">
             <LayoutSelection
               layouts={["list", "kanban", "calendar", "spreadsheet", "gantt_chart"]}
               onChange={(layout) => handleLayoutChange(layout)}
               selectedLayout={activeLayout}
             />
-            <FiltersDropdown title="Filters" placement="bottom-end">
+            <FiltersDropdown title={t("filters")} placement="bottom-end">
               <FilterSelection
                 filters={issueFilters?.filters ?? {}}
                 handleFiltersUpdate={handleFiltersUpdate}
@@ -196,7 +198,7 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
                 moduleViewDisabled={!currentProjectDetails?.module_view}
               />
             </FiltersDropdown>
-            <FiltersDropdown title="Display" placement="bottom-end">
+            <FiltersDropdown title={t("display")} placement="bottom-end">
               <DisplayFiltersSelection
                 layoutDisplayFiltersOptions={
                   activeLayout ? ISSUE_DISPLAY_FILTERS_BY_LAYOUT.issues[activeLayout] : undefined
@@ -219,7 +221,7 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
                 variant="neutral-primary"
                 size="sm"
               >
-                Analytics
+                {t("analytics")}
               </Button>
               <Button
                 onClick={() => {
@@ -229,7 +231,7 @@ export const ProjectIssuesHeader: React.FC = observer(() => {
                 size="sm"
                 prependIcon={<Plus />}
               >
-                <div className="hidden sm:block">Add</div> Issue
+                <div className="hidden sm:block">{t("issue.button.add")}</div>
               </Button>
             </>
           )}

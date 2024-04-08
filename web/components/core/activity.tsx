@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 // store hooks
 // icons
 import {
@@ -269,7 +270,7 @@ const activityDetails: {
             added a new label{" "}
             <span className="inline-flex w-min items-center gap-2 truncate whitespace-nowrap rounded-full border border-custom-border-300 px-2 py-0.5 text-xs">
               <LabelPill labelId={activity.new_identifier ?? ""} workspaceSlug={workspaceSlug} />
-              <span className="flex-shrink truncate font-medium text-custom-text-100">{activity.new_value}</span>
+              <span className="flex-shrink font-medium truncate text-custom-text-100">{activity.new_value}</span>
             </span>
             {showIssue && (
               <span className="">
@@ -285,7 +286,7 @@ const activityDetails: {
             removed the label{" "}
             <span className="inline-flex w-min items-center gap-2 truncate whitespace-nowrap rounded-full border border-custom-border-300 px-2 py-0.5 text-xs">
               <LabelPill labelId={activity.old_identifier ?? ""} workspaceSlug={workspaceSlug} />
-              <span className="flex-shrink truncate font-medium text-custom-text-100">{activity.old_value}</span>
+              <span className="flex-shrink font-medium truncate text-custom-text-100">{activity.old_value}</span>
             </span>
             {showIssue && (
               <span>
@@ -375,7 +376,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/cycles/${activity.new_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.new_value}</span>
             </a>
@@ -389,7 +390,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/cycles/${activity.new_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.new_value}</span>
             </a>
@@ -403,7 +404,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/cycles/${activity.old_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.old_value}</span>
             </a>
@@ -422,7 +423,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/modules/${activity.new_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.new_value}</span>
             </a>
@@ -436,7 +437,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/modules/${activity.new_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.new_value}</span>
             </a>
@@ -450,7 +451,7 @@ const activityDetails: {
               href={`/${workspaceSlug}/projects/${activity.project}/modules/${activity.old_identifier}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 truncate font-medium text-custom-text-100 hover:underline"
+              className="inline-flex items-center gap-1 font-medium truncate text-custom-text-100 hover:underline"
             >
               <span className="truncate">{activity.old_value}</span>
             </a>
@@ -594,17 +595,20 @@ const activityDetails: {
     icon: <CopyPlus size={12} color="#6b7280" />,
   },
   state: {
-    message: (activity, showIssue) => (
-      <>
-        set the state to <span className="font-medium text-custom-text-100">{activity.new_value}</span>
-        {showIssue && (
-          <>
-            {" "}
-            for <IssueLink activity={activity} />
-          </>
-        )}
-      </>
-    ),
+    message: (activity, showIssue) => {
+      const { t } = useTranslation(undefined, { keyPrefix: "issue.activity" });
+      return (
+        <>
+          {t("set_state_to")} <span className="font-medium text-custom-text-100">{activity.new_value}</span>
+          {showIssue && (
+            <>
+              {" "}
+              for <IssueLink activity={activity} />
+            </>
+          )}
+        </>
+      );
+    },
     icon: <LayoutGridIcon size={12} color="#6b7280" aria-hidden="true" />,
   },
   start_date: {

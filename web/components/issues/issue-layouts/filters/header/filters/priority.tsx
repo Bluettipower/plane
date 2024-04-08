@@ -19,7 +19,7 @@ type Props = {
 
 export const FilterPriority: React.FC<Props> = observer((props) => {
   const { appliedFilters, handleUpdate, searchQuery } = props;
-  const { t } = useTranslation(undefined, { keyPrefix: "issue.priorities" });
+  const { t } = useTranslation(undefined, { keyPrefix: "issue" });
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
 
@@ -30,7 +30,7 @@ export const FilterPriority: React.FC<Props> = observer((props) => {
   return (
     <>
       <FilterHeader
-        title={`Priority${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
+        title={`${t("priority")}${appliedFiltersCount > 0 ? ` (${appliedFiltersCount})` : ""}`}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -43,7 +43,7 @@ export const FilterPriority: React.FC<Props> = observer((props) => {
                 isChecked={appliedFilters?.includes(priority.key) ? true : false}
                 onClick={() => handleUpdate(priority.key)}
                 icon={<PriorityIcon priority={priority.key} className="h-3.5 w-3.5" />}
-                title={t(priority.key)}
+                title={t(`priorities.${priority.key}`)}
               />
             ))
           ) : (

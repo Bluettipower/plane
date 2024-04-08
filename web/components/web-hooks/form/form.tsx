@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "next-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { IWebhook, TWebhookEventTypes } from "@plane/types";
 // hooks
@@ -32,6 +33,7 @@ const initialWebhookPayload: Partial<IWebhook> = {
 };
 
 export const WebhookForm: FC<Props> = observer((props) => {
+  const { t } = useTranslation();
   const { data, onSubmit, handleClose } = props;
   // states
   const [webhookEventType, setWebhookEventType] = useState<TWebhookEventTypes>("all");
@@ -92,9 +94,9 @@ export const WebhookForm: FC<Props> = observer((props) => {
             </Button>
           </div>
         ) : (
-          <div className="mt-4 flex justify-end gap-2">
+          <div className="flex justify-end gap-2 mt-4">
             <Button variant="neutral-primary" onClick={handleClose}>
-              Discard
+              {t("button.discard")}
             </Button>
             {!webhookSecretKey && (
               <Button type="submit" variant="primary" loading={isSubmitting}>

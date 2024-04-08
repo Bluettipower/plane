@@ -47,7 +47,7 @@ interface IPeekOverviewProperties {
 }
 
 export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((props) => {
-  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
+  const { t } = useTranslation(undefined, { keyPrefix: "issue.properties" });
   const { workspaceSlug, projectId, issueId, issueOperations, disabled } = props;
   // store hooks
   const { getProjectById } = useProject();

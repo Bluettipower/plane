@@ -757,7 +757,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
 
           <div className="flex items-center gap-2">
             <Button variant="neutral-primary" size="sm" onClick={onClose} tabIndex={getTabIndex("discard_button")}>
-              Discard
+              {t("button.discard")}
             </Button>
 
             {isDraft && (

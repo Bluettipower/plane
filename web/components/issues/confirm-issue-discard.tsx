@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
 
 // headless ui
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export const ConfirmIssueDiscard: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const { isOpen, handleClose, onDiscard, onConfirm } = props;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -40,11 +42,11 @@ export const ConfirmIssueDiscard: React.FC<Props> = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-custom-backdrop transition-opacity" />
+          <div className="fixed inset-0 transition-opacity bg-custom-backdrop" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="my-10 flex items-center justify-center p-4 text-center sm:p-0 md:my-32">
+          <div className="flex items-center justify-center p-4 my-10 text-center sm:p-0 md:my-32">
             <Transition.Child
               as={React.Fragment}
               enter="ease-out duration-300"
@@ -55,7 +57,7 @@ export const ConfirmIssueDiscard: React.FC<Props> = (props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-custom-background-100 text-left shadow-custom-shadow-md transition-all sm:my-8 sm:w-[40rem]">
-                <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-custom-text-100">
@@ -70,7 +72,7 @@ export const ConfirmIssueDiscard: React.FC<Props> = (props) => {
                 <div className="flex justify-between gap-2 p-4 sm:px-6">
                   <div>
                     <Button variant="neutral-primary" size="sm" onClick={onDiscard}>
-                      Discard
+                      {t("button.discard")}
                     </Button>
                   </div>
                   <div className="flex items-center gap-2">

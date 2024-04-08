@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
-  const { t } = useTranslation(undefined, { keyPrefix: "properties" });
+  const { t } = useTranslation(undefined, { keyPrefix: "issue" });
   const { displayProperties, handleUpdate, cycleViewDisabled = false, moduleViewDisabled = false } = props;
 
   const [previewEnabled, setPreviewEnabled] = React.useState(true);
@@ -31,7 +31,7 @@ export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
   return (
     <>
       <FilterHeader
-        title="Display Properties"
+        title={t("display.properties")}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />
@@ -53,7 +53,7 @@ export const FilterDisplayProperties: React.FC<Props> = observer((props) => {
                   })
                 }
               >
-                {t(displayProperty.key)}
+                {t(`properties.${displayProperty.key}`)}
               </button>
             </>
           ))}
