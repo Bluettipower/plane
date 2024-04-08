@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 // store hooks
 // icons
 import {
@@ -595,20 +594,17 @@ const activityDetails: {
     icon: <CopyPlus size={12} color="#6b7280" />,
   },
   state: {
-    message: (activity, showIssue) => {
-      const { t } = useTranslation(undefined, { keyPrefix: "issue.activity" });
-      return (
-        <>
-          {t("set_state_to")} <span className="font-medium text-custom-text-100">{activity.new_value}</span>
-          {showIssue && (
-            <>
-              {" "}
-              for <IssueLink activity={activity} />
-            </>
-          )}
-        </>
-      );
-    },
+    message: (activity, showIssue) => (
+      <>
+        set the state to <span className="font-medium text-custom-text-100">{activity.new_value}</span>
+        {showIssue && (
+          <>
+            {" "}
+            for <IssueLink activity={activity} />
+          </>
+        )}
+      </>
+    ),
     icon: <LayoutGridIcon size={12} color="#6b7280" aria-hidden="true" />,
   },
   start_date: {
