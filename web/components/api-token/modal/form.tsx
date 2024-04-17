@@ -97,7 +97,7 @@ export const CreateApiTokenForm: React.FC<Props> = (props) => {
     else {
       const expiryDate = getExpiryDate(data.expired_at ?? "");
 
-      if (expiryDate) payload.expired_at = renderFormattedPayloadDate(expiryDate);
+      if (expiryDate) payload.expired_at = renderFormattedPayloadDate(new Date(expiryDate));
     }
 
     await onSubmit(payload).then(() => {

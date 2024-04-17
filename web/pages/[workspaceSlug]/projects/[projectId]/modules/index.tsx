@@ -5,11 +5,13 @@ import { TModuleFilters } from "@plane/types";
 // layouts
 // components
 import { PageHead } from "@/components/core";
+import { EmptyState } from "@/components/empty-state";
 import { ModulesListHeader } from "@/components/headers";
 import { ModuleAppliedFiltersList, ModulesListView } from "@/components/modules";
 // types
 // hooks
 import ModulesListMobileHeader from "@/components/modules/moduels-list-mobile-header";
+import { EmptyStateType } from "@/constants/empty-state";
 import { calculateTotalFilters } from "@/helpers/filter.helper";
 import { useModuleFilter, useProject } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
@@ -18,9 +20,9 @@ export {getStaticProps,getStaticPaths} from "@/lib/i18next";
 
 const ProjectModulesPage: NextPageWithLayout = observer(() => {
   const router = useRouter();
-  const { projectId } = router.query;
+  const { workspaceSlug, projectId } = router.query;
   // store
-  const { getProjectById } = useProject();
+  const { getProjectById, currentProjectDetails } = useProject();
   const { currentProjectFilters, clearAllFilters, updateFilters } = useModuleFilter();
   // derived values
   const project = projectId ? getProjectById(projectId.toString()) : undefined;
@@ -38,6 +40,19 @@ const ProjectModulesPage: NextPageWithLayout = observer(() => {
     },
     [currentProjectFilters, projectId, updateFilters]
   );
+
+  if (!workspaceSlug || !projectId) return <></>;
+
+  // No access to
+  if (currentProjectDetails?.module_view === false)
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <EmptyState
+          type={EmptyStateType.DISABLED_PROJECT_MODULE}
+          primaryButtonLink={`/${workspaceSlug}/projects/${projectId}/settings/features`}
+        />
+      </div>
+    );
 
   return (
     <>

@@ -2,14 +2,14 @@ import { FC, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "next-i18next";
 import { History, LucideIcon, MessageCircle, ListRestart } from "lucide-react";
-import { TIssueComment } from "@plane/types";
-// hooks
-import { TOAST_TYPE, setToast } from "@plane/ui";
-import { useIssueDetail, useProject } from "@/hooks/store";
-// ui
-// components
-import { IssueActivityCommentRoot, IssueActivityRoot, IssueCommentRoot, IssueCommentCreate } from "./";
 // types
+import { TIssueComment } from "@plane/types";
+// ui
+import { TOAST_TYPE, setToast } from "@plane/ui";
+// components
+import { IssueActivityCommentRoot, IssueActivityRoot, IssueCommentRoot, IssueCommentCreate } from "@/components/issues";
+// hooks
+import { useIssueDetail, useProject } from "@/hooks/store";
 
 type TIssueActivity = {
   workspaceSlug: string;
@@ -144,6 +144,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
           {activityTab === "all" ? (
             <div className="space-y-3">
               <IssueActivityCommentRoot
+                projectId={projectId}
                 workspaceSlug={workspaceSlug}
                 issueId={issueId}
                 activityOperations={activityOperations}
@@ -152,6 +153,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
               />
               {!disabled && (
                 <IssueCommentCreate
+                  projectId={projectId}
                   workspaceSlug={workspaceSlug}
                   activityOperations={activityOperations}
                   showAccessSpecifier={project.is_deployed}
@@ -163,6 +165,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
           ) : (
             <div className="space-y-3">
               <IssueCommentRoot
+                projectId={projectId}
                 workspaceSlug={workspaceSlug}
                 issueId={issueId}
                 activityOperations={activityOperations}
@@ -171,6 +174,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
               />
               {!disabled && (
                 <IssueCommentCreate
+                  projectId={projectId}
                   workspaceSlug={workspaceSlug}
                   activityOperations={activityOperations}
                   showAccessSpecifier={project.is_deployed}
