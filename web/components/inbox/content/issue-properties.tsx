@@ -2,7 +2,6 @@ import React from "react";
 
 // hooks
 import { observer } from "mobx-react";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { CalendarCheck2, CopyPlus, Signal, Tag } from "lucide-react";
 import { TInboxDuplicateIssueDetails, TIssue } from "@plane/types";
@@ -26,7 +25,6 @@ type Props = {
 
 export const InboxIssueContentProperties: React.FC<Props> = observer((props) => {
   const { workspaceSlug, projectId, issue, issueOperations, isEditable, duplicateIssueDetails } = props;
-  const { t } = useTranslation();
   const router = useRouter();
   // store hooks
   const { currentProjectDetails } = useProject();
