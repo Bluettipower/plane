@@ -37,7 +37,7 @@ export const AppSidebar: FC<IAppSidebar> = observer(() => {
         lg:ml-0 ${themStore.sidebarCollapsed ? "w-[80px]" : "w-[280px]"}
       `}
     >
-      <div ref={ref} className="flex h-full w-full flex-1 flex-col">
+      <div ref={ref} className="flex flex-col flex-1 w-full h-full">
         <WorkspaceSidebarDropdown />
         <WorkspaceSidebarQuickAction />
         <WorkspaceSidebarMenu />
