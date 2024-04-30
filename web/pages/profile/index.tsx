@@ -175,7 +175,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
             )}
           />
           <DeactivateAccountModal isOpen={deactivateAccountModal} onClose={() => setDeactivateAccountModal(false)} />
-          <div className="flex flex-col w-full h-full px-8 pt-10 pb-8 mx-auto space-y-10 overflow-y-auto vertical-scrollbar scrollbar-md md:pt-16 lg:w-3/5">
+          <div className="flex flex-col w-full h-full px-4 pt-10 pb-8 mx-auto space-y-10 overflow-y-auto vertical-scrollbar scrollbar-md md:px-8 md:pt-16 lg:w-3/5">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col w-full gap-8">
                 <div className="relative w-full h-44">
@@ -225,7 +225,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                   </div>
                 </div>
 
-                <div className="flex justify-between px-8 mt-4 item-center">
+                <div className="flex justify-between mt-4 item-center md:px-8">
                   <div className="flex flex-col">
                     <div className="flex text-lg font-semibold item-center text-custom-text-100">
                       <span>{`${watch("first_name")} ${watch("last_name")}`}</span>
@@ -241,7 +241,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
             </Link> */}
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 px-8 lg:grid-cols-2 2xl:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:px-8 lg:grid-cols-2 2xl:grid-cols-3">
                   <div className="flex flex-col gap-1">
                     <h4 className="text-sm">
                       {t("profile.profile.first-name")}
@@ -431,7 +431,7 @@ const ProfileSettingsPage: NextPageWithLayout = observer(() => {
                 </div>
               </div>
             </form>
-            <Disclosure as="div" className="px-8 border-t border-custom-border-100">
+            <Disclosure as="div" className="border-t border-custom-border-100 md:px-8">
               {({ open }) => (
                 <>
                   <Disclosure.Button

@@ -1,13 +1,16 @@
 import { observer } from "mobx-react";
-import { Clipboard, Copy, Link, Lock } from "lucide-react";
+import { ArchiveRestoreIcon, Clipboard, Copy, Link, Lock, LockOpen } from "lucide-react";
 // document editor
 import { EditorReadOnlyRefApi, EditorRefApi } from "@plane/document-editor";
 // ui
 import { ArchiveIcon, CustomMenu, TOAST_TYPE, ToggleSwitch, setToast } from "@plane/ui";
+// constants
+import { EUserProjectRoles } from "@/constants/project";
 // helpers
+import { cn } from "@/helpers/common.helper";
 import { copyTextToClipboard, copyUrlToClipboard } from "@/helpers/string.helper";
 // hooks
-import { useApplication } from "@/hooks/store";
+import { useApplication, useUser } from "@/hooks/store";
 // store
 import { IPageStore } from "@/store/pages/page.store";
 
@@ -21,6 +24,9 @@ export const PageOptionsDropdown: React.FC<Props> = observer((props) => {
   const { editorRef, handleDuplicatePage, pageStore } = props;
   // store values
   const {
+    archived_at,
+    is_locked,
+    id,
     archive,
     lock,
     unlock,
@@ -35,6 +41,11 @@ export const PageOptionsDropdown: React.FC<Props> = observer((props) => {
   const {
     router: { workspaceSlug, projectId },
   } = useApplication();
+  const {
+    membership: { currentProjectRole },
+  } = useUser();
+  // auth
+  const isEditingAllowed = !!currentProjectRole && currentProjectRole >= EUserProjectRoles.MEMBER;
 
   const handleArchivePage = async () =>
     await archive().catch(() =>
@@ -99,7 +110,7 @@ export const PageOptionsDropdown: React.FC<Props> = observer((props) => {
     {
       key: "copy-page-link",
       action: () => {
-        copyUrlToClipboard(`${workspaceSlug}/projects/${projectId}/pages/${pageStore.id}`).then(() =>
+        copyUrlToClipboard(`${workspaceSlug}/projects/${projectId}/pages/${id}`).then(() =>
           setToast({
             type: TOAST_TYPE.SUCCESS,
             title: "Successful!",
@@ -119,54 +130,48 @@ export const PageOptionsDropdown: React.FC<Props> = observer((props) => {
       shouldRender: canCurrentUserDuplicatePage,
     },
     {
-      key: "lock-page",
-      action: handleLockPage,
-      label: "Lock page",
-      icon: Lock,
-      shouldRender: !pageStore.is_locked && canCurrentUserLockPage,
+      key: "lock-unlock-page",
+      action: is_locked ? handleUnlockPage : handleLockPage,
+      label: is_locked ? "Unlock page" : "Lock page",
+      icon: is_locked ? LockOpen : Lock,
+      shouldRender: canCurrentUserLockPage,
     },
     {
-      key: "unlock-page",
-      action: handleUnlockPage,
-      label: "Unlock page",
-      icon: Lock,
-      shouldRender: pageStore.is_locked && canCurrentUserLockPage,
-    },
-    {
-      key: "archive-page",
-      action: handleArchivePage,
-      label: "Archive page",
-      icon: ArchiveIcon,
-      shouldRender: !pageStore.archived_at && canCurrentUserArchivePage,
-    },
-    {
-      key: "restore-page",
-      action: handleRestorePage,
-      label: "Restore page",
-      icon: ArchiveIcon,
-      shouldRender: !!pageStore.archived_at && canCurrentUserArchivePage,
+      key: "archive-restore-page",
+      action: archived_at ? handleRestorePage : handleArchivePage,
+      label: archived_at ? "Restore page" : "Archive page",
+      icon: archived_at ? ArchiveRestoreIcon : ArchiveIcon,
+      shouldRender: canCurrentUserArchivePage,
     },
   ];
 
   return (
     <CustomMenu maxHeight="md" placement="bottom-start" verticalEllipsis closeOnSelect>
       <CustomMenu.MenuItem
-        className="flex w-full items-center justify-between gap-2"
+        className="hidden md:flex w-full items-center justify-between gap-2"
         onClick={() =>
           updateViewProps({
             full_width: !view_props?.full_width,
           })
         }
+        disabled={!isEditingAllowed}
       >
         Full width
-        <ToggleSwitch value={!!view_props?.full_width} onChange={() => {}} />
+        <ToggleSwitch
+          value={!!view_props?.full_width}
+          onChange={() => {}}
+          className={cn({
+            "opacity-40": !isEditingAllowed,
+          })}
+          disabled={!isEditingAllowed}
+        />
       </CustomMenu.MenuItem>
       {MENU_ITEMS.map((item) => {
         if (!item.shouldRender) return null;
         return (
           <CustomMenu.MenuItem key={item.key} onClick={item.action} className="flex items-center gap-2">
             <item.icon className="h-3 w-3" />
-            <div className="text-custom-text-300">{item.label}</div>
+            {item.label}
           </CustomMenu.MenuItem>
         );
       })}
