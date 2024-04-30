@@ -14,7 +14,7 @@ import { FiltersDropdown } from "@/components/issues";
 import { ProjectFiltersSelection, ProjectOrderByDropdown } from "@/components/project";
 import { EUserWorkspaceRoles } from "@/constants/workspace";
 import { cn } from "@/helpers/common.helper";
-import { useApplication, useEventTracker, useMember, useProject, useProjectFilter, useUser } from "@/hooks/store";
+import { useApplication, useEventTracker, useMember, useProjectFilter, useUser } from "@/hooks/store";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 
 export const ProjectsHeader = observer(() => {
@@ -32,7 +32,6 @@ export const ProjectsHeader = observer(() => {
   const {
     membership: { currentWorkspaceRole },
   } = useUser();
-  const { workspaceProjectIds } = useProject();
   const {
     currentWorkspaceDisplayFilters: displayFilters,
     currentWorkspaceFilters: filters,
@@ -54,16 +53,19 @@ export const ProjectsHeader = observer(() => {
   const handleFilters = useCallback(
     (key: keyof TProjectFilters, value: string | string[]) => {
       if (!workspaceSlug) return;
-      const newValues = filters?.[key] ?? [];
-
-      if (Array.isArray(value))
+      let newValues = filters?.[key] ?? [];
+      if (Array.isArray(value)) {
+        if (key === "created_at" && newValues.find((v) => v.includes("custom"))) newValues = [];
         value.forEach((val) => {
           if (!newValues.includes(val)) newValues.push(val);
           else newValues.splice(newValues.indexOf(val), 1);
         });
-      else {
+      } else {
         if (filters?.[key]?.includes(value)) newValues.splice(newValues.indexOf(value), 1);
-        else newValues.push(value);
+        else {
+          if (key === "created_at") newValues = [value];
+          else newValues.push(value);
+        }
       }
 
       updateFilters(workspaceSlug, { [key]: newValues });
@@ -93,73 +95,73 @@ export const ProjectsHeader = observer(() => {
         </div>
       </div>
       <div className="flex items-center justify-end w-full gap-3">
-        {workspaceProjectIds && workspaceProjectIds?.length > 0 && (
-          <div className="flex items-center">
-            {!isSearchOpen && (
-              <button
-                type="button"
-                className="grid p-2 -mr-1 rounded hover:bg-custom-background-80 text-custom-text-400 place-items-center"
-                onClick={() => {
-                  setIsSearchOpen(true);
-                  inputRef.current?.focus();
-                }}
-              >
-                <Search className="h-3.5 w-3.5" />
-              </button>
-            )}
-            <div
-              className={cn(
-                "ml-auto flex items-center justify-start gap-1 rounded-md border border-transparent bg-custom-background-100 text-custom-text-400 w-0 transition-[width] ease-linear overflow-hidden opacity-0",
-                {
-                  "w-64 px-2.5 py-1.5 border-custom-border-200 opacity-100": isSearchOpen,
-                }
-              )}
+        <div className="flex items-center">
+          {!isSearchOpen && (
+            <button
+              type="button"
+              className="grid p-2 -mr-1 rounded hover:bg-custom-background-80 text-custom-text-400 place-items-center"
+              onClick={() => {
+                setIsSearchOpen(true);
+                inputRef.current?.focus();
+              }}
             >
               <Search className="h-3.5 w-3.5" />
-              <input
-                ref={inputRef}
-                className="w-full max-w-[234px] border-none bg-transparent text-sm text-custom-text-100 focus:outline-none"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => updateSearchQuery(e.target.value)}
-                onKeyDown={handleInputKeyDown}
-              />
-              {isSearchOpen && (
-                <button
-                  type="button"
-                  className="grid place-items-center"
-                  onClick={() => {
-                    updateSearchQuery("");
-                    setIsSearchOpen(false);
-                  }}
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              )}
-            </div>
+            </button>
+          )}
+          <div
+            className={cn(
+              "ml-auto flex items-center justify-start gap-1 rounded-md border border-transparent bg-custom-background-100 text-custom-text-400 w-0 transition-[width] ease-linear overflow-hidden opacity-0",
+              {
+                "w-30 md:w-64 px-2.5 py-1.5 border-custom-border-200 opacity-100": isSearchOpen,
+              }
+            )}
+          >
+            <Search className="h-3.5 w-3.5" />
+            <input
+              ref={inputRef}
+              className="w-full max-w-[234px] border-none bg-transparent text-sm text-custom-text-100 placeholder:text-custom-text-400 focus:outline-none"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => updateSearchQuery(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+            />
+            {isSearchOpen && (
+              <button
+                type="button"
+                className="grid place-items-center"
+                onClick={() => {
+                  updateSearchQuery("");
+                  setIsSearchOpen(false);
+                }}
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
           </div>
-        )}
-        <ProjectOrderByDropdown
-          value={displayFilters?.order_by}
-          onChange={(val) => {
-            if (!workspaceSlug || val === displayFilters?.order_by) return;
-            updateDisplayFilters(workspaceSlug, {
-              order_by: val,
-            });
-          }}
-        />
-        <FiltersDropdown icon={<ListFilter className="w-3 h-3" />} title="Filters" placement="bottom-end">
-          <ProjectFiltersSelection
-            displayFilters={displayFilters ?? {}}
-            filters={filters ?? {}}
-            handleFiltersUpdate={handleFilters}
-            handleDisplayFiltersUpdate={(val) => {
-              if (!workspaceSlug) return;
-              updateDisplayFilters(workspaceSlug, val);
+        </div>
+        <div className="hidden gap-3 md:flex">
+          <ProjectOrderByDropdown
+            value={displayFilters?.order_by}
+            onChange={(val) => {
+              if (!workspaceSlug || val === displayFilters?.order_by) return;
+              updateDisplayFilters(workspaceSlug, {
+                order_by: val,
+              });
             }}
-            memberIds={workspaceMemberIds ?? undefined}
           />
-        </FiltersDropdown>
+          <FiltersDropdown icon={<ListFilter className="w-3 h-3" />} title="Filters" placement="bottom-end">
+            <ProjectFiltersSelection
+              displayFilters={displayFilters ?? {}}
+              filters={filters ?? {}}
+              handleFiltersUpdate={handleFilters}
+              handleDisplayFiltersUpdate={(val) => {
+                if (!workspaceSlug) return;
+                updateDisplayFilters(workspaceSlug, val);
+              }}
+              memberIds={workspaceMemberIds ?? undefined}
+            />
+          </FiltersDropdown>
+        </div>
         {isAuthorizedUser && (
           <Button
             prependIcon={<Plus />}

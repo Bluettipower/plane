@@ -11,7 +11,7 @@ import { ProfilePreferenceSettingsLayout } from "@/layouts/settings-layout/profi
 import { NextPageWithLayout } from "@/lib/types";
 import { UserService } from "@/services/user.service";
 // type
-export {getStaticProps} from "@/lib/i18next";
+export { getStaticProps } from "@/lib/i18next";
 
 // services
 const userService = new UserService();
@@ -29,7 +29,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = () => {
   return (
     <>
       <PageHead title="Profile - Email Preference" />
-      <div className="w-full h-full px-6 pb-8 mx-auto mt-8 lg:px-20 vertical-scrollbar scrollbar-md">
+      <div className="w-full h-full px-4 pb-8 mx-auto mt-8 md:px-6 lg:px-20 vertical-scrollbar scrollbar-md">
         <EmailNotificationForm data={data} />
       </div>
     </>

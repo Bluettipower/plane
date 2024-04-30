@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 // ui
 import { Spinner, setPromiseToast } from "@plane/ui";
 // components
-import { CustomThemeSelector, ThemeSwitch, PageHead,LanguageSwitch} from "@/components/core";
+import { CustomThemeSelector, ThemeSwitch, PageHead, LanguageSwitch } from "@/components/core";
 // constants
 import { I_THEME_OPTION, THEME_OPTIONS } from "@/constants/themes";
 // hooks
@@ -14,7 +14,7 @@ import { useUser } from "@/hooks/store";
 import { ProfilePreferenceSettingsLayout } from "@/layouts/settings-layout/profile/preferences";
 // type
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps} from "@/lib/i18next";
+export { getStaticProps } from "@/lib/i18next";
 
 const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
   // states
@@ -25,7 +25,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
   const userTheme = currentUser?.theme;
   // hooks
   const { setTheme } = useTheme();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userTheme) {
@@ -57,7 +57,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
     <>
       <PageHead title="Profile - Theme Prefrence" />
       {currentUser ? (
-        <div className="w-full h-full px-6 pb-8 mx-auto mt-10 overflow-y-auto md:mt-14 lg:px-20 vertical-scrollbar scrollbar-md">
+        <div className="w-full h-full px-4 pb-8 mx-auto mt-10 overflow-y-auto md:px-6 md:mt-14 lg:px-20 vertical-scrollbar scrollbar-md">
           <div className="flex items-center border-b border-custom-border-100 pb-3.5">
             <h3 className="text-xl font-medium">{t("profile.preferences")}</h3>
           </div>
@@ -67,7 +67,7 @@ const ProfilePreferencesThemePage: NextPageWithLayout = observer(() => {
               <p className="text-sm text-custom-text-200">{t("profile.preferences.language.description")}</p>
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <LanguageSwitch value={""} onChange={()=>{}} />
+              <LanguageSwitch value={""} onChange={() => {}} />
             </div>
           </div>
           <div className="grid grid-cols-12 gap-4 py-6 sm:gap-16">

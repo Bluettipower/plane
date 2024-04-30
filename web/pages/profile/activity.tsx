@@ -12,7 +12,7 @@ import { ProfileSettingsLayout } from "@/layouts/settings-layout";
 // ui
 // type
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps} from "@/lib/i18next";
+export { getStaticProps } from "@/lib/i18next";
 
 const PER_PAGE = 100;
 
@@ -47,8 +47,8 @@ const ProfileActivityPage: NextPageWithLayout = observer(() => {
   return (
     <>
       <PageHead title="Profile - Activity" />
-      <section className="flex flex-col w-full h-full px-8 pb-8 mx-auto overflow-hidden lg:w-3/5">
-        <div className="flex items-center border-b border-custom-border-100 gap-4 pb-3.5 mt-5 md:mt-16">
+      <section className="flex flex-col w-full h-full px-5 pb-8 mx-auto mt-5 overflow-hidden md:mt-16 md:px-8 lg:w-3/5">
+        <div className="flex items-center border-b border-custom-border-100 gap-4 pb-3.5">
           <SidebarHamburgerToggle onClick={() => themeStore.toggleSidebar()} />
           <h3 className="text-xl font-medium">Activity</h3>
         </div>

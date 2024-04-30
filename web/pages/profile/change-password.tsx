@@ -15,7 +15,7 @@ import { ProfileSettingsLayout } from "@/layouts/settings-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
 import { UserService } from "@/services/user.service";
-export {getStaticProps} from "@/lib/i18next";
+export { getStaticProps } from "@/lib/i18next";
 
 interface FormValues {
   old_password: string;
@@ -92,7 +92,7 @@ const ChangePasswordPage: NextPageWithLayout = observer(() => {
         </div>
         <form
           onSubmit={handleSubmit(handleChangePassword)}
-          className="flex flex-col w-full h-full gap-8 px-8 pb-8 mx-auto mt-16 lg:w-3/5"
+          className="flex flex-col w-full h-full gap-8 px-4 pb-8 mx-auto mt-10 md:mt-16 md:px-8 lg:w-3/5"
         >
           <h3 className="text-xl font-medium">Change password</h3>
           <div className="grid items-center justify-between w-full grid-cols-1 gap-10 grid-col xl:grid-cols-2 2xl:grid-cols-3">

@@ -192,6 +192,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
 
     reset({
       ...defaultValues,
+      ...(isCreateMoreToggleEnabled ? { ...data } : {}),
       project_id: getValues("project_id"),
       description_html: data?.description_html ?? "<p></p>",
     });
@@ -392,6 +393,8 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                   />
                 )}
               />
+              <span className="text-xs text-red-500">{errors?.name?.message}</span>
+
               <div className="relative">
                 {data?.description_html === undefined ? (
                   <Loader className="min-h-[7rem] space-y-2 overflow-hidden rounded-md border border-custom-border-200 p-2 py-2">
@@ -722,7 +725,7 @@ export const IssueFormRoot: FC<IssueFormProps> = observer((props) => {
                         setSelectedParentIssue(issue);
                       }}
                       projectId={projectId}
-                      issueId={data?.id}
+                      issueId={isDraft ? undefined : data?.id}
                     />
                   )}
                 />

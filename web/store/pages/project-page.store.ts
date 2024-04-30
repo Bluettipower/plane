@@ -1,6 +1,6 @@
 import set from "lodash/set";
 import unset from "lodash/unset";
-import { makeObservable, observable, runInAction, action } from "mobx";
+import { makeObservable, observable, runInAction, action, reaction } from "mobx";
 import { computedFn } from "mobx-utils";
 // types
 import { TPage, TPageFilters, TPageNavigationTabs } from "@plane/types";
@@ -64,8 +64,16 @@ export class ProjectPageStore implements IProjectPageStore {
       createPage: action,
       removePage: action,
     });
-
+    // service
     this.service = new PageService();
+    // initialize display filters of the current project
+    reaction(
+      () => this.store.app.router.projectId,
+      (projectId) => {
+        if (!projectId) return;
+        this.filters.searchQuery = "";
+      }
+    );
   }
 
   /**
@@ -148,7 +156,7 @@ export class ProjectPageStore implements IProjectPageStore {
       });
 
       return pages;
-    } catch {
+    } catch (error) {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
@@ -156,6 +164,7 @@ export class ProjectPageStore implements IProjectPageStore {
           description: "Failed to fetch the pages, Please try again later.",
         };
       });
+      throw error;
     }
   };
 
@@ -181,7 +190,7 @@ export class ProjectPageStore implements IProjectPageStore {
       });
 
       return page;
-    } catch {
+    } catch (error) {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
@@ -189,6 +198,7 @@ export class ProjectPageStore implements IProjectPageStore {
           description: "Failed to fetch the page, Please try again later.",
         };
       });
+      throw error;
     }
   };
 
@@ -213,7 +223,7 @@ export class ProjectPageStore implements IProjectPageStore {
       });
 
       return page;
-    } catch {
+    } catch (error) {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
@@ -221,6 +231,7 @@ export class ProjectPageStore implements IProjectPageStore {
           description: "Failed to create a page, Please try again later.",
         };
       });
+      throw error;
     }
   };
 
@@ -235,7 +246,7 @@ export class ProjectPageStore implements IProjectPageStore {
 
       await this.service.remove(workspaceSlug, projectId, pageId);
       runInAction(() => unset(this.data, [pageId]));
-    } catch {
+    } catch (error) {
       runInAction(() => {
         this.loader = undefined;
         this.error = {
@@ -243,6 +254,7 @@ export class ProjectPageStore implements IProjectPageStore {
           description: "Failed to delete a page, Please try again later.",
         };
       });
+      throw error;
     }
   };
 }
