@@ -1,5 +1,5 @@
 import React from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Tab } from "@headlessui/react";
 import { ICycle, IModule, IProject } from "@plane/types";
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const ProjectAnalyticsModalMainContent: React.FC<Props> = observer((props) => {
-  const { t } = useTranslation(undefined,{keyPrefix:"analytics.project-modal.main_content"});
+  const { t } = useTranslation(undefined, { keyPrefix: "analytics.project-modal.main_content" });
   const { fullScreen, cycleDetails, moduleDetails } = props;
 
   return (

@@ -1,7 +1,7 @@
 import set from "lodash/set";
 import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 // types
-import { TPage, TPageViewProps } from "@plane/types";
+import { TPage } from "@plane/types";
 // constants
 import { EPageAccess } from "@/constants/page";
 import { EUserProjectRoles } from "@/constants/project";
@@ -33,7 +33,6 @@ export interface IPageStore extends TPage {
   cleanup: () => void;
   // actions
   update: (pageData: Partial<TPage>) => Promise<TPage | undefined>;
-  updateViewProps: (viewProps: Partial<TPageViewProps>) => void;
   makePublic: () => Promise<void>;
   makePrivate: () => Promise<void>;
   lock: () => Promise<void>;
@@ -65,7 +64,6 @@ export class PageStore implements IPageStore {
   updated_by: string | undefined;
   created_at: Date | undefined;
   updated_at: Date | undefined;
-  view_props: TPageViewProps | undefined;
   // helpers
   oldName: string = "";
   // reactions
@@ -78,7 +76,7 @@ export class PageStore implements IPageStore {
     page: TPage
   ) {
     this.id = page?.id || undefined;
-    this.name = page?.name || undefined;
+    this.name = page?.name;
     this.description_html = page?.description_html || undefined;
     this.color = page?.color || undefined;
     this.labels = page?.labels || undefined;
@@ -93,7 +91,6 @@ export class PageStore implements IPageStore {
     this.updated_by = page?.updated_by || undefined;
     this.created_at = page?.created_at || undefined;
     this.updated_at = page?.updated_at || undefined;
-    this.view_props = page?.view_props || undefined;
     this.oldName = page?.name || "";
 
     makeObservable(this, {
@@ -117,7 +114,6 @@ export class PageStore implements IPageStore {
       updated_by: observable.ref,
       created_at: observable.ref,
       updated_at: observable.ref,
-      view_props: observable,
       // helpers
       oldName: observable,
       // computed
@@ -137,7 +133,6 @@ export class PageStore implements IPageStore {
       cleanup: action,
       // actions
       update: action,
-      updateViewProps: action,
       makePublic: action,
       makePrivate: action,
       lock: action,
@@ -153,7 +148,7 @@ export class PageStore implements IPageStore {
     const titleDisposer = reaction(
       () => this.name,
       (name) => {
-        const { workspaceSlug, projectId } = this.store.app.router;
+        const { workspaceSlug, projectId } = this.store.router;
         if (!workspaceSlug || !projectId || !this.id) return;
         this.isSubmitting = "submitting";
         this.pageService
@@ -178,7 +173,7 @@ export class PageStore implements IPageStore {
       () => this.description_html,
       (description_html) => {
         //TODO: Fix reaction to only run when the data is changed, not when the page is loaded
-        const { workspaceSlug, projectId } = this.store.app.router;
+        const { workspaceSlug, projectId } = this.store.router;
         if (!workspaceSlug || !projectId || !this.id) return;
         this.isSubmitting = "submitting";
         this.pageService
@@ -216,12 +211,11 @@ export class PageStore implements IPageStore {
       updated_by: this.updated_by,
       created_at: this.created_at,
       updated_at: this.updated_at,
-      view_props: this.view_props,
     };
   }
 
   get isCurrentUserOwner() {
-    const currentUserId = this.store.user.currentUser?.id;
+    const currentUserId = this.store.user.data?.id;
     if (!currentUserId) return false;
     return this.owned_by === currentUserId;
   }
@@ -314,7 +308,7 @@ export class PageStore implements IPageStore {
    * @param {Partial<TPage>} pageData
    */
   update = async (pageData: Partial<TPage>) => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const currentPage = this.asJSON;
@@ -339,42 +333,10 @@ export class PageStore implements IPageStore {
   };
 
   /**
-   * @description update the page view props
-   * @param {Partial<TPageViewProps>} updatedProps
-   */
-  updateViewProps = async (updatedProps: Partial<TPageViewProps>) => {
-    const { workspaceSlug, projectId } = this.store.app.router;
-    if (!workspaceSlug || !projectId || !this.id) return undefined;
-
-    const currentViewProps = { ...this.view_props };
-
-    runInAction(() => {
-      Object.keys(updatedProps).forEach((key) => {
-        const currentPageKey = key as keyof TPageViewProps;
-        if (this.view_props) set(this.view_props, key, updatedProps[currentPageKey]);
-      });
-    });
-
-    try {
-      await this.pageService.update(workspaceSlug, projectId, this.id, {
-        view_props: {
-          ...this.view_props,
-          ...updatedProps,
-        },
-      });
-    } catch (error) {
-      runInAction(() => {
-        this.view_props = currentViewProps;
-      });
-      throw error;
-    }
-  };
-
-  /**
    * @description make the page public
    */
   makePublic = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageAccess = this.access;
@@ -396,7 +358,7 @@ export class PageStore implements IPageStore {
    * @description make the page private
    */
   makePrivate = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageAccess = this.access;
@@ -418,7 +380,7 @@ export class PageStore implements IPageStore {
    * @description lock the page
    */
   lock = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageIsLocked = this.is_locked;
@@ -436,7 +398,7 @@ export class PageStore implements IPageStore {
    * @description unlock the page
    */
   unlock = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageIsLocked = this.is_locked;
@@ -454,7 +416,7 @@ export class PageStore implements IPageStore {
    * @description archive the page
    */
   archive = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     try {
@@ -471,7 +433,7 @@ export class PageStore implements IPageStore {
    * @description restore the page
    */
   restore = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     try {
@@ -488,7 +450,7 @@ export class PageStore implements IPageStore {
    * @description add the page to favorites
    */
   addToFavorites = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageIsFavorite = this.is_favorite;
@@ -508,7 +470,7 @@ export class PageStore implements IPageStore {
    * @description remove the page from favorites
    */
   removeFromFavorites = async () => {
-    const { workspaceSlug, projectId } = this.store.app.router;
+    const { workspaceSlug, projectId } = this.store.router;
     if (!workspaceSlug || !projectId || !this.id) return undefined;
 
     const pageIsFavorite = this.is_favorite;

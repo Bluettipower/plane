@@ -1,34 +1,27 @@
-import { Fragment, useState, ReactElement } from "react";
-import { observer } from "mobx-react-lite";
+import { useState, ReactElement } from "react";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
-import { Tab } from "@headlessui/react";
+// types
 import { TCycleFilters } from "@plane/types";
-// hooks
+// components
 import { PageHead } from "@/components/core";
-import {
-  CyclesView,
-  CycleCreateUpdateModal,
-  CyclesViewHeader,
-  CycleAppliedFiltersList,
-  ActiveCycleRoot,
-} from "@/components/cycles";
+import { CyclesView, CycleCreateUpdateModal, CycleAppliedFiltersList } from "@/components/cycles";
 import CyclesListMobileHeader from "@/components/cycles/cycles-list-mobile-header";
 import { EmptyState } from "@/components/empty-state";
 import { CyclesHeader } from "@/components/headers";
-import { CycleModuleBoardLayout, CycleModuleListLayout, GanttLayoutLoader } from "@/components/ui";
-import { CYCLE_TABS_LIST } from "@/constants/cycle";
+import { CycleModuleListLayout } from "@/components/ui";
+// constants
 import { EmptyStateType } from "@/constants/empty-state";
+// helpers
 import { calculateTotalFilters } from "@/helpers/filter.helper";
+// hooks
 import { useEventTracker, useCycle, useProject, useCycleFilter } from "@/hooks/store";
 // layouts
 import { AppLayout } from "@/layouts/app-layout";
-// components
-// ui
-// helpers
 // types
 import { NextPageWithLayout } from "@/lib/types";
 // constants
-export {getStaticProps,getStaticPaths} from "@/lib/i18next";
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const ProjectCyclesPage: NextPageWithLayout = observer(() => {
   // states
@@ -39,17 +32,13 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
   const { getProjectById, currentProjectDetails } = useProject();
   // router
   const router = useRouter();
-  const { workspaceSlug, projectId, peekCycle } = router.query;
+  const { workspaceSlug, projectId } = router.query;
   // cycle filters hook
-  const { clearAllFilters, currentProjectDisplayFilters, currentProjectFilters, updateDisplayFilters, updateFilters } =
-    useCycleFilter();
+  const { clearAllFilters, currentProjectFilters, updateFilters } = useCycleFilter();
   // derived values
   const totalCycles = currentProjectCycleIds?.length ?? 0;
   const project = projectId ? getProjectById(projectId?.toString()) : undefined;
   const pageTitle = project?.name ? `${project?.name} - Cycles` : undefined;
-  // selected display filters
-  const cycleTab = currentProjectDisplayFilters?.active_tab;
-  const cycleLayout = currentProjectDisplayFilters?.layout ?? "list";
 
   const handleRemoveFilter = (key: keyof TCycleFilters, value: string | null) => {
     if (!projectId) return;
@@ -66,7 +55,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
   // No access to cycle
   if (currentProjectDetails?.cycle_view === false)
     return (
-      <div className="flex items-center justify-center h-full w-full">
+      <div className="flex items-center justify-center w-full h-full">
         <EmptyState
           type={EmptyStateType.DISABLED_PROJECT_CYCLE}
           primaryButtonLink={`/${workspaceSlug}/projects/${projectId}/settings/features`}
@@ -74,14 +63,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
       </div>
     );
 
-  if (loader)
-    return (
-      <>
-        {cycleLayout === "list" && <CycleModuleListLayout />}
-        {cycleLayout === "board" && <CycleModuleBoardLayout />}
-        {cycleLayout === "gantt" && <GanttLayoutLoader />}
-      </>
-    );
+  if (loader) return <CycleModuleListLayout />;
 
   return (
     <>
@@ -104,21 +86,7 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
             />
           </div>
         ) : (
-          <Tab.Group
-            as="div"
-            className="flex flex-col h-full overflow-hidden"
-            defaultIndex={CYCLE_TABS_LIST.findIndex((i) => i.key == cycleTab)}
-            selectedIndex={CYCLE_TABS_LIST.findIndex((i) => i.key == cycleTab)}
-            onChange={(i) => {
-              if (!projectId) return;
-              const tab = CYCLE_TABS_LIST[i];
-              if (!tab) return;
-              updateDisplayFilters(projectId.toString(), {
-                active_tab: tab.key,
-              });
-            }}
-          >
-            <CyclesViewHeader projectId={projectId.toString()} />
+          <>
             {calculateTotalFilters(currentProjectFilters ?? {}) !== 0 && (
               <div className="px-5 py-3 border-b border-custom-border-200">
                 <CycleAppliedFiltersList
@@ -128,20 +96,9 @@ const ProjectCyclesPage: NextPageWithLayout = observer(() => {
                 />
               </div>
             )}
-            <Tab.Panels as={Fragment}>
-              <Tab.Panel as="div" className="h-full p-4 space-y-5 overflow-y-auto sm:p-5">
-                <ActiveCycleRoot workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
-              </Tab.Panel>
-              <Tab.Panel as="div" className="h-full overflow-y-auto">
-                <CyclesView
-                  layout={cycleLayout}
-                  workspaceSlug={workspaceSlug.toString()}
-                  projectId={projectId.toString()}
-                  peekCycle={peekCycle?.toString()}
-                />
-              </Tab.Panel>
-            </Tab.Panels>
-          </Tab.Group>
+
+            <CyclesView workspaceSlug={workspaceSlug.toString()} projectId={projectId.toString()} />
+          </>
         )}
       </div>
     </>

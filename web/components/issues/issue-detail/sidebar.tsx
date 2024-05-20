@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import {
+  CalendarCheck2,
+  CalendarClock,
+  CircleDot,
+  CopyPlus,
+  LayoutPanelTop,
   LinkIcon,
   Signal,
   Tag,
   Trash2,
   Triangle,
-  LayoutPanelTop,
   XCircle,
-  CircleDot,
-  CopyPlus,
-  CalendarClock,
-  CalendarCheck2,
-  UserCircle2,
 } from "lucide-react";
 // hooks
 // components
@@ -24,30 +23,29 @@ import {
   DiceIcon,
   DoubleCircleIcon,
   RelatedIcon,
+  TOAST_TYPE,
   Tooltip,
   UserGroupIcon,
-  TOAST_TYPE,
   setToast,
 } from "@plane/ui";
 import {
   DateDropdown,
   EstimateDropdown,
-  PriorityDropdown,
   MemberDropdown,
+  PriorityDropdown,
   StateDropdown,
 } from "@/components/dropdowns";
 // ui
 // helpers
-import { ButtonAvatars } from "@/components/dropdowns/member/avatar";
 import {
+  ArchiveIssueModal,
   DeleteIssueModal,
-  IssueLinkRoot,
-  IssueRelationSelect,
   IssueCycleSelect,
+  IssueLabel,
+  IssueLinkRoot,
   IssueModuleSelect,
   IssueParentSelect,
-  IssueLabel,
-  ArchiveIssueModal,
+  IssueRelationSelect,
 } from "@/components/issues";
 // helpers
 // types
@@ -57,7 +55,7 @@ import { getDate, renderFormattedPayloadDate } from "@/helpers/date-time.helper"
 import { shouldHighlightIssueDueDate } from "@/helpers/issue.helper";
 import { copyTextToClipboard } from "@/helpers/string.helper";
 // types
-import { useEstimate, useIssueDetail, useMember, useProject, useProjectState, useUser } from "@/hooks/store";
+import { useEstimate, useIssueDetail, useProject, useProjectState, useUser } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // components
 import type { TIssueOperations } from "./root";
@@ -85,18 +83,15 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
   const router = useRouter();
   // store hooks
   const { getProjectById } = useProject();
-  const { currentUser } = useUser();
+  const { data: currentUser } = useUser();
   const { areEstimatesEnabledForCurrentProject } = useEstimate();
   const {
     issue: { getIssueById },
   } = useIssueDetail();
   const { getStateById } = useProjectState();
   const { isMobile } = usePlatformOS();
-  const { getUserDetails } = useMember();
   const issue = getIssueById(issueId);
   if (!issue) return <></>;
-
-  const createdByDetails = getUserDetails(issue.created_by);
 
   const handleCopyText = () => {
     const originURL = typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
@@ -263,21 +258,6 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
                 buttonClassName="w-min h-auto whitespace-nowrap"
               />
             </div>
-
-            {createdByDetails && (
-              <div className="flex items-center h-8 gap-2">
-                <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
-                  <UserCircle2 className="flex-shrink-0 w-4 h-4" />
-                  <span>Created by</span>
-                </div>
-                <Tooltip tooltipContent={createdByDetails?.display_name} isMobile={isMobile}>
-                  <div className="h-full flex items-center gap-1.5 rounded px-2 py-0.5 text-sm justify-between cursor-default">
-                    <ButtonAvatars showTooltip={false} userIds={createdByDetails.id} />
-                    <span className="flex-grow text-xs leading-5 truncate">{createdByDetails?.display_name}</span>
-                  </div>
-                </Tooltip>
-              </div>
-            )}
 
             <div className="flex items-center h-8 gap-2">
               <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">

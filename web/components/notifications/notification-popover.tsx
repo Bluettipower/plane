@@ -14,7 +14,7 @@ import { NotificationsLoader } from "@/components/ui";
 import { EmptyStateType } from "@/constants/empty-state";
 // helpers
 import { getNumberCount } from "@/helpers/string.helper";
-import { useApplication } from "@/hooks/store";
+import { useAppTheme } from "@/hooks/store";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 import useUserNotification from "@/hooks/use-user-notifications";
@@ -23,7 +23,7 @@ export const NotificationPopover = observer(() => {
   // states
   const [isActive, setIsActive] = React.useState(false);
   // store hooks
-  const { theme: themeStore } = useApplication();
+  const { sidebarCollapsed, toggleSidebar } = useAppTheme();
   // refs
   const notificationPopoverRef = React.useRef<HTMLDivElement | null>(null);
   // hooks
@@ -57,7 +57,7 @@ export const NotificationPopover = observer(() => {
     setFetchNotifications,
     markAllNotificationsAsRead,
   } = useUserNotification();
-  const isSidebarCollapsed = themeStore.sidebarCollapsed;
+  const isSidebarCollapsed = sidebarCollapsed;
   useOutsideClickDetector(notificationPopoverRef, () => {
     // if snooze modal is open, then don't close the popover
     if (selectedNotificationForSnooze === null) setIsActive(false);
@@ -66,12 +66,12 @@ export const NotificationPopover = observer(() => {
   const currentTabEmptyState = snoozed
     ? EmptyStateType.NOTIFICATION_SNOOZED_EMPTY_STATE
     : archived
-      ? EmptyStateType.NOTIFICATION_ARCHIVED_EMPTY_STATE
-      : selectedTab === "created"
-        ? EmptyStateType.NOTIFICATION_CREATED_EMPTY_STATE
-        : selectedTab === "watching"
-          ? EmptyStateType.NOTIFICATION_SUBSCRIBED_EMPTY_STATE
-          : EmptyStateType.NOTIFICATION_MY_ISSUE_EMPTY_STATE;
+    ? EmptyStateType.NOTIFICATION_ARCHIVED_EMPTY_STATE
+    : selectedTab === "created"
+    ? EmptyStateType.NOTIFICATION_CREATED_EMPTY_STATE
+    : selectedTab === "watching"
+    ? EmptyStateType.NOTIFICATION_SUBSCRIBED_EMPTY_STATE
+    : EmptyStateType.NOTIFICATION_MY_ISSUE_EMPTY_STATE;
 
   return (
     <>
@@ -79,7 +79,9 @@ export const NotificationPopover = observer(() => {
         isOpen={selectedNotificationForSnooze !== null}
         onClose={() => setSelectedNotificationForSnooze(null)}
         onSubmit={markSnoozeNotification}
-        notification={notifications?.find((notification) => notification.id === selectedNotificationForSnooze) || null}
+        notification={
+          notifications?.find((notification: any) => notification.id === selectedNotificationForSnooze) || null
+        }
         onSuccess={() => setSelectedNotificationForSnooze(null)}
       />
       <Popover ref={notificationPopoverRef} className="w-full md:relative">
@@ -98,7 +100,7 @@ export const NotificationPopover = observer(() => {
                   : "text-custom-sidebar-text-200 hover:bg-custom-sidebar-background-80"
               } ${isSidebarCollapsed ? "justify-center" : ""}`}
               onClick={() => {
-                if (window.innerWidth < 768) themeStore.toggleSidebar();
+                if (window.innerWidth < 768) toggleSidebar();
                 if (!isActive) setFetchNotifications(true);
                 setIsActive(!isActive);
               }}
@@ -127,7 +129,7 @@ export const NotificationPopover = observer(() => {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel
-              className="absolute top-0 left-[280px] md:-top-36 md:ml-8 md:h-[50vh] z-10 flex h-full w-[100vw] flex-col rounded-xl md:border border-custom-border-300 bg-custom-background-100 shadow-lg md:left-full md:w-[36rem]"
+              className="absolute left-[280px] top-0 z-10 flex h-full w-[100vw] flex-col rounded-xl border-custom-border-300 bg-custom-background-100 shadow-lg md:-top-36 md:left-full md:ml-8 md:h-[50vh] md:w-[36rem] md:border"
               static
             >
               <NotificationHeader
@@ -148,9 +150,9 @@ export const NotificationPopover = observer(() => {
 
               {notifications ? (
                 notifications.length > 0 ? (
-                  <div className="h-full overflow-y-auto vertical-scrollbar scrollbar-md">
+                  <div className="vertical-scrollbar scrollbar-md h-full overflow-y-auto">
                     <div className="divide-y divide-custom-border-100">
-                      {notifications.map((notification) => (
+                      {notifications.map((notification: any) => (
                         <NotificationCard
                           selectedTab={selectedTab}
                           key={notification.id}
@@ -195,7 +197,7 @@ export const NotificationPopover = observer(() => {
                         className="flex items-center justify-center w-full my-6 text-sm font-medium text-custom-primary-100"
                         disabled={isLoadingMore}
                         onClick={() => {
-                          setSize((prev) => prev + 1);
+                          setSize((prev: any) => prev + 1);
                         }}
                       >
                         Load More

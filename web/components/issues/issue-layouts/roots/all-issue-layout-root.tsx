@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback } from "react";
 import isEmpty from "lodash/isEmpty";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { TIssue, IIssueDisplayFilterOptions } from "@plane/types";
+import { IIssueDisplayFilterOptions } from "@plane/types";
 // hooks
 // components
 import { EmptyState } from "@/components/empty-state";
@@ -16,9 +16,10 @@ import { SpreadsheetLayoutLoader } from "@/components/ui";
 import { EMPTY_STATE_DETAILS, EmptyStateType } from "@/constants/empty-state";
 import { EIssueFilterType, EIssuesStoreType, ISSUE_DISPLAY_FILTERS_BY_LAYOUT } from "@/constants/issue";
 import { EUserProjectRoles } from "@/constants/project";
-import { useApplication, useEventTracker, useGlobalView, useIssues, useProject, useUser } from "@/hooks/store";
+import { useCommandPalette, useEventTracker, useGlobalView, useIssues, useProject, useUser } from "@/hooks/store";
 import { useIssuesActions } from "@/hooks/use-issues-actions";
 import { useWorkspaceIssueProperties } from "@/hooks/use-workspace-issue-properties";
+import { TRenderQuickActions } from "../list/list-view-types";
 
 export const AllIssueLayoutRoot: React.FC = observer(() => {
   // router
@@ -27,7 +28,7 @@ export const AllIssueLayoutRoot: React.FC = observer(() => {
   //swr hook for fetching issue properties
   useWorkspaceIssueProperties(workspaceSlug);
   // store
-  const { commandPalette: commandPaletteStore } = useApplication();
+  const { toggleCreateProjectModal, toggleCreateIssueModal } = useCommandPalette();
   const {
     issuesFilter: { filters, fetchFilters, updateFilters },
     issues: { loader, groupedIssueIds, fetchIssues },
@@ -127,9 +128,10 @@ export const AllIssueLayoutRoot: React.FC = observer(() => {
     [updateFilters, workspaceSlug, globalViewId]
   );
 
-  const renderQuickActions = useCallback(
-    (issue: TIssue, customActionButton?: React.ReactElement, portalElement?: HTMLDivElement | null) => (
+  const renderQuickActions: TRenderQuickActions = useCallback(
+    ({ issue, parentRef, customActionButton, placement, portalElement }) => (
       <AllIssueQuickActions
+        parentRef={parentRef}
         customActionButton={customActionButton}
         issue={issue}
         handleDelete={async () => removeIssue(issue.project_id, issue.id)}
@@ -137,6 +139,7 @@ export const AllIssueLayoutRoot: React.FC = observer(() => {
         handleArchive={async () => archiveIssue && archiveIssue(issue.project_id, issue.id)}
         portalElement={portalElement}
         readOnly={!canEditProperties(issue.project_id)}
+        placements={placement}
       />
     ),
     [canEditProperties, removeIssue, updateIssue, archiveIssue]
@@ -151,7 +154,7 @@ export const AllIssueLayoutRoot: React.FC = observer(() => {
 
   return (
     <div className="relative flex h-full w-full flex-col overflow-hidden">
-      <div className="relative h-full w-full flex flex-col">
+      <div className="relative flex h-full w-full flex-col">
         <GlobalViewsAppliedFiltersRoot globalViewId={globalViewId} />
         {issueIds.length === 0 ? (
           <EmptyState
@@ -162,12 +165,12 @@ export const AllIssueLayoutRoot: React.FC = observer(() => {
                 ? currentView !== "custom-view" && currentView !== "subscribed"
                   ? () => {
                       setTrackElement("All issues empty state");
-                      commandPaletteStore.toggleCreateIssueModal(true, EIssuesStoreType.PROJECT);
+                      toggleCreateIssueModal(true, EIssuesStoreType.PROJECT);
                     }
                   : undefined
                 : () => {
                     setTrackElement("All issues empty state");
-                    commandPaletteStore.toggleCreateProjectModal(true);
+                    toggleCreateProjectModal(true);
                   }
             }
           />

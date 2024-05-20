@@ -8,29 +8,30 @@ import { Breadcrumbs } from "@plane/ui";
 // components
 import { BreadcrumbLink } from "@/components/common";
 import { cn } from "@/helpers/common.helper";
-import { useApplication } from "@/hooks/store";
+import { useAppTheme } from "@/hooks/store";
 
 export const WorkspaceAnalyticsHeader = observer(() => {
   const router = useRouter();
   const { analytics_tab } = router.query;
 
   const { t } = useTranslation("common");
-  const { theme: themeStore } = useApplication();
+  // store hooks
+  const { workspaceAnalyticsSidebarCollapsed, toggleWorkspaceAnalyticsSidebar } = useAppTheme();
 
   useEffect(() => {
     const handleToggleWorkspaceAnalyticsSidebar = () => {
       if (window && window.innerWidth < 768) {
-        themeStore.toggleWorkspaceAnalyticsSidebar(true);
+        toggleWorkspaceAnalyticsSidebar(true);
       }
-      if (window && themeStore.workspaceAnalyticsSidebarCollapsed && window.innerWidth >= 768) {
-        themeStore.toggleWorkspaceAnalyticsSidebar(false);
+      if (window && workspaceAnalyticsSidebarCollapsed && window.innerWidth >= 768) {
+        toggleWorkspaceAnalyticsSidebar(false);
       }
     };
 
     window.addEventListener("resize", handleToggleWorkspaceAnalyticsSidebar);
     handleToggleWorkspaceAnalyticsSidebar();
     return () => window.removeEventListener("resize", handleToggleWorkspaceAnalyticsSidebar);
-  }, [themeStore]);
+  }, [toggleWorkspaceAnalyticsSidebar, workspaceAnalyticsSidebarCollapsed]);
 
   return (
     <>
@@ -43,7 +44,10 @@ export const WorkspaceAnalyticsHeader = observer(() => {
               <Breadcrumbs.BreadcrumbItem
                 type="text"
                 link={
-                  <BreadcrumbLink label={t("analytics")} icon={<BarChart2 className="w-4 h-4 text-custom-text-300" />} />
+                  <BreadcrumbLink
+                    label={t("analytics")}
+                    icon={<BarChart2 className="w-4 h-4 text-custom-text-300" />}
+                  />
                 }
               />
             </Breadcrumbs>
@@ -51,13 +55,13 @@ export const WorkspaceAnalyticsHeader = observer(() => {
               <button
                 className="block md:hidden"
                 onClick={() => {
-                  themeStore.toggleWorkspaceAnalyticsSidebar();
+                  toggleWorkspaceAnalyticsSidebar();
                 }}
               >
                 <PanelRight
                   className={cn(
-                    "w-4 h-4 block md:hidden",
-                    !themeStore.workspaceAnalyticsSidebarCollapsed ? "text-custom-primary-100" : "text-custom-text-200"
+                    "block h-4 w-4 md:hidden",
+                    !workspaceAnalyticsSidebarCollapsed ? "text-custom-primary-100" : "text-custom-text-200"
                   )}
                 />
               </button>

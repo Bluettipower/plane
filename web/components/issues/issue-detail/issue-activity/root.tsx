@@ -148,6 +148,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
               />
               {!disabled && (
                 <IssueCommentCreate
+                  issueId={issueId}
                   projectId={projectId}
                   workspaceSlug={workspaceSlug}
                   activityOperations={activityOperations}
@@ -167,6 +168,7 @@ export const IssueActivity: FC<TIssueActivity> = observer((props) => {
               />
               {!disabled && (
                 <IssueCommentCreate
+                  issueId={issueId}
                   projectId={projectId}
                   workspaceSlug={workspaceSlug}
                   activityOperations={activityOperations}

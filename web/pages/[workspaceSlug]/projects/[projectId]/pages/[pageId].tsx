@@ -9,8 +9,9 @@ import { EditorRefApi, useEditorMarkings } from "@plane/document-editor";
 // types
 import { TPage } from "@plane/types";
 // ui
-import { Spinner, TOAST_TYPE, getButtonStyling, setToast } from "@plane/ui";
+import { TOAST_TYPE, getButtonStyling, setToast } from "@plane/ui";
 // components
+import { LogoSpinner } from "@/components/common";
 import { PageHead } from "@/components/core";
 import { PageDetailsHeader } from "@/components/headers";
 import { IssuePeekOverview } from "@/components/issues";
@@ -69,15 +70,15 @@ const PageDetailsPage: NextPageWithLayout = observer(() => {
   if ((!pageStore || !pageStore.id) && !pageDetailsError)
     return (
       <div className="grid w-full h-full place-items-center">
-        <Spinner />
+        <LogoSpinner />
       </div>
     );
 
   if (pageDetailsError)
     return (
-      <div className="h-full w-full flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center w-full h-full">
         <h3 className="text-lg font-semibold text-center">Page not found</h3>
-        <p className="text-sm text-custom-text-200 text-center mt-3">
+        <p className="mt-3 text-sm text-center text-custom-text-200">
           The page you are trying to access doesn{"'"}t exist or you don{"'"}t have permission to view it.
         </p>
         <Link
