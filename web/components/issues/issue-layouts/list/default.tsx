@@ -16,13 +16,14 @@ import { useCycle, useLabel, useMember, useModule, useProject, useProjectState }
 // utils
 import { getGroupByColumns, isWorkspaceLevel } from "../utils";
 import { HeaderGroupByCard } from "./headers/group-by-card";
+import { TRenderQuickActions } from "./list-view-types";
 
 export interface IGroupByList {
   issueIds: TGroupedIssues | TUnGroupedIssues | any;
   issuesMap: TIssueMap;
   group_by: string | null;
   updateIssue: ((projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
-  quickActions: (issue: TIssue) => React.ReactNode;
+  quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   enableIssueQuickAdd: boolean;
   showEmptyGroup?: boolean;
@@ -132,7 +133,7 @@ const GroupByList: React.FC<IGroupByList> = (props) => {
           (_list: IGroupByColumn) =>
             validateEmptyIssueGroups(is_list ? issueIds : issueIds?.[_list.id]) && (
               <div key={_list.id} className={`flex flex-shrink-0 flex-col`}>
-                <div className="sticky top-0 z-[2] w-full flex-shrink-0 border-b border-custom-border-200 bg-custom-background-90 px-3 py-1">
+                <div className="sticky top-0 z-[2] w-full flex-shrink-0 border-b border-custom-border-200 bg-custom-background-90 px-3 pl-5 py-1">
                   <HeaderGroupByCard
                     icon={_list.icon}
                     title={_list.name || ""}
@@ -177,7 +178,7 @@ export interface IList {
   issuesMap: TIssueMap;
   group_by: string | null;
   updateIssue: ((projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
-  quickActions: (issue: TIssue) => React.ReactNode;
+  quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   showEmptyGroup: boolean;
   enableIssueQuickAdd: boolean;

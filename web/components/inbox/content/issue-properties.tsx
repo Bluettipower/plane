@@ -32,9 +32,10 @@ export const InboxIssueContentProperties: React.FC<Props> = observer((props) => 
   const minDate = issue.start_date ? getDate(issue.start_date) : null;
   minDate?.setDate(minDate.getDate());
   if (!issue || !issue?.id) return <></>;
+
   return (
     <div className="flex flex-col w-full overflow-hidden divide-y-2 h-min divide-custom-border-200">
-      <div className="w-full px-5 overflow-y-auto h-min">
+      <div className="w-full px-3 overflow-y-auto h-min">
         <h5 className="my-4 text-sm font-medium">Properties</h5>
         <div className={`divide-y-2 divide-custom-border-200 ${!isEditable ? "opacity-60" : ""}`}>
           <div className="flex flex-col gap-3">

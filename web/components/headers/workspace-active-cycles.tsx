@@ -1,4 +1,4 @@
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useTranslation } from "next-i18next";
 // ui
 import { Crown } from "lucide-react";

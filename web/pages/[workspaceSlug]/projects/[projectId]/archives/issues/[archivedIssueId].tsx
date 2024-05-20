@@ -19,7 +19,7 @@ import { useIssueDetail, useIssues, useProject, useUser } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 // types
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps,getStaticPaths} from "@/lib/i18next";
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
   // router
@@ -104,9 +104,9 @@ const ArchivedIssueDetailsPage: NextPageWithLayout = observer(() => {
         </Loader>
       ) : (
         <div className="flex h-full overflow-hidden">
-          <div className="w-full h-full p-5 space-y-3 overflow-y-auto divide-y-2 divide-custom-border-200">
+          <div className="w-full h-full space-y-3 overflow-y-auto divide-y-2 divide-custom-border-200">
             {issue?.archived_at && canRestoreIssue && (
-              <div className="flex items-center justify-between gap-2 rounded-md border border-custom-border-200 bg-custom-background-90 px-2.5 py-2 text-sm text-custom-text-200">
+              <div className="flex items-center justify-between gap-2 rounded-md border border-custom-border-200 bg-custom-background-90 px-2.5 py-2 text-sm text-custom-text-200 my-5 mx-3">
                 <div className="flex items-center gap-2">
                   <ArchiveIcon className="w-4 h-4" />
                   <p>This issue has been archived.</p>

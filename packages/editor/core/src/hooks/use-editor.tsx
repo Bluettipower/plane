@@ -3,7 +3,6 @@ import { useImperativeHandle, useRef, MutableRefObject, useState, useEffect } fr
 import { CoreEditorProps } from "src/ui/props";
 import { CoreEditorExtensions } from "src/ui/extensions";
 import { EditorProps } from "@tiptap/pm/view";
-import { getTrimmedHTML } from "src/lib/utils";
 import { DeleteImage } from "src/types/delete-image";
 import { IMentionHighlight, IMentionSuggestion } from "src/types/mention-suggestion";
 import { RestoreImage } from "src/types/restore-image";
@@ -34,7 +33,7 @@ interface CustomEditorProps {
     suggestions?: () => Promise<IMentionSuggestion[]>;
   };
   handleEditorReady?: (value: boolean) => void;
-  placeholder?: string | ((isFocused: boolean) => string);
+  placeholder?: string | ((isFocused: boolean, value: string) => string);
   tabIndex?: number;
 }
 
@@ -86,7 +85,7 @@ export const useEditor = ({
       setSavedSelection(editor.state.selection);
     },
     onUpdate: async ({ editor }) => {
-      onChange?.(editor.getJSON(), getTrimmedHTML(editor.getHTML()));
+      onChange?.(editor.getJSON(), editor.getHTML());
     },
     onDestroy: async () => {
       handleEditorReady?.(false);

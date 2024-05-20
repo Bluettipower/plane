@@ -2,8 +2,9 @@ import { FC, ReactNode } from "react";
 // layout
 import { SidebarHamburgerToggle } from "@/components/core/sidebar/sidebar-menu-hamburger-toggle";
 import { PreferencesMobileHeader } from "@/components/profile/preferences/preferences-mobile-header";
-import { useApplication } from "@/hooks/store";
+import { useAppTheme } from "@/hooks/store";
 import { ProfileSettingsLayout } from "@/layouts/settings-layout";
+// local components
 import { ProfilePreferenceSettingsSidebar } from "./sidebar";
 import { useTranslation } from "next-i18next";
 
@@ -14,14 +15,14 @@ interface IProfilePreferenceSettingsLayout {
 
 export const ProfilePreferenceSettingsLayout: FC<IProfilePreferenceSettingsLayout> = (props) => {
   const { children, header } = props;
-  const { theme: themeStore } = useApplication();
   const { t } = useTranslation();
+  const { toggleSidebar } = useAppTheme();
 
   return (
     <ProfileSettingsLayout
       header={
         <div className="flex items-center justify-start flex-shrink-0 gap-4 p-4 border-b md:hidden border-custom-border-200">
-          <SidebarHamburgerToggle onClick={() => themeStore.toggleSidebar()} />
+          <SidebarHamburgerToggle onClick={toggleSidebar} />
         </div>
       }
     >

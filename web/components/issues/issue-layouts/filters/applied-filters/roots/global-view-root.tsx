@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 import { IIssueFilterOptions, TStaticViewTypes } from "@plane/types";
 // hooks
@@ -96,12 +96,13 @@ export const GlobalViewsAppliedFiltersRoot = observer((props: Props) => {
         ...(appliedFilters ?? {}),
       },
     }).then((res) => {
-      captureEvent(GLOBAL_VIEW_UPDATED, {
-        view_id: res.id,
-        applied_filters: res.filters,
-        state: "SUCCESS",
-        element: "Spreadsheet view",
-      });
+      if (res)
+        captureEvent(GLOBAL_VIEW_UPDATED, {
+          view_id: res.id,
+          applied_filters: res.filters,
+          state: "SUCCESS",
+          element: "Spreadsheet view",
+        });
     });
   };
 

@@ -1,21 +1,21 @@
 import { Fragment, useState } from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { useTheme } from "next-themes";
 import { usePopper } from "react-popper";
-import { mutate } from "swr";
-// ui
-import { Check, ChevronDown, CircleUserRound, LogOut, Mails, PlusSquare, Settings, UserCircle2 } from "lucide-react";
-import { Menu, Transition } from "@headlessui/react";
 // icons
+import { Check, ChevronDown, CircleUserRound, LogOut, Mails, PlusSquare, Settings, UserCircle2 } from "lucide-react";
+// ui
+import { Menu, Transition } from "@headlessui/react";
+// types
 import { IWorkspace } from "@plane/types";
 // plane ui
 import { Avatar, Loader, TOAST_TYPE, setToast } from "@plane/ui";
+import { GOD_MODE_URL } from "@/helpers/common.helper";
 // hooks
-import { useApplication, useUser, useWorkspace } from "@/hooks/store";
-// types
+import { useAppTheme, useUser, useUserProfile, useWorkspace } from "@/hooks/store";
+import { WorkspaceLogo } from "./logo";
 // Static Data
 const userLinks = (workspaceSlug: string, userId: string) => [
   {
@@ -54,13 +54,18 @@ export const WorkspaceSidebarDropdown = observer(() => {
   const router = useRouter();
   const { workspaceSlug } = router.query;
   // store hooks
+  const { sidebarCollapsed, toggleSidebar } = useAppTheme();
+  const { data: currentUser } = useUser();
   const {
-    theme: { sidebarCollapsed, toggleSidebar },
-  } = useApplication();
-  const { currentUser, updateCurrentUser, isUserInstanceAdmin, signOut } = useUser();
+    // updateCurrentUser,
+    // isUserInstanceAdmin,
+    signOut,
+  } = useUser();
+  const { updateUserProfile } = useUserProfile();
+
+  const isUserInstanceAdmin = false;
   const { currentWorkspace: activeWorkspace, workspaces } = useWorkspace();
   const { t } = useTranslation();
-  const { setTheme } = useTheme();
   // popper-js refs
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
@@ -77,23 +82,17 @@ export const WorkspaceSidebarDropdown = observer(() => {
     ],
   });
   const handleWorkspaceNavigation = (workspace: IWorkspace) =>
-    updateCurrentUser({
+    updateUserProfile({
       last_workspace_id: workspace?.id,
     });
   const handleSignOut = async () => {
-    await signOut()
-      .then(() => {
-        mutate("CURRENT_USER_DETAILS", null);
-        setTheme("system");
-        router.push("/");
+    await signOut().catch(() =>
+      setToast({
+        type: TOAST_TYPE.ERROR,
+        title: "Error!",
+        message: "Failed to sign out. Please try again.",
       })
-      .catch(() =>
-        setToast({
-          type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Failed to sign out. Please try again.",
-        })
-      );
+    );
   };
   const handleItemClick = () => {
     if (window.innerWidth < 768) {
@@ -114,21 +113,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
                 }`}
               >
                 <div className="flex items-center gap-2 truncate">
-                  <div
-                    className={`relative grid h-6 w-6 flex-shrink-0 place-items-center uppercase ${
-                      !activeWorkspace?.logo && "rounded bg-custom-primary-500 text-white"
-                    }`}
-                  >
-                    {activeWorkspace?.logo && activeWorkspace.logo !== "" ? (
-                      <img
-                        src={activeWorkspace.logo}
-                        className="absolute top-0 left-0 object-cover w-full h-full rounded"
-                        alt="Workspace Logo"
-                      />
-                    ) : (
-                      activeWorkspace?.name?.charAt(0) ?? "..."
-                    )}
-                  </div>
+                  <WorkspaceLogo logo={activeWorkspace?.logo} name={activeWorkspace?.name} />
                   {!sidebarCollapsed && (
                     <h4 className="text-base font-medium truncate text-custom-text-100">
                       {activeWorkspace?.name ? activeWorkspace.name : "Loading..."}
@@ -154,9 +139,9 @@ export const WorkspaceSidebarDropdown = observer(() => {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items as={Fragment}>
-                <div className="fixed left-4 z-20 mt-1 flex w-full max-w-[19rem] origin-top-left flex-col rounded-md border-[0.5px] border-custom-sidebar-border-300 bg-custom-sidebar-background-100 shadow-custom-shadow-rg divide-y divide-custom-border-100 outline-none">
-                  <div className="flex flex-col items-start justify-start gap-2 px-4 mb-2 overflow-y-scroll max-h-96 vertical-scrollbar scrollbar-sm">
-                    <h6 className="sticky top-0 z-10 w-full h-full pt-3 pb-1 text-sm font-medium text-custom-sidebar-text-400 bg-custom-sidebar-background-100">
+                <div className="fixed left-4 z-20 mt-1 flex w-full max-w-[19rem] origin-top-left flex-col divide-y divide-custom-border-100 rounded-md border-[0.5px] border-custom-sidebar-border-300 bg-custom-sidebar-background-100 shadow-custom-shadow-rg outline-none">
+                  <div className="flex flex-col items-start justify-start gap-2 px-4 mb-2 overflow-y-scroll vertical-scrollbar scrollbar-sm max-h-96">
+                    <h6 className="sticky top-0 z-10 w-full h-full pt-3 pb-1 text-sm font-medium bg-custom-sidebar-background-100 text-custom-sidebar-text-400">
                       {currentUser?.email}
                     </h6>
                     {workspacesList ? (
@@ -269,7 +254,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
           <Menu.Button className="grid outline-none place-items-center" ref={setReferenceElement}>
             <Avatar
               name={currentUser?.display_name}
-              src={currentUser?.avatar}
+              src={currentUser?.avatar || undefined}
               size={24}
               shape="square"
               className="!text-base"
@@ -309,7 +294,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
                   </Link>
                 ))}
               </div>
-              <div className={`pt-2 ${isUserInstanceAdmin ? "pb-2" : ""}`}>
+              <div className={`pt-2 ${isUserInstanceAdmin || false ? "pb-2" : ""}`}>
                 <Menu.Item
                   as="button"
                   type="button"
@@ -322,7 +307,7 @@ export const WorkspaceSidebarDropdown = observer(() => {
               </div>
               {isUserInstanceAdmin && (
                 <div className="p-2 pb-0">
-                  <Link href="/god-mode">
+                  <Link href={GOD_MODE_URL}>
                     <Menu.Item as="button" type="button" className="w-full">
                       <span className="flex items-center justify-center w-full px-2 py-1 text-sm font-medium rounded bg-custom-primary-100/20 text-custom-primary-100 hover:bg-custom-primary-100/30 hover:text-custom-primary-200">
                         {t("god_mode")}

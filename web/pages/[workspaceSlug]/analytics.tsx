@@ -1,32 +1,30 @@
 import React, { Fragment, ReactElement } from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { Tab } from "@headlessui/react";
-// hooks
-// layouts
 // components
 import { CustomAnalytics, ScopeAndDemand } from "@/components/analytics";
 import { PageHead } from "@/components/core";
 import { EmptyState } from "@/components/empty-state";
 import { WorkspaceAnalyticsHeader } from "@/components/headers";
-// type
 // constants
 import { ANALYTICS_TABS } from "@/constants/analytics";
 import { EmptyStateType } from "@/constants/empty-state";
-import { useApplication, useEventTracker, useProject, useWorkspace } from "@/hooks/store";
+// hooks
+import { useCommandPalette, useEventTracker, useProject, useWorkspace } from "@/hooks/store";
+// layouts
 import { AppLayout } from "@/layouts/app-layout";
+// types
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps,getStaticPaths} from "@/lib/i18next"
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const AnalyticsPage: NextPageWithLayout = observer(() => {
-  const { t } = useTranslation(undefined,{keyPrefix:"analytics.project-modal.main_content"});
+  const { t } = useTranslation(undefined, { keyPrefix: "analytics.project-modal.main_content" });
   const router = useRouter();
   const { analytics_tab } = router.query;
   // store hooks
-  const {
-    commandPalette: { toggleCreateProjectModal },
-  } = useApplication();
+  const { toggleCreateProjectModal } = useCommandPalette();
   const { setTrackElement } = useEventTracker();
   const { workspaceProjectIds } = useProject();
   const { currentWorkspace } = useWorkspace();
@@ -44,9 +42,9 @@ const AnalyticsPage: NextPageWithLayout = observer(() => {
                 <Tab
                   key={tab.key}
                   className={({ selected }) =>
-                    `rounded-0 w-full md:w-max md:rounded-3xl border-b md:border border-custom-border-200 focus:outline-none px-0 md:px-4 py-2 text-xs hover:bg-custom-background-80 ${
+                    `rounded-0 w-full border-b border-custom-border-200 px-0 py-2 text-xs hover:bg-custom-background-80 focus:outline-none md:w-max md:rounded-3xl md:border md:px-4 ${
                       selected
-                        ? "border-custom-primary-100 text-custom-primary-100 md:bg-custom-background-80 md:text-custom-text-200 md:border-custom-border-200"
+                        ? "border-custom-primary-100 text-custom-primary-100 md:border-custom-border-200 md:bg-custom-background-80 md:text-custom-text-200"
                         : "border-transparent"
                     }`
                   }

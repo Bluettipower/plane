@@ -18,6 +18,7 @@ type TIssueCommentCreate = {
   workspaceSlug: string;
   activityOperations: TActivityOperations;
   showAccessSpecifier?: boolean;
+  issueId: string;
 };
 
 export const IssueCommentCreate: FC<TIssueCommentCreate> = (props) => {
@@ -72,6 +73,7 @@ export const IssueCommentCreate: FC<TIssueCommentCreate> = (props) => {
             render={({ field: { value, onChange } }) => (
               <LiteTextEditor
                 workspaceId={workspaceId}
+                value={"<p></p>"}
                 projectId={projectId}
                 workspaceSlug={workspaceSlug}
                 onEnterKeyPress={(e) => {

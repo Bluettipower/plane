@@ -8,18 +8,16 @@ import { ProjectAppliedFiltersList, ProjectCardList } from "@/components/project
 // layouts
 import ProjectsMobileHeader from "@/components/project/projects-mobile-header";
 import { calculateTotalFilters } from "@/helpers/filter.helper";
-import { useApplication, useProject, useProjectFilter, useWorkspace } from "@/hooks/store";
+import { useAppRouter, useProject, useProjectFilter, useWorkspace } from "@/hooks/store";
 import { AppLayout } from "@/layouts/app-layout";
 // helpers
 // types
 import { NextPageWithLayout } from "@/lib/types";
-export {getStaticProps,getStaticPaths} from "@/lib/i18next"
+export { getStaticProps, getStaticPaths } from "@/lib/i18next";
 
 const ProjectsPage: NextPageWithLayout = observer(() => {
   // store
-  const {
-    router: { workspaceSlug },
-  } = useApplication();
+  const { workspaceSlug } = useAppRouter();
   const { currentWorkspace } = useWorkspace();
   const { totalProjectIds, filteredProjectIds } = useProject();
   const {
@@ -86,7 +84,11 @@ const ProjectsPage: NextPageWithLayout = observer(() => {
 });
 
 ProjectsPage.getLayout = function getLayout(page: ReactElement) {
-  return <AppLayout header={<ProjectsHeader />} mobileHeader={<ProjectsMobileHeader/>}>{page}</AppLayout>;
+  return (
+    <AppLayout header={<ProjectsHeader />} mobileHeader={<ProjectsMobileHeader />}>
+      {page}
+    </AppLayout>
+  );
 };
 
 export default ProjectsPage;

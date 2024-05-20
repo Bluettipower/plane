@@ -1,73 +1,128 @@
+import { Dispatch, MouseEvent, SetStateAction, useRef } from "react";
 import { observer } from "mobx-react-lite";
+import { ChevronRight } from "lucide-react";
+// types
 import { TIssue, IIssueDisplayProperties, TIssueMap } from "@plane/types";
-// components
-// hooks
 // ui
 import { Spinner, Tooltip, ControlLink } from "@plane/ui";
-// helper
+// components
+import { IssueProperties } from "@/components/issues/issue-layouts/properties";
+// helpers
 import { cn } from "@/helpers/common.helper";
-import { useApplication, useIssueDetail, useProject } from "@/hooks/store";
+// hooks
+import { useAppRouter, useIssueDetail, useProject } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // types
-import { IssueProperties } from "../properties/all-properties";
+import { TRenderQuickActions } from "./list-view-types";
 
 interface IssueBlockProps {
   issueId: string;
   issuesMap: TIssueMap;
   updateIssue: ((projectId: string, issueId: string, data: Partial<TIssue>) => Promise<void>) | undefined;
-  quickActions: (issue: TIssue) => React.ReactNode;
+  quickActions: TRenderQuickActions;
   displayProperties: IIssueDisplayProperties | undefined;
   canEditProperties: (projectId: string | undefined) => boolean;
+  nestingLevel: number;
+  spacingLeft?: number;
+  isExpanded: boolean;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
 export const IssueBlock: React.FC<IssueBlockProps> = observer((props: IssueBlockProps) => {
-  const { issuesMap, issueId, updateIssue, quickActions, displayProperties, canEditProperties } = props;
-  // hooks
   const {
-    router: { workspaceSlug },
-  } = useApplication();
+    issuesMap,
+    issueId,
+    updateIssue,
+    quickActions,
+    displayProperties,
+    canEditProperties,
+    nestingLevel,
+    spacingLeft = 14,
+    isExpanded,
+    setExpanded,
+  } = props;
+  // refs
+  const parentRef = useRef(null);
+  // hooks
+  const { workspaceSlug } = useAppRouter();
   const { getProjectIdentifierById } = useProject();
-  const { peekIssue, setPeekIssue } = useIssueDetail();
+  const { getIsIssuePeeked, peekIssue, setPeekIssue, subIssues: subIssuesStore } = useIssueDetail();
 
   const handleIssuePeekOverview = (issue: TIssue) =>
     workspaceSlug &&
     issue &&
     issue.project_id &&
     issue.id &&
-    peekIssue?.issueId !== issue.id &&
-    setPeekIssue({ workspaceSlug, projectId: issue.project_id, issueId: issue.id });
+    !getIsIssuePeeked(issue.id) &&
+    setPeekIssue({ workspaceSlug, projectId: issue.project_id, issueId: issue.id, nestingLevel: nestingLevel });
 
   const issue = issuesMap[issueId];
+  // const subIssues = subIssuesStore.subIssuesByIssueId(issueId);
   const { isMobile } = usePlatformOS();
   if (!issue) return null;
 
   const canEditIssueProperties = canEditProperties(issue.project_id);
   const projectIdentifier = getProjectIdentifierById(issue.project_id);
+  // if sub issues have been fetched for the issue, use that for count or use issue's sub_issues_count
+  // const subIssuesCount = subIssues ? subIssues.length : issue.sub_issues_count;
+
+  const paddingLeft = `${spacingLeft}px`;
+
+  const handleToggleExpand = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (nestingLevel >= 3) {
+      handleIssuePeekOverview(issue);
+    } else {
+      setExpanded((prevState) => {
+        if (!prevState && workspaceSlug && issue)
+          subIssuesStore.fetchSubIssues(workspaceSlug.toString(), issue.project_id, issue.id);
+        return !prevState;
+      });
+    }
+  };
 
   return (
     <div
+      ref={parentRef}
       className={cn(
-        "min-h-12 relative flex flex-col md:flex-row md:items-center gap-3 bg-custom-background-100 p-3 text-sm",
+        "min-h-11 relative flex flex-col md:flex-row md:items-center gap-3 bg-custom-background-100 p-3 pl-1.5 text-sm",
         {
-          "border border-custom-primary-70 hover:border-custom-primary-70": peekIssue && peekIssue.issueId === issue.id,
-          "last:border-b-transparent": peekIssue?.issueId !== issue.id,
+          "border border-custom-primary-70 hover:border-custom-primary-70":
+            getIsIssuePeeked(issue.id) && peekIssue?.nestingLevel === nestingLevel,
+          "last:border-b-transparent": !getIsIssuePeeked(issue.id),
         }
       )}
     >
-      <div className="flex w-full truncate">
+      <div className="flex w-full truncate" style={issue?.parent_id && nestingLevel !== 0 ? { paddingLeft } : {}}>
         <div className="flex flex-grow items-center gap-3 truncate">
-          {displayProperties && displayProperties?.key && (
-            <div className="flex-shrink-0 text-xs font-medium text-custom-text-300">
-              {projectIdentifier}-{issue.sequence_id}
+          <div className="flex items-center gap-0.5">
+            <div className="flex items-center group">
+              <span className="size-3.5" />
+              <div className="flex h-4 w-4 items-center justify-center">
+                {issue.sub_issues_count > 0 && (
+                  <button
+                    className="flex items-center justify-center h-4 w-4 cursor-pointer rounded-sm text-custom-text-400  hover:text-custom-text-300"
+                    onClick={handleToggleExpand}
+                  >
+                    <ChevronRight className={`h-4 w-4 ${isExpanded ? "rotate-90" : ""}`} />
+                  </button>
+                )}
+              </div>
             </div>
-          )}
+            {displayProperties && displayProperties?.key && (
+              <div className="flex-shrink-0 text-xs font-medium text-custom-text-300">
+                {projectIdentifier}-{issue.sequence_id}
+              </div>
+            )}
 
-          {issue?.tempId !== undefined && (
-            <div className="absolute left-0 top-0 z-[99999] h-full w-full animate-pulse bg-custom-background-100/20" />
-          )}
+            {issue?.tempId !== undefined && (
+              <div className="absolute left-0 top-0 z-[99999] h-full w-full animate-pulse bg-custom-background-100/20" />
+            )}
+          </div>
 
           {issue?.is_draft ? (
-            <Tooltip tooltipContent={issue.name} isMobile={isMobile}>
+            <Tooltip tooltipContent={issue.name} isMobile={isMobile} position="top-left">
               <p className="truncate">{issue.name}</p>
             </Tooltip>
           ) : (
@@ -81,14 +136,19 @@ export const IssueBlock: React.FC<IssueBlockProps> = observer((props: IssueBlock
               className="w-full truncate cursor-pointer text-sm text-custom-text-100"
               disabled={!!issue?.tempId}
             >
-              <Tooltip tooltipContent={issue.name} isMobile={isMobile}>
+              <Tooltip tooltipContent={issue.name} isMobile={isMobile} position="top-left">
                 <p className="truncate">{issue.name}</p>
               </Tooltip>
             </ControlLink>
           )}
         </div>
         {!issue?.tempId && (
-          <div className="block md:hidden border border-custom-border-300 rounded ">{quickActions(issue)}</div>
+          <div className="block md:hidden border border-custom-border-300 rounded ">
+            {quickActions({
+              issue,
+              parentRef,
+            })}
+          </div>
         )}
       </div>
       <div className="flex flex-shrink-0 items-center gap-2">
@@ -102,7 +162,12 @@ export const IssueBlock: React.FC<IssueBlockProps> = observer((props: IssueBlock
               displayProperties={displayProperties}
               activeLayout="List"
             />
-            <div className="hidden md:block">{quickActions(issue)}</div>
+            <div className="hidden md:block">
+              {quickActions({
+                issue,
+                parentRef,
+              })}
+            </div>
           </>
         ) : (
           <div className="h-4 w-4">

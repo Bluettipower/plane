@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 // icons
 import { Plus } from "lucide-react";
+// types
+import { TStaticViewTypes } from "@plane/types";
 // components
-import { CreateUpdateWorkspaceViewModal } from "@/components/workspace";
+import {
+  CreateUpdateWorkspaceViewModal,
+  DefaultWorkspaceViewQuickActions,
+  WorkspaceViewQuickActions,
+} from "@/components/workspace";
 // constants
 import { GLOBAL_VIEW_OPENED } from "@/constants/event-tracker";
 import { DEFAULT_GLOBAL_VIEWS_LIST, EUserWorkspaceRoles } from "@/constants/workspace";
@@ -15,6 +19,8 @@ import { useEventTracker, useGlobalView, useUser } from "@/hooks/store";
 
 const ViewTab = observer((props: { viewId: string }) => {
   const { viewId } = props;
+  // refs
+  const parentRef = useRef<HTMLDivElement>(null);
   // router
   const router = useRouter();
   const { workspaceSlug, globalViewId } = router.query;
@@ -23,31 +29,54 @@ const ViewTab = observer((props: { viewId: string }) => {
 
   const view = getViewDetailsById(viewId);
 
-  if (!view) return null;
+  if (!view || !workspaceSlug || !globalViewId) return null;
 
   return (
-    <Link key={viewId} id={`global-view-${viewId}`} href={`/${workspaceSlug}/workspace-views/${viewId}`}>
-      <span
-        className={`flex min-w-min flex-shrink-0 whitespace-nowrap border-b-2 p-3 text-sm font-medium outline-none ${
-          viewId === globalViewId
-            ? "border-custom-primary-100 text-custom-primary-100"
-            : "border-transparent hover:border-custom-border-200 hover:text-custom-text-400"
-        }`}
-      >
-        {view.name}
-      </span>
-    </Link>
+    <div ref={parentRef} className="relative">
+      <WorkspaceViewQuickActions
+        parentRef={parentRef}
+        view={view}
+        viewId={viewId}
+        globalViewId={globalViewId?.toString()}
+        workspaceSlug={workspaceSlug?.toString()}
+      />
+    </div>
   );
 });
 
+const DefaultViewTab = (props: {
+  tab: {
+    key: TStaticViewTypes;
+    label: string;
+  };
+}) => {
+  const { tab } = props;
+  // refs
+  const parentRef = useRef<HTMLDivElement>(null);
+  // router
+  const router = useRouter();
+  const { workspaceSlug, globalViewId } = router.query;
+
+  if (!workspaceSlug || !globalViewId) return null;
+  return (
+    <div key={tab.key} ref={parentRef} className="relative">
+      <DefaultWorkspaceViewQuickActions
+        parentRef={parentRef}
+        globalViewId={globalViewId?.toString()}
+        workspaceSlug={workspaceSlug?.toString()}
+        view={tab}
+      />
+    </div>
+  );
+};
+
 export const GlobalViewsHeader: React.FC = observer(() => {
-  const { t } = useTranslation();
   // states
   const [createViewModal, setCreateViewModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   // router
   const router = useRouter();
-  const { workspaceSlug, globalViewId } = router.query;
+  const { globalViewId } = router.query;
   // store hooks
   const { currentWorkspaceViews } = useGlobalView();
   const {
@@ -84,23 +113,11 @@ export const GlobalViewsHeader: React.FC = observer(() => {
           ref={containerRef}
           className="flex items-center w-full px-4 overflow-x-auto horizontal-scrollbar scrollbar-sm"
         >
-          {DEFAULT_GLOBAL_VIEWS_LIST.map((tab) => (
-            <Link key={tab.key} id={`global-view-${tab.key}`} href={`/${workspaceSlug}/workspace-views/${tab.key}`}>
-              <span
-                className={`flex min-w-min flex-shrink-0 whitespace-nowrap border-b-2 p-3 text-sm font-medium outline-none ${
-                  tab.key === globalViewId
-                    ? "border-custom-primary-100 text-custom-primary-100"
-                    : "border-transparent hover:border-custom-border-200 hover:text-custom-text-400"
-                }`}
-              >
-                {t(tab.key)}
-              </span>
-            </Link>
+          {DEFAULT_GLOBAL_VIEWS_LIST.map((tab, index) => (
+            <DefaultViewTab key={`${tab.key}-${index}`} tab={tab} />
           ))}
 
-          {currentWorkspaceViews?.map((viewId) => (
-            <ViewTab key={viewId} viewId={viewId} />
-          ))}
+          {currentWorkspaceViews?.map((viewId) => <ViewTab key={viewId} viewId={viewId} />)}
         </div>
 
         {isAuthorizedUser && (
