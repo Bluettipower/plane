@@ -42,6 +42,14 @@ const nextConfig = {
         source: "/ingest/:path*",
         destination: "https://us.i.posthog.com/:path*",
       },
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_PROXY_URL}/api/:path*/`
+      },
+      {
+        source: "/auth/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_PROXY_URL}/auth/:path*/`
+      }
     ];
     if (process.env.NEXT_PUBLIC_ADMIN_BASE_URL || process.env.NEXT_PUBLIC_ADMIN_BASE_PATH) {
       const ADMIN_BASE_URL = process.env.NEXT_PUBLIC_ADMIN_BASE_URL || ""

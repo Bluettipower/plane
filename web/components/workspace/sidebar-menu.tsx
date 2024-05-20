@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { Crown } from "lucide-react";
 // ui
 import { Tooltip } from "@plane/ui";
@@ -18,6 +19,7 @@ import { useAppTheme, useEventTracker, useUser } from "@/hooks/store";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 
 export const WorkspaceSidebarMenu = observer(() => {
+  const { t } = useTranslation();
   // store hooks
   const { toggleSidebar, sidebarCollapsed } = useAppTheme();
   const { captureEvent } = useEventTracker();
@@ -68,7 +70,7 @@ export const WorkspaceSidebarMenu = observer(() => {
                         })}
                       />
                     }
-                    {!sidebarCollapsed && <p className="leading-5">{link.label}</p>}
+                    {!sidebarCollapsed && <p className="leading-5">{t(link.label)}</p>}
                     {!sidebarCollapsed && link.key === "active-cycles" && (
                       <Crown className="h-3.5 w-3.5 text-amber-400" />
                     )}
