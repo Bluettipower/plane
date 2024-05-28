@@ -7,7 +7,6 @@ import { CustomMenu } from "@plane/ui";
 import useOutsideClickDetector from "@/hooks/use-outside-click-detector";
 //hooks
 //components
-import { DragHandle } from "./drag-handle";
 import { LabelName } from "./label-name";
 
 //types
@@ -29,7 +28,7 @@ interface ILabelItemBlock {
 }
 
 export const LabelItemBlock = (props: ILabelItemBlock) => {
-  const { label, isDragging, customMenuItems, handleLabelDelete, isLabelGroup, dragHandleRef } = props;
+  const { label, customMenuItems, handleLabelDelete, isLabelGroup } = props;
   // states
   const [isMenuActive, setIsMenuActive] = useState(false);
   // refs
@@ -38,9 +37,9 @@ export const LabelItemBlock = (props: ILabelItemBlock) => {
   useOutsideClickDetector(actionSectionRef, () => setIsMenuActive(false));
 
   return (
-    <div className="group flex items-center">
+    <div className="flex items-center group">
       <div className="flex items-center">
-        <DragHandle isDragging={isDragging} ref={dragHandleRef} />
+        {/* <DragHandle isDragging={isDragging} ref={dragHandleRef} /> */}
         <LabelName color={label.color} name={label.name} isGroup={isLabelGroup ?? false} />
       </div>
 
@@ -58,7 +57,7 @@ export const LabelItemBlock = (props: ILabelItemBlock) => {
               isVisible && (
                 <CustomMenu.MenuItem key={key} onClick={() => onClick(label)}>
                   <span className="flex items-center justify-start gap-2">
-                    <CustomIcon className="h-4 w-4" />
+                    <CustomIcon className="w-4 h-4" />
                     <span>{text}</span>
                   </span>
                 </CustomMenu.MenuItem>
@@ -67,8 +66,8 @@ export const LabelItemBlock = (props: ILabelItemBlock) => {
         </CustomMenu>
         {!isLabelGroup && (
           <div className="py-0.5">
-            <button className="flex h-4 w-4 items-center justify-start gap-2" onClick={() => handleLabelDelete(label)}>
-              <X className="h-4 w-4  flex-shrink-0 text-custom-sidebar-text-400" />
+            <button className="flex items-center justify-start w-4 h-4 gap-2" onClick={() => handleLabelDelete(label)}>
+              <X className="flex-shrink-0 w-4 h-4 text-custom-sidebar-text-400" />
             </button>
           </div>
         )}

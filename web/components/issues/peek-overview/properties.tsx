@@ -11,10 +11,11 @@ import {
   XCircle,
   CalendarClock,
   CalendarCheck2,
+  Users,
 } from "lucide-react";
 // hooks
 // ui icons
-import { DiceIcon, DoubleCircleIcon, UserGroupIcon, ContrastIcon, RelatedIcon } from "@plane/ui";
+import { DiceIcon, DoubleCircleIcon, ContrastIcon, RelatedIcon } from "@plane/ui";
 // components
 import {
   DateDropdown,
@@ -96,7 +97,7 @@ export const PeekOverviewProperties: FC<IPeekOverviewProperties> = observer((pro
         {/* assignee */}
         <div className="flex items-center w-full h-8 gap-3">
           <div className="flex items-center flex-shrink-0 w-1/4 gap-1 text-sm text-custom-text-300">
-            <UserGroupIcon className="flex-shrink-0 w-4 h-4" />
+            <Users className="flex-shrink-0 w-4 h-4" />
             <span>{t("assignees")}</span>
           </div>
           <MemberDropdown

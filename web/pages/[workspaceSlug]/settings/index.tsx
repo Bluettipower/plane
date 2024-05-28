@@ -29,7 +29,7 @@ const WorkspaceSettingsPage: NextPageWithLayout = observer(() => {
 
 WorkspaceSettingsPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AppLayout header={<WorkspaceSettingHeader title="General Settings" />}>
+    <AppLayout header={<WorkspaceSettingHeader />}>
       <WorkspaceSettingLayout>{page}</WorkspaceSettingLayout>
     </AppLayout>
   );
