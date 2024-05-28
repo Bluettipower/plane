@@ -18,6 +18,7 @@ type TInboxIssueDescription = {
   data: Partial<TIssue>;
   handleData: (issueKey: keyof Partial<TIssue>, issueValue: Partial<TIssue>[keyof Partial<TIssue>]) => void;
   editorRef: RefObject<EditorRefApi>;
+  onEnterKeyPress?: (e?: any) => void;
 };
 
 // TODO: have to implement GPT Assistance
@@ -44,6 +45,7 @@ export const InboxIssueDescription: FC<TInboxIssueDescription> = observer((props
       onChange={(_description: object, description_html: string) => handleData("description_html", description_html)}
       // placeholder={getDescriptionPlaceholder}
       containerClassName={containerClassName}
+      // onEnterKeyPress={onEnterKeyPress}
     />
   );
 });

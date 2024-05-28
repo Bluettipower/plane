@@ -30,7 +30,8 @@ import { AuthService } from "@/services/auth.service";
 // images
 import PlaneBackgroundPatternDark from "public/auth/background-pattern-dark.svg";
 import PlaneBackgroundPattern from "public/auth/background-pattern.svg";
-import BluePlaneLogoWithoutText from "public/plane-logos/blue-without-text.png";
+import BlackHorizontalLogo from "public/plane-logos/black-horizontal-with-blue-logo.png";
+import WhiteHorizontalLogo from "public/plane-logos/white-horizontal-with-blue-logo.png";
 
 type TForgotPasswordFormValues = {
   email: string;
@@ -95,9 +96,11 @@ const ForgotPasswordPage: NextPageWithLayout = () => {
       });
   };
 
+  const logo = resolvedTheme === "light" ? BlackHorizontalLogo : WhiteHorizontalLogo;
+
   return (
     <div className="relative w-screen h-screen overflow-hidden">
-      <PageHead title="Forgot Password" />
+      <PageHead title="Forgot Password - Plane" />
       <div className="absolute inset-0 z-0">
         <Image
           src={resolvedTheme === "dark" ? PlaneBackgroundPatternDark : PlaneBackgroundPattern}
@@ -108,8 +111,9 @@ const ForgotPasswordPage: NextPageWithLayout = () => {
       <div className="relative z-10 flex flex-col w-screen h-screen overflow-hidden overflow-y-auto">
         <div className="container relative flex items-center justify-between flex-shrink-0 px-10 pb-4 mx-auto transition-all lg:px-0">
           <div className="flex items-center py-10 gap-x-2">
-            <Image src={BluePlaneLogoWithoutText} height={30} width={30} alt="Plane Logo" />
-            <span className="text-2xl font-semibold sm:text-3xl">Plane</span>
+            <Link href={`/`} className="h-[30px] w-[133px]">
+              <Image src={logo} alt="Plane logo" />
+            </Link>
           </div>
           <div className="flex flex-col items-end text-sm font-medium text-center sm:items-center sm:gap-2 sm:flex-row text-onboarding-text-300">
             New to Plane?{" "}
@@ -176,7 +180,7 @@ const ForgotPasswordPage: NextPageWithLayout = () => {
               >
                 {resendTimerCode > 0 ? `Resend in ${resendTimerCode} seconds` : "Send reset link"}
               </Button>
-              <Link href="/sign-in" className={cn("w-full", getButtonStyling("link-primary", "lg"))}>
+              <Link href="/" className={cn("w-full", getButtonStyling("link-neutral", "lg"))}>
                 Back to sign in
               </Link>
             </form>

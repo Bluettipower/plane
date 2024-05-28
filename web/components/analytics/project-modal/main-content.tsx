@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Tab } from "@headlessui/react";
@@ -22,20 +22,21 @@ export const ProjectAnalyticsModalMainContent: React.FC<Props> = observer((props
 
   return (
     <Tab.Group as={React.Fragment}>
-      <Tab.List as="div" className="flex px-0 py-0 space-x-2 border-b border-custom-border-200 md:px-5 md:py-3">
+      <Tab.List as="div" className="flex space-x-2 border-b h-[50px] border-custom-border-200 px-0 md:px-3">
         {ANALYTICS_TABS.map((tab) => (
-          <Tab
-            key={tab.key}
-            className={({ selected }) =>
-              `rounded-0 w-full md:w-max md:rounded-3xl border-b md:border border-custom-border-200 focus:outline-none px-0 md:px-4 py-2 text-xs hover:bg-custom-background-80 ${
-                selected
-                  ? "border-custom-primary-100 text-custom-primary-100 md:bg-custom-background-80 md:text-custom-text-200 md:border-custom-border-200"
-                  : "border-transparent"
-              }`
-            }
-            onClick={() => {}}
-          >
-            {t(tab.key)}
+          <Tab key={tab.key} as={Fragment}>
+            {({ selected }) => (
+              <button
+                className={`text-sm group relative flex items-center gap-1 h-[50px] px-3 cursor-pointer transition-all font-medium outline-none  ${
+                  selected ? "text-custom-primary-100 " : "hover:text-custom-text-200"
+                }`}
+              >
+                {t(tab.key)}
+                <div
+                  className={`border absolute bottom-0 right-0 left-0 rounded-t-md ${selected ? "border-custom-primary-100" : "border-transparent group-hover:border-custom-border-200"}`}
+                />
+              </button>
+            )}
           </Tab>
         ))}
       </Tab.List>

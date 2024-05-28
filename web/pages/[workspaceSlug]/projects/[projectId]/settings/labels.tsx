@@ -46,7 +46,7 @@ const LabelsSettingsPage: NextPageWithLayout = observer(() => {
 
 LabelsSettingsPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AppLayout withProjectWrapper header={<ProjectSettingHeader title="Labels Settings" />}>
+    <AppLayout withProjectWrapper header={<ProjectSettingHeader />}>
       <ProjectSettingLayout>{page}</ProjectSettingLayout>
     </AppLayout>
   );

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { usePopper } from "react-popper";
 // icons
-import { Check, ChevronDown, CircleUserRound, LogOut, Mails, PlusSquare, Settings, UserCircle2 } from "lucide-react";
+import { Activity, Check, ChevronDown, LogOut, Mails, PlusSquare, Settings } from "lucide-react";
 // ui
 import { Menu, Transition } from "@headlessui/react";
 // types
@@ -28,7 +28,7 @@ const userLinks = (workspaceSlug: string, userId: string) => [
     key: "my_activity",
     name: "profile.activity.my_activity",
     href: `/${workspaceSlug}/profile/${userId}`,
-    icon: CircleUserRound,
+    icon: Activity,
   },
   {
     key: "settings",
@@ -40,7 +40,7 @@ const userLinks = (workspaceSlug: string, userId: string) => [
 const profileLinks = (workspaceSlug: string, userId: string) => [
   {
     name: "profile.activity.my_activity",
-    icon: UserCircle2,
+    icon: Activity,
     link: `/${workspaceSlug}/profile/${userId}`,
   },
   {

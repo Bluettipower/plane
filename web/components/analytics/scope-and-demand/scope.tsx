@@ -7,11 +7,11 @@ import emptyBarGraph from "public/empty-state/empty_bar_graph.svg";
 // types
 
 type Props = {
-  pendingUnAssignedIssues: IDefaultAnalyticsUser[];
+  pendingUnAssignedIssuesUser: IDefaultAnalyticsUser | undefined;
   pendingAssignedIssues: IDefaultAnalyticsUser[];
 };
 
-export const AnalyticsScope: React.FC<Props> = ({ pendingUnAssignedIssues, pendingAssignedIssues }) => {
+export const AnalyticsScope: React.FC<Props> = ({ pendingUnAssignedIssuesUser, pendingAssignedIssues }) => {
   const { t } = useTranslation();
 
   return (
@@ -20,9 +20,11 @@ export const AnalyticsScope: React.FC<Props> = ({ pendingUnAssignedIssues, pendi
         <div>
           <div className="flex items-center justify-between">
             <h6 className="text-base font-medium ">{t("analytics.scope_and_demand.scope.description")}</h6>
-            <div className="relative flex items-center gap-2 px-3 py-1 text-xs rounded-md text-custom-primary-100 bg-custom-primary-100/10">
-              Unassigned: {pendingUnAssignedIssues.length}
-            </div>
+            {pendingUnAssignedIssuesUser && (
+              <div className="relative flex items-center gap-2 px-3 py-1 text-xs rounded-md text-custom-primary-100 bg-custom-primary-100/10">
+                Unassigned: {pendingUnAssignedIssuesUser.count}
+              </div>
+            )}
           </div>
 
           {pendingAssignedIssues && pendingAssignedIssues.length > 0 ? (

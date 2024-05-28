@@ -13,6 +13,7 @@ import {
   Tag,
   Trash2,
   Triangle,
+  Users,
   XCircle,
 } from "lucide-react";
 // hooks
@@ -25,7 +26,6 @@ import {
   RelatedIcon,
   TOAST_TYPE,
   Tooltip,
-  UserGroupIcon,
   setToast,
 } from "@plane/ui";
 import {
@@ -221,7 +221,7 @@ export const IssueDetailsSidebar: React.FC<Props> = observer((props) => {
 
             <div className="flex items-center h-8 gap-2">
               <div className="flex items-center flex-shrink-0 w-2/5 gap-1 text-sm text-custom-text-300">
-                <UserGroupIcon className="flex-shrink-0 w-4 h-4" />
+                <Users className="flex-shrink-0 w-4 h-4" />
                 <span>Assignees</span>
               </div>
               <MemberDropdown
