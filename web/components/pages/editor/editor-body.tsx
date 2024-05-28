@@ -67,7 +67,7 @@ export const PageEditorBody: React.FC<Props> = observer((props) => {
   const projectMemberIds = projectId ? getProjectMemberIds(projectId.toString()) : [];
   const projectMemberDetails = projectMemberIds?.map((id) => getUserDetails(id) as IUserLite);
   // project-description
-  const { isDescriptionReady, pageDescriptionYJS } = usePageDescription({
+  const { handleDescriptionChange, isDescriptionReady, pageDescriptionYJS } = usePageDescription({
     editorRef,
     page,
     projectId,
@@ -122,7 +122,7 @@ export const PageEditorBody: React.FC<Props> = observer((props) => {
           </div>
           {isContentEditable ? (
             <DocumentEditorWithRef
-              initialValue=""
+              id={pageId}
               fileHandler={{
                 cancel: fileService.cancelUpload,
                 delete: fileService.getDeleteImageFunction(workspaceId),
@@ -130,11 +130,11 @@ export const PageEditorBody: React.FC<Props> = observer((props) => {
                 upload: fileService.getUploadFileFunction(workspaceSlug as string, setIsSubmitting),
               }}
               handleEditorReady={handleEditorReady}
-              // value={pageDescriptionYJS}
+              value={pageDescriptionYJS}
               ref={editorRef}
               containerClassName="p-0 pb-64"
               editorClassName="pl-10"
-              onChange={() => {}}
+              onChange={handleDescriptionChange}
               mentionHandler={{
                 highlights: mentionHighlights,
                 suggestions: mentionSuggestions,
